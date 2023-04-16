@@ -1,0 +1,21 @@
+export default function DeleteProductBtn({ id, delProduct }) {
+    const handleDelete = async () => {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`/api/products/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: ["bearer", token],
+        },
+      });
+      await response.json();
+      delProduct(id);
+    };
+  
+    return (
+      <button className="" onClick={handleDelete}>
+        Delete
+      </button>
+    );
+  }
+  
