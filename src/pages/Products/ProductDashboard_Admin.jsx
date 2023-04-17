@@ -27,7 +27,7 @@ export default function ProductsForm({ products, delProduct }) {
 
   return (
     <div className="">
-      <h3 className="">Product Portfolio</h3>
+      <h3 >Product Portfolio</h3>
       <div className="">
         <div className="">
           <div className="">
@@ -63,8 +63,8 @@ export default function ProductsForm({ products, delProduct }) {
               </tr>
             </thead>
             <tbody>
-              {sortedProducts.map((p, i) => (
-                <tr key={i}>
+            {sortedProducts.map((p) => (
+                <tr key={p._id}>
                   <td>{p.name}</td>
                   <td>{p._id}</td>
                   <td>${(p.price / 100).toFixed(2)}</td>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getUser } from "../../utilities/users-service";
+import { getMember } from "../../utilities/members-service";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function LoginForm({ setmember }) {
@@ -26,7 +26,7 @@ export default function LoginForm({ setmember }) {
         throw new Error(data.error || "Network error");
       }
       localStorage.setItem("token", JSON.stringify(data.token));
-      const decoded = getmember();
+      const decoded = getMember();
       const Name = JSON.parse(window.atob(data.token.split(".")[1]));
       console.log(Name.member.name);
       console.log(Name.member.email);

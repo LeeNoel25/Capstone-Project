@@ -22,7 +22,8 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "dist")));
 
 //-------------------------------Routes------------------
-app.use("/api/products", productsRouter);
+app.use("/api/", productsRouter);
+//app.use("/api/products", productsRouter);
 app.use("/api/member", memberRouter);
 app.use("/api/groomer", groomerRouter);
 app.use("/api/location", locationRouter);

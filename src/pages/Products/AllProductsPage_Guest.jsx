@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function ProductsPage() {
+export default function ProductsPage(products, category, sortByCategory) {
     const [sortedProducts, setSortedProducts] = useState([]);
     const [sortByPrice, setSortByPrice] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
@@ -47,9 +47,9 @@ export default function ProductsPage() {
                   value={sortByPrice}
                   onChange={(e) => setSortByPrice(e.target.value)}
                 >
-                  <option value="">All Products</option>
-                  <option value="lowToHigh">Low to high</option>
-                  <option value="highToLow">High to low</option>
+                  <option key="all" value="">All Products</option>
+                  <option key="lowToHigh" value="lowToHigh">Low to high</option>
+                  <option key="highToLow" value="highToLow">High to low</option>
                 </select>
               </div>
               <div >

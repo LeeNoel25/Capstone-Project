@@ -46,47 +46,21 @@ const Map = () => {
     });
   }, []);
 
-  useEffect(() => {
-    // Create a StreetViewService object when the map is ready
-    if (mapRef.current) {
-      const streetViewService = new google.maps.StreetViewService();
-      streetViewService.getPanorama({location: initialPosition}, (data, status) => {
-        if (status === 'OK') {
-          setPanorama(data.location.pano);
-        } else{
-          console.error('Street view request failed:', status)
-        }
-      });
-    }
-  }, [mapRef.current]);
-
   function getStreetViewImageUrl(lat, lng, radius) {
- 
     const radiusParam = radius ? `&radius=${radius}` : '';
     const adjustedLat = lat + (Math.random() * radius * 2 - radius) * 0.0001;
     const adjustedLng = lng + (Math.random() * radius * 2 - radius) * 0.0001;
     const baseUrl = 'https://maps.googleapis.com/maps/api/streetview';
-    const size = '300x200'; 
-    const heading = '210'; 
-    const pitch = '10'; 
-
-    const location = new window.google.maps.LatLng(adjustedLat, adjustedLng);
-    const streetViewService = new window.google.maps.StreetViewService();
-    const apiKey = 'AIzaSyDDDJIzJGH2EKzuO21LzTsg6Hxiyq04Tc4';
-
-    streetViewService.getPanorama({ location, radius }, (data, status) => {
-      if (status === window.google.maps.StreetViewStatus.OK) {
-        // Use the panorama ID to construct the street view image URL
-        const panoId = data.location.pano;
-        const imageUrl = `${baseUrl}?size=${size}&pano=${panoId}&key=${apiKey}`;
-        setStreetViewImageUrl(imageUrl);
-      } else {
-        console.log(`No street view available for location: ${location}`);
-        const imageUrl = `${baseUrl}?size=${size}&location=${adjustedLat},${adjustedLng}&heading=${heading}&pitch=${pitch}&key=${apiKey}${radiusParam}`;
-        setStreetViewImageUrl(imageUrl);
+    const size = '300x200';
+    const heading = '210';
+    const pitch = '10';
+    const apiKey = process.env.REACT_APP_GOOGLE_API_KEY
+    // const apiKey = 'AIzaSyDDDJIzJGH2EKzuO21LzTsg6Hxiyq04Tc4';
   
-        }
-    })}
+    const imageUrl = `${baseUrl}?size=${size}&location=${adjustedLat},${adjustedLng}&heading=${heading}&pitch=${pitch}&key=${apiKey}${radiusParam}`;
+    setStreetViewImageUrl(imageUrl);
+  }
+  
 
     function handleShowStreetView(location) {
       const radius = 50

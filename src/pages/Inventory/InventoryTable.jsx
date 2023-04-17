@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import EditInventory from "./EditInventory";
 
-export default function () {
+export default function InventoryTable() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const [locationsData, setLocationsData] = useState([]);
@@ -15,10 +15,10 @@ export default function () {
   const initalizeLocationsData = async () => {
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch("/api/locations", {
+      const response = await fetch("/api/location", {
         method: "GET",
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: `Bearer ${token}`,
         },
       });
       const data = await response.json();
@@ -55,11 +55,11 @@ export default function () {
     const token = localStorage.getItem("token");
     try {
       const response = await fetch(
-        `/api/locations/${locationId}/products/${productId}`,
+        `/api/location/${locationId}/products/${productId}`,
         {
           method: "DELETE",
           headers: {
-            Authorization: "Bearer " + token,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -107,25 +107,23 @@ export default function () {
                   productQty={productQty}
                   onSubmitSuccess={async (newProductQty) => {
                     const response = await fetch(
-                      `/api/locations/${selectedLocationData._id}/products/${productDetails._id}`,
+                      `/api/location/${selectedLocationData._id}/products/${productDetails._id}`,
                       {
                         method: "PUT",
                         headers: {
                           "Content-Type": "application/json",
-                          Authorization: "Bearer " + token,
+                          Authorization: `Bearer ${token}`,
                         },
                         body: JSON.stringify({
                           productQty: newProductQty,
                         }),
                       }
                     );
-
-                    // When submit successful
                     initalizeLocationsData();
                   }}
                 ></EditInventory>
                 <button
-                  className="btn btn-danger"
+                  className=""
                   onClick={() =>
                     handleDelete(selectedLocationData._id, productDetails._id)
                   }
@@ -149,7 +147,7 @@ export default function () {
   };
 
   const redirectAddPage = () => {
-    navigate("/adminlocation/edit", {
+    navigate("/location/edit", {
       state: { selectedLocationData, locationsData },
     });
   };
@@ -160,16 +158,16 @@ export default function () {
   }, []);
 
   return (
-    <div className="inventoryTable">
-      <h3 className="inventoryTablePageTitle">Inventory Management</h3>
+    <div className="">
+      <h3 className="">Inventory Management</h3>
       {locationsData && locationsData.length ? (
-        <div className="content">
-          <div className="filterHeader">
-            <div className="rowHeader w-100">
-              <div className="input-group input-group-sm">
-                <span className="input-group-text">Location</span>
+        <div className="">
+          <div className="">
+            <div className="">
+              <div className="">
+                <span className="">Location</span>
                 <select
-                  className="form-select"
+                  className=""
                   value={locationName}
                   onChange={(e) => handleLocationChange(e)}
                 >
@@ -181,30 +179,30 @@ export default function () {
               </div>
             </div>
           </div>
-          <div className="divider"></div>
-          <div className="productsContent">
+          <div className=""></div>
+          <div className="">
             {locationName ? (
-              <div className="w-100">
-                <div className="rowHeader">
-                  <div className="wd-300 input-group input-group-sm">
-                    <span className="input-group-text">Search</span>
+              <div className="">
+                <div className="">
+                  <div className="">
+                    <span className="">Search</span>
                     <input
                       type="text"
-                      className="form-control"
+                      className=""
                       placeholder="Enter Product name, id or brand"
                       onChange={handleSearchProduct}
                     ></input>
                   </div>
                   <button
-                    className="btn btn-dark wd-300"
+                    className=""
                     onClick={redirectAddPage}
                   >
                     Add Product
                   </button>
                 </div>
-                <table className="table">
+                <table className="">
                   <thead>
-                    <tr className="inventoryTableHeader">
+                    <tr className="">
                       <th scope="col">Product Name</th>
                       <th scope="col">Product Id</th>
                       <th scope="col">Product Brand</th>
@@ -216,7 +214,7 @@ export default function () {
                 </table>
               </div>
             ) : (
-              <div className="selectLocation">Please select a location</div>
+              <div className="">Please select a location</div>
             )}
           </div>
         </div>

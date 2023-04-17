@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-export default function EditProductForm() {
+export default function EditProductForm(category, brand) {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState({});
@@ -28,7 +28,7 @@ export default function EditProductForm() {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: ["bearer", token],
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(product),
     });

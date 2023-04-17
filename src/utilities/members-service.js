@@ -4,13 +4,13 @@ export async function signUp(memberData) {
   const token = await membersAPI.signUp(memberData);
   localStorage.setItem("token", token);
   // Baby step by returning whatever is sent back by the server
-  return getmember();
+  return getMember();
 }
 
 export async function login(memberData) {
   const token = await membersAPI.login(memberData);
   localStorage.setItem("token", token);
-  return getmember();
+  return getMember();
 }
 
 export function logout() {
@@ -32,7 +32,7 @@ export function getToken() {
   return token;
 }
 
-export function getmember() {
+export function getMember() {
   const token = getToken();
   // If there's a token, return the member in the payload, otherwise return null
   return token ? JSON.parse(window.atob(token.split(".")[1])).member : null;

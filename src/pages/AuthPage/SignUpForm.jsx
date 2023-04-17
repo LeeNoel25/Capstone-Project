@@ -57,7 +57,7 @@ export default function SignUpForm() {
 
   return (
     <div>
-      <div className="form-container">
+      <div className="">
         <form autoComplete="off" onSubmit={handleSubmit}>
           <fieldset>
             <legend>New member</legend>

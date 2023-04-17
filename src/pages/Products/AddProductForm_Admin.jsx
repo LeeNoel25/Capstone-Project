@@ -1,50 +1,95 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function AddProductForm() {
+export default function AddProductsForm({  addProduct,  category,  brand,  products,}) {
   const navigate = useNavigate();
-
+  const defaultCategory = category[0];
+  const defaultBrand = brand[0];
+  const CONVERTTODOLLAR = 100;
   const [product, setProduct] = useState({
     name: "",
     price: 0,
-    category: "",
-    brand: "",
+    category: defaultCategory,
+    brand: defaultBrand,
     imgurl: "",
     description: "",
     newBrands: "",
   });
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-  const createProduct = async () => {
-      const token = localStorage.getItem("token");
-      const response = await fetch("/api/products", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: ["bearer", token],
-        },
-        body: JSON.stringify(product),
-      });
-      if (response.ok) {
-        navigate("/products");
-      } else {
-        console.log("unable to create");
-      }
-    };
-
-    createProduct();
-  };
+  const [newBrand, setNewBrand] = useState("");
 
   const handleChange = (event) => {
-    setProduct({ ...product, [event.target.name]: event.target.value });
+    const key = event.target.name;
+    let value = event.target.value;
+
+    if (key === "price") {
+      if (value === "") {
+        value = "";
+      } else {
+        value = parseInt(value);
+        if (isNaN(value)) {
+          alert("Please enter a valid number for price.");
+          return;
+        }
+      }
+    }
+
+    setProduct({ ...product, [key]: value });
+  };
+
+  const handleNewBrandChange = (event) => {
+    const value = event.target.value;
+    setNewBrand(value);
+  };
+
+  const handleAddProduct = async (newProduct) => {
+    const token = localStorage.getItem("token");
+    const response = await fetch("/api/AdminProduct/new", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(newProduct),
+    });
+    const newProducts = await response.json();
+    addProduct(newProducts);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const nameExists = products.some(
+      (p) => p.name.toLowerCase() === product.name.toLowerCase()
+    );
+
+    if (
+      !product.name ||
+      !product.price ||
+      !product.category ||
+      !product.brand ||
+      !product.imgurl ||
+      !product.description
+    ) {
+      alert("Please fill in all required fields.");
+      return;
+    } else if (nameExists) {
+      alert("Product name already exists.");
+      return;
+    } else {
+      const newProduct = {
+        ...product,
+        price: product.price * CONVERTTODOLLAR,
+        newBrands: newBrand,
+      };
+      handleAddProduct(newProduct);
+      navigate("/productpage");
+    }
   };
 
   const handleCancel = async () => {
     navigate("/productpage");
   };
-
   return (
     <>
       <div className="">
@@ -89,7 +134,7 @@ export default function AddProductForm() {
           </select>
         </div>
         <div>
-          <label htmlFor="brand" className="form-label">
+          <label htmlFor="brand" className="">
             Brand
           </label>
           <select
@@ -114,7 +159,7 @@ export default function AddProductForm() {
                 name="newBrand"
                 value={newBrand}
                 placeholder="Enter a new brand"
-                onChange={handleChange}
+                onChange={handleNewBrandChange}
                 className=""
               />
             </div>
@@ -144,7 +189,7 @@ export default function AddProductForm() {
           ></textarea>
         </div>
         <div>
-          <button className="">
+          <button onClick={handleSubmit} className="">
             Submit
           </button>
           <button

@@ -23,12 +23,12 @@ export default function ({ productQty, onSubmitSuccess }) {
     setShow(false);
   };
 
-  const isConfirmButtonDisabled = () =>
-    formValues.productQty === productQty || formValues.productQty < 0;
+  const isConfirmButtonDisabled = () => formValues.productQty === productQty || formValues.productQty < 0;
+
 
   return (
     <div>
-      <button className="btn btn-dark me-3" onClick={() => setShow(true)}>
+      <button className="" onClick={() => setShow(true)}>
         Edit Quantity
       </button>
       <div
@@ -36,34 +36,34 @@ export default function ({ productQty, onSubmitSuccess }) {
         style={{ display: show ? "block" : "none" }}
         id="exampleModal"
       >
-        <div className="modal-dialog" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel">
+        <div className="" role="document">
+          <div className="">
+            <div className="">
+              <h5 className="" id="exampleModalLabel">
                 Modify quantity
               </h5>
-              <button type="button" className="btn-close" onClick={handleClose}>
+              <button type="button" className="" onClick={handleClose}>
                 <span aria-hidden="true"></span>
               </button>
             </div>
-            <div className="modal-body">
+            <div className="">
               <form onSubmit={handleEditQuantitySubmit}>
-                <div className="input-group mb-3">
-                  <span className="input-group-text">Quantity</span>
+                <div className="">
+                  <span className="">Quantity</span>
                   <input
                     min={0}
                     type="number"
-                    className="form-control"
+                    className=""
                     defaultValue={formValues.productQty}
                     onChange={handleProductQtyChange}
                   ></input>
                 </div>
               </form>
             </div>
-            <div className="modal-footer">
+            <div className="">
               <button
                 type="button"
-                className="btn btn-danger"
+                className=""
                 onClick={handleEditQuantitySubmit}
                 disabled={isConfirmButtonDisabled()}
               >
@@ -71,7 +71,7 @@ export default function ({ productQty, onSubmitSuccess }) {
               </button>
               <button
                 type="button"
-                className="btn btn-secondary"
+                className=""
                 data-dismiss="modal"
                 onClick={handleClose}
               >
@@ -81,7 +81,7 @@ export default function ({ productQty, onSubmitSuccess }) {
           </div>
         </div>
       </div>
-      {show && <div className="modal-backdrop fade show"></div>}
+      {show && <div className=""></div>}
     </div>
   );
 }

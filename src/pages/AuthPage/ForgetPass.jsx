@@ -13,7 +13,7 @@ const ForgetPassword = () => {
     
       const disable = state.password !== state.confirm;
       const existingUser = async (userData) => {
-        const response = await fetch(`/api/user/forget`, {
+        const response = await fetch(`/api/member/forgetpassword`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

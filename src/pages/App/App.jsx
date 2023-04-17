@@ -35,16 +35,20 @@ import EditProductForm from "../Products/EditProductForm_Admin";
 import ProductsForm from "../Products/ProductDashboard_Admin";
 import ProductsPage from "../Products/AllProductsPage_Guest";
 //pages.msc
-import { getUser } from "../utilities/users-service";
+import { getMember } from "../utilities/members-service";
 
 export default function App() {
-  const [user, setUser] = useState(getUser());
+  const [member, setMember] = useState(getMember());
   const [products, setProducts] = useState([]);
   const [sortByCategory, setSortByCategory] = useState("");
   const [category, setCategory] = useState([]);
   const [brand, setBrand] = useState([]);
-  const token = localStorage.getItem("token");
-  const member = token ? JSON.parse(window.atob(token.split(".")[1])) : null;
+
+const token = localStorage.getItem("token");
+if (token) {
+  const parsedMember = JSON.parse(window.atob(token.split(".")[1]));
+  setMember(parsedMember);
+}
 
   const addProduct = (product, error) => {
     if (error) {
@@ -120,7 +124,7 @@ export default function App() {
   const memberPagesRoutes = [
     ...productsPageRoutes,
     {
-      path: "/maps",
+      path: "/map",
       element: <Map />,
     },
     {

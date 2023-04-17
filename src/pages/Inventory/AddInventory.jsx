@@ -14,7 +14,7 @@ export default function AddInventory() {
   const fetchProducts = async () => {
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch(`/api/locations/getlocation/${locationId}`, {
+      const response = await fetch(`/api/location/getlocation/${locationId}`, {
         method: "GET",
         headers: {
           Authorization: "Bearer " + token,
@@ -42,19 +42,16 @@ export default function AddInventory() {
 
   const handleCheckboxChange = (event, productId) => {
     const isChecked = event.target.checked;
-
+  
     setCheckedMap((prevState) => ({
       ...prevState,
       [productId]: isChecked,
     }));
-
+  
     const tableRow = event.target.closest("tr");
-    if (isChecked) {
-      tableRow.classList.add("AddInventoryHighlight");
-    } else {
-      tableRow.classList.remove("AddInventoryHighlight");
-    }
+    tableRow.classList.toggle("AddInventoryHighlight", isChecked);
   };
+  
 
   const handleQuantityChange = (event, productId) => {
     const productQty = Number(event.target.value);
@@ -91,7 +88,7 @@ export default function AddInventory() {
         throw new Error("Please add quantity for selected products.");
       }
 
-      const response = await fetch(`/api/locations/${locationId}`, {
+      const response = await fetch(`/api/location/${locationId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -112,7 +109,7 @@ export default function AddInventory() {
   };
 
   const navigateBackToInventoryTable = () => {
-    navigate("/adminlocation", {
+    navigate("/location", {
       state: { locationName },
     });
   };
@@ -123,11 +120,11 @@ export default function AddInventory() {
     fetchProducts();
   };
 
-  const isSaveDisabled =
-    !productList.some((product) => checkedMap[product._id]) || // check if at least one item is selected
-    productList.some(
-      (product) => checkedMap[product._id] && !product.productQty
-    ); // check if all selected items have a quantity entered
+  const isSaveDisabled =  !productList.some((product) => checkedMap[product._id]) || // check if at least one item is selected
+  productList.some(
+    (product) => checkedMap[product._id] && !product.productQty
+  ); // check if all selected items have a quantity entered
+
 
   const filteredProductList = productList.filter((product) => {
     const productDetail = {
@@ -144,15 +141,15 @@ export default function AddInventory() {
   });
 
   return (
-    <div className="AddInventory">
-      <h3 className="AddInventoryPageTitle">Add products to: {locationName}</h3>
+    <div className="">
+      <h3 className="">Add products to: {locationName}</h3>
 
-      <div className="rowHeaderIA">
-        <div className="wd-300-IA input-group input-group-sm">
-          <span className="input-group-text">Search</span>
+      <div className="">
+        <div className="">
+          <span className="">Search</span>
           <input
             type="text"
-            className="form-control search-input"
+            className=""
             placeholder="Enter product name, id or brand"
             onChange={(e) => setSearchValue(e.target.value)}
           ></input>
@@ -160,9 +157,9 @@ export default function AddInventory() {
       </div>
 
       <form onSubmit={handleSaveChanges}>
-        <table className="table tableIA">
+        <table className="">
           <thead>
-            <tr className="AddInventoryHeader">
+            <tr className="">
               <th>Select</th>
               <th>Product Name</th>
               <th>Product Id</th>
@@ -170,7 +167,7 @@ export default function AddInventory() {
               <th>Product Quantity</th>
             </tr>
           </thead>
-          <tbody className="tableBodyIA">
+          <tbody className="">
             {filteredProductList.map((product) => (
               <tr key={product._id}>
                 <td>
@@ -187,7 +184,7 @@ export default function AddInventory() {
                 <td>{product.brand}</td>
                 <td>
                   <input
-                    className="prodQuantityIA"
+                    className=""
                     type="number"
                     min={0}
                     disabled={!checkedMap[product._id]}
@@ -204,15 +201,15 @@ export default function AddInventory() {
             ))}
           </tbody>
         </table>
-        <div className="controlButtonsIA">
-          <button className="btn btn-danger" disabled={isSaveDisabled}>
+        <div className="">
+          <button className="" disabled={isSaveDisabled}>
             Add Product(s)
           </button>
-          <button className="btn btn-secondary" onClick={handleReset}>
+          <button className="" onClick={handleReset}>
             Clear
           </button>
           <button
-            className="btn btn-secondary"
+            className=""
             onClick={navigateBackToInventoryTable}
           >
             Back

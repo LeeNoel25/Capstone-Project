@@ -5,7 +5,7 @@ export default function DeleteProductBtn({ id, delProduct }) {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization: ["bearer", token],
+          Authorization: `Bearer ${token}`,
         },
       });
       await response.json();
