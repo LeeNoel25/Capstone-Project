@@ -21,11 +21,11 @@ const checkTimeSlot = (startTime) => {
   return currTimeInMins > startTimeInMins;
 };
 
-function Times({ date, selectGroomer, memberInfo }) {
+function Times({ date, selectGroomer, memberInfo, Groomer }) {
   const [event, setEvent] = useState(null);
   const [info, setInfo] = useState(false);
   const [dateChanged, setDateChanged] = useState(false);
-  const [BookingBooking, setBooking] = useState([]);
+  const [bookings, setBookings] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
 
   const makeBooking = async (bookingTiming) => {
@@ -79,7 +79,7 @@ function Times({ date, selectGroomer, memberInfo }) {
     });
 
     if (newBooking.status === 200) {
-      setBooking((bookingTiming) => [...bookingTiming, { timeslot: clickedTimeslot }]);
+      setBookings((bookingTiming) => [...bookingTiming, { timeslot: clickedTimeslot }]);
     } else {
       setErrorMessage(newBooking.message); // Display the error message
     }
@@ -108,7 +108,7 @@ function Times({ date, selectGroomer, memberInfo }) {
         },
       })
         .then((response) => response.json())
-        .then((data) => setBooking(data))
+        .then((data) => setBookings(data))
         .then((data) => {
           console.log("Fetched data: ", data);
         })
@@ -116,15 +116,15 @@ function Times({ date, selectGroomer, memberInfo }) {
           console.error("Error fetching booked Booking:", error)
         );
     } else {
-      setBooking([]);
+      setBookings([]);
     }
   }, [selectGroomer, date]);
 
   const timeSlotDisabled = (startTime, futureDate, endTime, selectGroomer) => {
-    console.log(`BookingTiming in Times: ${JSON.stringify(BookingTiming)}`);
+    console.log(`bookings in Times: ${JSON.stringify(bookings)}`);
     const isPastTimeSlot = checkTimeSlot(startTime) && !futureDate;
-    const isTimeSlotBooked = BookingTiming.some(
-      (Booking) => Booking.timeslot === `${startTime} - ${endTime}`
+    const isTimeSlotBooked = bookings.some(
+      (booking) => booking.timeslot === `${startTime} - ${endTime}`
     );
     
     return (

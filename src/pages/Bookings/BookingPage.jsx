@@ -9,7 +9,7 @@ const BookingPage = () => {
   const [showTime, setShowTime] = useState(false);
   const [selectGroomer, setSelectedGroomer] = useState("");
   const [memberInfo, setmemberInfo] = useState({ name: "", email: "" });
-  const [fetchedLocations, setFetchedLocations] = useState();
+  const [fetchedLocations, setFetchedLocations] = useState([]);
 
 
   useEffect(() => {
@@ -39,7 +39,6 @@ const BookingPage = () => {
         setmemberInfo={setmemberInfo}
         memberInfo={memberInfo}
         fetchedLocations={fetchedLocations}
-        location={location}
       />
       {showTime ? (
         <Times
@@ -63,4 +62,4 @@ const BookingPage = () => {
   );
 };
 
- BookingPage;
+export default BookingPage;

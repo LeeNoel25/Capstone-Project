@@ -39,7 +39,7 @@ const Map = () => {
   const mapRef = useRef();
   
   useEffect(() => {
-    axios.get('/api/maps').then(response => {
+    axios.get('/api/map').then(response => {
       setLocations(response.data);
     }).catch(error => {
       console.error(error);
@@ -69,7 +69,7 @@ const Map = () => {
     }
 
   const handleNewLocation = () => {
-    axios.get('/api/maps').then(response => {
+    axios.get('/api/map').then(response => {
       setLocations(response.data);
     }).catch(error => {
       console.error(error)

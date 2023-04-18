@@ -1,5 +1,5 @@
 import React from "react";
-import NavBarNew from "./NavBarNew/NavBarNew";
+import NavBarNew from "./NavBarNew";
 
 export default function ({ preContent = null, children }) {
   return (

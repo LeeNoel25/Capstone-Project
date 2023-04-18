@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import DeleteBooking from "./DeleteBookings";
 
 
-const UpcomingBooking = () => {
-  const [Booking, setBooking] = useState([]);
+const BookingPlanner = () => {
+  const [booking, setBookings] = useState([]);
   const token = localStorage.getItem("token")
   const Name =  JSON.parse(window.atob(token.split(".")[1]))
   const memberName = Name.member.name
@@ -21,7 +21,7 @@ const UpcomingBooking = () => {
       .then((data) => setBooking(data));
   }, [memberName]);
 
-  const delBooking = (id) => setBooking(Booking.filter(({ _id }) => _id !== id));
+  const delBooking = (id) => setBookings(booking.filter(({ _id }) => _id !== id));
 
   return (
     <div>
@@ -36,7 +36,7 @@ const UpcomingBooking = () => {
           </tr>
         </thead>
         <tbody>
-          {Booking.map((booking) => (
+          {booking.map((booking) => (
             <tr key={booking._id}>
               <td>{booking.location.id.name}</td>
               <td>{booking.groomer.id.name}</td>
@@ -53,4 +53,4 @@ const UpcomingBooking = () => {
   );
 };
 
-export default UpcomingBooking;
+export default BookingPlanner;

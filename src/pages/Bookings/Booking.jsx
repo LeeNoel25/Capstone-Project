@@ -39,9 +39,8 @@ const Booking = ({ setSelectedGroomer, setmemberInfo, memberInfo, fetchedLocatio
         (groomer) => groomer.name === e.target.value
       );
 
-      setselectedGroomer(selectedGroomer);
+      setSelectedGroomer(selectedGroomer);
       console.log(`selectedGroomer in Booking: ${JSON.stringify(selectedGroomer)}`);
-      // console.log(`selectedGroomer in Booking: ${(selectedGroomer)}`);
     }
   };
 

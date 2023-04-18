@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import Groomer from "./Groomer";
-import NewGroomer from "./NewGroomer";
+import CreateGroomer from "./CreateGroomer";
 
 export default function Admin() {
-  const [groomer, setgroomer] = useState([]);
+  const [groomers, setGroomers] = useState([]);
   const [locations, setLocations] = useState([]);
-  const [selectedLocation, setselectedLocation] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState("");
   const [isAuth, setIsAuth] = useState(false);
 
   const navigate = useNavigate();
@@ -18,16 +18,15 @@ export default function Admin() {
     console.log(adminToken)
 
     if (adminToken) {
-      // const isAdmin = JSON.parse(window.atob(adminToken.split(".")[1])).role === "admin";
-      JSON.parse(window.atob(adminToken.split(".")[1])).member.role === "admin" ? setIsAuth(adminToken) : false
+      JSON.parse(window.atob(adminToken.split(".")[1])).member.role === "admin" && setIsAuth(adminToken);
     } 
-    axios.get("/api/maps").then((response) => {
+    axios.get("/api/map").then((response) => {
       setLocations(response.data);
     });
   }, []);
 
   useEffect(() => {
-    async function fetchgroomer() {
+    async function fetchGroomers() {
       try {
         if (isAuth && selectedLocation !== "") {
           const response = await axios.get(
@@ -39,17 +38,17 @@ export default function Admin() {
               },
             }
           );
-          setgroomer(response.data);
+          setGroomers(response.data);
         }
       } catch (error) {
-        console.error("Error fetching groomer:", error);
+        console.error("Error fetching groomers:", error);
       }
     }
-    fetchgroomer();
+    fetchGroomers();
   }, [selectedLocation, isAuth]);
 
   const handleLocationChange = (event) => {
-    setselectedLocation(event.target.value);
+    setSelectedLocation(event.target.value);
   };
 
   const handleDelete = async (id) => {
@@ -63,10 +62,10 @@ export default function Admin() {
         },
       });
       if (response.status === 200) {
-        const updatedgroomer = groomer.filter(
+        const updatedGroomers = groomers.filter(
           (groomer) => groomer._id !== id
         );
-        setgroomer(updatedgroomer);
+        setGroomers(updatedGroomers);
       }
     } catch (error) {
       console.error("Error deleting groomer:", error);
@@ -82,12 +81,12 @@ export default function Admin() {
   return (
     <>
       {!isAuth ? (
-        <div className="centered-message">Access denied</div>
+        <div className="">Access denied</div>
       ) : (
-        <div className="container">
-          <div className="row mt-4">
-            <div className="col">
-              <button className="btn btn-primary" onClick={handleClick}>
+        <div className="">
+          <div className="">
+            <div className="">
+              <button className="" onClick={handleClick}>
                 Create New Groomer
               </button>
             </div>
@@ -108,20 +107,20 @@ export default function Admin() {
             </div>
           </div>
           {groomer && groomer.length > 0 ? (
-            <div className="row mt-4">
-              <div className="col">
+            <div className="">
+              <div className="">
                 <h2>groomer</h2>
-                <ul className="list-group">
+                <ul className="">
                   {groomer.map((groomer) => (
                     <li
-                      className="list-group-item d-flex justify-content-between align-items-center Link"
+                      className=""
                       key={groomer._id}
                     >
                       <Link to={`/groomer/${groomer._id}`}>
                         {groomer.name}
                       </Link>
                       <button
-                        className="btn btn-danger"
+                        className=""
                         onClick={() => handleDelete(groomer._id)}
                       >
                         Delete
@@ -132,8 +131,8 @@ export default function Admin() {
               </div>
             </div>
           ) : (
-            <div className="row mt-4">
-              <div className="col">
+            <div className="">
+              <div className="">
                 <p>No groomer found.</p>
               </div>
             </div>
@@ -141,8 +140,8 @@ export default function Admin() {
         </div>
       )}
       <Routes>
-        <Route path="/groomer/:id" element={<groomer />} />
-        <Route path="/newgroomer" element={<NewGroomer />} />
+        <Route path="/groomer/:id" element={<Groomer />} />
+        <Route path="/newgroomer" element={<CreateGroomer />} />
       </Routes>
     </>
   );

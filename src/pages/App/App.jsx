@@ -15,7 +15,7 @@ import WithNavBar from "../components/WithNavBar";
 import Admin from "../Admin/Admin";
 import Groomer from "../Admin/Groomer";
 import NewGroomer from "../Admin/CreateGroomer";
-import Edit from "../Admin/Edit";
+import Edit from "../Admin/EditGroomer";
 //pages.auth
 import SignUpForm from "../AuthPage/SignUpForm";
 import ForgetPassword from "../AuthPage/ForgetPass";

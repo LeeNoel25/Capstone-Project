@@ -6,15 +6,11 @@ const token = localStorage.getItem("token");
 
 export default function Edit() {
   const { id } = useParams();
+  const token = localStorage.getItem("token");
   const [groomer, setgroomer] = useState();
   const [minDate, setMinDate] = useState("");
   const [locations, setLocations] = useState([]);
   const [successMessage, setSuccessMessage] = useState(null);
-  console.log(id);
-
-  useEffect(() => {
-    console.log(groomer);
-  }, [groomer]);
 
   useEffect(() => {
     async function fetchgroomer() {
@@ -40,7 +36,7 @@ export default function Edit() {
   useEffect(() => {
     async function fetchLocations() {
       try {
-        const response = await fetch(`/api/maps`, {
+        const response = await fetch(`/api/map`, {
           headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`,
@@ -56,7 +52,7 @@ export default function Edit() {
       }
     }
     fetchLocations();
-  }, [id]);
+  }, []);
 
   useEffect(() => {
     const today = moment().format("YYYY-MM-DD");
@@ -82,6 +78,7 @@ export default function Edit() {
   };
 
   const handleSubmit = async (event) => {
+    setSuccessMessage(null);
     event.preventDefault();
     try {
       const response = await fetch(`/api/groomer/${id}`, {

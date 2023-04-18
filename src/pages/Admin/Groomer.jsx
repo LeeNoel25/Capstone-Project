@@ -1,14 +1,12 @@
 import { useParams, Link, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import Edit from './Edit';
+import Edit from './EditGroomer';
 import { Button } from 'react-bootstrap';
-import axios from 'axios';
-
-const token = localStorage.getItem('token');
 
 export default function Groomer() {
-  const [Booking, setBooking] = useState([]);
+  const [booking, setBooking] = useState([]);
   const { id } = useParams();
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     async function fetchBooking() {
@@ -35,29 +33,29 @@ export default function Groomer() {
   }, [id]);
 
   return (
-    <div className="container">
+    <div className="">
         <Link to={`/groomer/edit/${id}`}>
             <Button variant="primary">Edit</Button>
         </Link>
         <hr/>
-      {Booking.length > 0 && (
+      {booking.length > 0 && (
         <>
-          <h3>Groomer: {Booking[0].groomer.id.name}</h3>
+          <h3>Groomer: {booking[0].groomer.id.name}</h3>
           <hr />
         </>
       )}
       <h4>Booking</h4>
-      <ul className="list-group">
-        {Booking.map((booking) => (
-          <li key={booking._id} className="list-group-item">
-            <div className="row">
-              <div className="col-3">
+      <ul className="">
+        {booking.map((booking) => (
+          <li key={booking._id} className="">
+            <div className="">
+              <div className="">
                 <strong>Date:</strong> {booking.date}
               </div>
-              <div className="col-3">
+              <div className="">
                 <strong>Time:</strong> {booking.timeslot}
               </div>
-              <div className="col-6">
+              <div className="">
                 <strong>Member's Information:</strong>{' '}
                 {booking.memberInfo.name}, {booking.memberInfo.email}
               </div>

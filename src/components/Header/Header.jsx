@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { logout } from "../../utilities/users-service";
+import { logout } from "../../utilities/members-service";
 
 export default function Header({ setUser, member }) {
   const isSignedIn = member;
@@ -16,38 +16,23 @@ export default function Header({ setUser, member }) {
   };
 
   return (
-    <nav className="stickyNavBar navbar navbar-expand-lg navbar-dark bg-dark">
-      <div className="container-fluid">
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav me-auto align-items-center my-auto">
+    <nav>
+      <div>
+        <div id="navbarNav">
+          <ul>
             {!isSignedIn && (
               <React.Fragment>
-                <li className="nav-item">
+                <li>
                   <Link
-                    className={`nav-link text-white ${
-                      location.pathname === "/login" ? "active" : ""
-                    }`}
+                    className={location.pathname === "/login" ? "active" : ""}
                     to="/login"
                   >
                     Log In
                   </Link>
                 </li>
-                <li className="nav-item">
+                <li>
                   <Link
-                    className={`nav-link text-white ${
-                      location.pathname === "/signup" ? "active" : ""
-                    }`}
+                    className={location.pathname === "/signup" ? "active" : ""}
                     to="/signup"
                   >
                     Register
@@ -56,7 +41,7 @@ export default function Header({ setUser, member }) {
               </React.Fragment>
             )}
             {!!member && (
-              <li className="nav-item">
+              <li>
                 <div
                   style={{
                     color: "white",
@@ -72,77 +57,55 @@ export default function Header({ setUser, member }) {
           </ul>
 
           {isSignedIn && (
-            <ul className="navbar-nav">
+            <ul>
               {["member"].includes(role) && (
-                <li className="nav-item dropdown">
+                <li>
                   <a
-                    className="nav-link dropdown-toggle text-white"
                     id="navbarDropdownMenuLink"
                     role="button"
-                    data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
                     My Account
                   </a>
-                  <ul
-                    className="dropdown-menu right"
-                    aria-labelledby="navbarDropdownMenuLink"
-                  >
+                  <ul aria-labelledby="navbarDropdownMenuLink">
                     <li>
-                      <Link className="dropdown-item" to="/history">
-                        Upcoming Bookings
-                      </Link>
+                      <Link to="/history">Upcoming Bookings</Link>
                     </li>
                     <li>
-                      <a className="dropdown-item" onClick={handleLogout}>
-                        Log Out
-                      </a>
+                      <a onClick={handleLogout}>Log Out</a>
                     </li>
                   </ul>
                 </li>
               )}
-              {["OPSADMIN", "HRADMIN"].includes(role) && (
-                <li className="nav-item dropdown">
+              {["groomer", "admin"].includes(role) && (
+                <li>
                   <a
-                    className="nav-link dropdown-toggle text-white"
                     id="navbarDropdownMenuLink"
                     role="button"
-                    data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
                     Admin Tools
                   </a>
-                  <ul
-                    className="dropdown-menu right"
-                    aria-labelledby="navbarDropdownMenuLink"
-                  >
+                  <ul aria-labelledby="navbarDropdownMenuLink">
                     {role === "admin" && (
                       <React.Fragment>
                         <li>
-                          <Link className="dropdown-item" to="/productpage">
-                            Product Portfolio
-                          </Link>
+                          <Link to="/productpage">Product Portfolio</Link>
                         </li>
                         <li>
-                          <Link className="dropdown-item" to="/adminlocation">
-                            Inventory Management
-                          </Link>
+                          <Link to="/adminlocation">Inventory Management</Link>
                         </li>
                       </React.Fragment>
                     )}
                     {role === "admin" && (
                       <React.Fragment>
                         <li>
-                          <Link className="dropdown-item" to="/admin">
-                            Staff Scheduling
-                          </Link>
+                          <Link to="/admin">Groomer Scheduling</Link>
                         </li>
                       </React.Fragment>
                     )}
                     <li>
-                      <a className="dropdown-item" onClick={handleLogout}>
-                        Log Out
-                      </a>
+                      <a onClick={handleLogout}>Log Out</a>
                     </li>
                   </ul>
                 </li>

@@ -3,8 +3,8 @@ const BookingForm = ({ selectGroomer, selectLocation, handleChange, fetchedLocat
     const Name =  JSON.parse(window.atob(token.split(".")[1]))
     const memberName = Name.member.name
     const memberEmail = Name.member.email
-    memberInfo.name = memberName
-    memberInfo.email = memberEmail
+    handleChange({ target: { name: "name", value: memberName } });
+    handleChange({ target: { name: "email", value: memberEmail } });
   
     return (
       <>

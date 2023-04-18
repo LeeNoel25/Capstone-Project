@@ -14,7 +14,7 @@ export default function TopNavBar() {
         </li>
         <li className="">
           <NavLink className="" to="/booking">
-            booking Booking
+            Booking
           </NavLink>
         </li>
         <li className="">
