@@ -3,5 +3,9 @@ import Banners from "./Banners";
 import WithNavBar from "./WithNavBar";
 
 export default function ({ children }) {
-  return <WithNavBar preContent={<Banners />} children={children} />;
+  return (
+    <React.Fragment>
+      <WithNavBar preContent={<Banners></Banners>}>{children}</WithNavBar>
+    </React.Fragment>
+  ); 
 }

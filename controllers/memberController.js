@@ -4,6 +4,24 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const bcrypt = require("bcrypt");
 const SALT_ROUNDS = 10;
 
+const seed = async (req, res) => {
+  try {
+    const existingMember = await Member.findOne({ email: "gro@gro" });
+    if (existingMember) {
+      return res.status(400).json({ error: "User already exists" });
+    }
+    const hashedPassword = await bcrypt.hash("111", SALT_ROUNDS);
+    const memberData = await Member.create({
+      name: "groomer",
+      email: "gro@gro",
+      password: hashedPassword,
+      role: "groomer",
+    });
+    res.status(200).json(memberData);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
 
 // create function redeclared, which was already declared in the Product controller. If they are in the same file, you should rename one of the create functions, such as createMember.
 const create = async (req, res) => {
@@ -86,6 +104,7 @@ const resetPassword = async (req, res) => {
 };
 
 module.exports = {
+  seed,
   create,
   login,
   resetPassword,

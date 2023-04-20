@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function ProductsPage(products, category, sortByCategory) {
-    const [sortedProducts, setSortedProducts] = useState([]);
-    const [sortByPrice, setSortByPrice] = useState("");
-    const [searchTerm, setSearchTerm] = useState("");
-    const [sortByCategory, setSortByCategory] = useState("");
+export default function ProductsPage(props) {
+  const { products, category, initialSortByCategory } = props;
+  const [sortedProducts, setSortedProducts] = useState([]);
+  const [sortByPrice, setSortByPrice] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortByCategory, setSortByCategory] = useState(initialSortByCategory);
   
     useEffect(() => {
       let filteredProductsCopy = [...products];
@@ -59,10 +60,10 @@ export default function ProductsPage(products, category, sortByCategory) {
                   onChange={(e) => setSortByCategory(e.target.value)}
                 >
                   <option value="">All categories</option>
-                  {category.map((c, i) => (
-                    <option key={i} value={c}>
-                      {c}
-                    </option>
+              {category && category.map((c, i) => (
+                <option key={i} value={c}>
+                  {c}
+                </option>
                   ))}
                 </select>
               </div>

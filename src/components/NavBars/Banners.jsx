@@ -1,4 +1,4 @@
-import SephoraIcon from "./SephoraIcon";
+import SephoraIcon from "../SephoraIcon";
 
 export default function () {
   return (

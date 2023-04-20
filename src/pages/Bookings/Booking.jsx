@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import BookingForm from "./BookingForm";
 
-const Booking = ({ setSelectedGroomer, setmemberInfo, memberInfo, fetchedLocations}) => {
+const Booking = ({ setSelectedGroomer, setmemberInfo, memberInfo, fetchedLocations }) => {
 
   const [selectGroomer, setSelectGroomer] = useState([]);
   const [selectLocation, setSelectLocation] = useState("");
@@ -10,7 +10,7 @@ const Booking = ({ setSelectedGroomer, setmemberInfo, memberInfo, fetchedLocatio
     if (selectLocation) {
       const token = localStorage.getItem("token");
   
-      fetch(`/api/calender/${selectLocation}`, {
+      fetch(`/api/calendar/${selectLocation}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -25,7 +25,7 @@ const Booking = ({ setSelectedGroomer, setmemberInfo, memberInfo, fetchedLocatio
     }
   }, [selectLocation]);
 
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     const { name, value } = e.target;
     setmemberInfo((memberInfo) => ({
       ...memberInfo,
@@ -42,7 +42,7 @@ const Booking = ({ setSelectedGroomer, setmemberInfo, memberInfo, fetchedLocatio
       setSelectedGroomer(selectedGroomer);
       console.log(`selectedGroomer in Booking: ${JSON.stringify(selectedGroomer)}`);
     }
-  };
+  }, [selectGroomer, setSelectedGroomer, setmemberInfo]);
 
   return (
     <div>

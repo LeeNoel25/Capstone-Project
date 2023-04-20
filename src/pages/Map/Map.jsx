@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom'
 // import Location from '../../../components/location';
 import CurrentLocation from '../../components/Maps/currentLocation';
 import Distance from '../../components/Maps/Distance';
-import "./Map.css";
 
 const blackIcon = new L.Icon({
   iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-black.png',
@@ -29,8 +28,8 @@ const greenIcon = new L.Icon({
 
 const Map = () => {
   const [locations, setLocations] = useState([]);
-  const [userLatitude, setUserLatitude] = useState("");
-  const [userLongitude, setUserLongitude] = useState("");
+  const [userLatitude, setMemberLatitude] = useState("");
+  const [userLongitude, setMemberLongitude] = useState("");
   const initialPosition = [1.3521, 103.8198];
   const initialZoom = 12;
   const [streetViewImageUrl, setStreetViewImageUrl] = useState('');
@@ -122,7 +121,7 @@ const Map = () => {
   
       <div className="col-lg-3">
         <Distance latitude={userLatitude} longitude={userLongitude} mapRef={mapRef} handleResetMap={handleResetMap}/>
-        <CurrentLocation setUserLatitude={setUserLatitude} setUserLongitude={setUserLongitude} />
+        <CurrentLocation setMemberLatitude={setMemberLatitude} setMemberLongitude={setMemberLongitude} />
         <button onClick={handleResetMap} className="reset-map">Reset Map</button>
         <br />
         <br />

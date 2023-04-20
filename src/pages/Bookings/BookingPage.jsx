@@ -1,6 +1,6 @@
 import "react-calendar/dist/Calendar.css";
 import { useState, useEffect } from "react";
-import Times from "./Times";
+import Times from "./Time";
 import Booking from "./Booking";
 import Cal from "./Calendar";
 
@@ -13,11 +13,10 @@ const BookingPage = () => {
 
 
   useEffect(() => {
-    // Fetch all locations
     const fetchLocation = async () => {
       const token = localStorage.getItem("token");
   
-      const response = await fetch("/api/calender", {
+      const response = await fetch("/api/calendar", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -25,11 +24,17 @@ const BookingPage = () => {
         },
       });
   
+      if (!response.ok) {
+        console.error("Error fetching location data:", response.status, response.statusText);
+        return;
+      }
+  
       const locationData = await response.json();
-      setFetchedLocations(locationData); // Set the fetched location data to the state
+      setFetchedLocations(locationData);
     };
     fetchLocation();
   }, []);
+  
 
   return (
     <div className="app">

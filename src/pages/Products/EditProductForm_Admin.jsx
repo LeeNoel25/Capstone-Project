@@ -24,7 +24,7 @@ export default function EditProductForm(category, brand) {
 
   const handleUpdate = async () => {
     const token = localStorage.getItem("token");
-    const response = await fetch(`/api/products/${id}`, {
+    const response = await fetch(`/api/AdminProduct/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -32,7 +32,7 @@ export default function EditProductForm(category, brand) {
       },
       body: JSON.stringify(product),
     });
-    navigate("/products");
+    navigate("/productpage");
   };
 
   const handleCancel = async () => {

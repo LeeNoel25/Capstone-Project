@@ -2,15 +2,15 @@ import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../../utilities/members-service";
 
-export default function Header({ setUser, member }) {
-  const isSignedIn = member;
+export default function Header({ setMember, member }) {
+  const isSignedIn = !!member;
   const navigate = useNavigate();
   const location = useLocation();
   const { role } = member || {};
 
   const handleLogout = (e) => {
     e.preventDefault();
-    setUser(null);
+    setMember(null);
     logout();
     navigate("/login");
   };
@@ -77,7 +77,7 @@ export default function Header({ setUser, member }) {
                   </ul>
                 </li>
               )}
-              {["groomer", "admin"].includes(role) && (
+              {["groomer", "admin"].includes(member.role) && (
                 <li>
                   <a
                     id="navbarDropdownMenuLink"
@@ -117,6 +117,3 @@ export default function Header({ setUser, member }) {
     </nav>
   );
 }
-
-
-

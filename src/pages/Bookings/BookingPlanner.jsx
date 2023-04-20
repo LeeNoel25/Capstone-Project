@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import DeleteBooking from "./DeleteBookings";
+import DeleteBooking from "./DeleteBooking";
 
 
 const BookingPlanner = () => {

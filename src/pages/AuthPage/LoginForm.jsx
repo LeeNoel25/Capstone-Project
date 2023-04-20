@@ -2,7 +2,7 @@ import { useState } from "react";
 import { getMember } from "../../utilities/members-service";
 import { Link, useNavigate } from "react-router-dom";
 
-export default function LoginForm({ setmember }) {
+export default function LoginForm({ setMember }) {
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [loginTry, setLoginTry] = useState({
@@ -30,12 +30,10 @@ export default function LoginForm({ setmember }) {
       const Name = JSON.parse(window.atob(data.token.split(".")[1]));
       console.log(Name.member.name);
       console.log(Name.member.email);
-      setmember(decoded);
-      if (Name.member.role === "member") {
-        navigate("/");
-      } else if (Name.member.role === "groomer") {
-        navigate("/groomer");
-      } else if (Name.member.role === "admin") {
+      setMember(decoded);
+      if (Name.member.role === "admin") {
+        navigate("/productpage");
+      } else {
         navigate("/");
       }
 

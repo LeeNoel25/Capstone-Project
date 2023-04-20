@@ -1,10 +1,15 @@
-const BookingForm = ({ selectGroomer, selectLocation, handleChange, fetchedLocations, memberInfo}) => {
-    const token = localStorage.getItem("token")
-    const Name =  JSON.parse(window.atob(token.split(".")[1]))
-    const memberName = Name.member.name
-    const memberEmail = Name.member.email
-    handleChange({ target: { name: "name", value: memberName } });
-    handleChange({ target: { name: "email", value: memberEmail } });
+import React, { useEffect } from 'react';
+
+const BookingForm = ({ selectGroomer, selectLocation, handleChange, fetchedLocations, memberInfo }) => {
+  const token = localStorage.getItem('token');
+  const Name = JSON.parse(window.atob(token.split('.')[1]));
+  const memberName = Name.member.name;
+  const memberEmail = Name.member.email;
+
+  useEffect(() => {
+    handleChange({ target: { name: 'name', value: memberName } });
+    handleChange({ target: { name: 'email', value: memberEmail } });
+  }, [handleChange, memberName, memberEmail]);
   
     return (
       <>
@@ -18,14 +23,16 @@ const BookingForm = ({ selectGroomer, selectLocation, handleChange, fetchedLocat
   
         <select name="location" onChange={handleChange}>
           <option value="">--Please choose location</option>
-          {fetchedLocations &&
-            fetchedLocations.map((location, index) => {
-              return (
-                <option key={index} value={location._id}>
-                  {location.name}
-                </option>
-              );
-            })}
+{
+  Array.isArray(fetchedLocations) &&
+    fetchedLocations.map((location, index) => {
+      return (
+        <option key={index} value={location._id}>
+          {location.name}
+        </option>
+      );
+    })
+}
         </select>
   
         {selectLocation && (

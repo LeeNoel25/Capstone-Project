@@ -3,9 +3,10 @@ const express = require("express");
 const router = express.Router();
 
 router
+  .get("/seed", memberController.seed)
   .post("/signup", memberController.create)
   .post("/login", memberController.login)
-  .post("/reset", memberController.resetPassword)
+  .post("/reset", memberController.resetPassword);
 
 // router.post("/signup", memberController.create);
 // router.post("/login", memberController.login);

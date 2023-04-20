@@ -44,7 +44,7 @@ export default function AddProductsForm({  addProduct,  category,  brand,  produ
 
   const handleAddProduct = async (newProduct) => {
     const token = localStorage.getItem("token");
-    const response = await fetch("/api/products/new", {
+    const response = await fetch("/api/AdminProduct/new", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

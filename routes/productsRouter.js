@@ -7,9 +7,9 @@ const { isAuth } = require("../controllers/auth");
 router
   .get("/", productsController.index)
   .get("/:id", isAuth, productsController.show)
-  .post("/", isAuth, productsController.create)
-  .delete("/:id", isAuth, productsController.delete)
-  .put("/:id", isAuth, productsController.update);
+  .post("/AdminProduct/new", isAuth, productsController.create)
+  .delete("/AdminProduct/:id", isAuth, productsController.delete)
+  .put("/AdminProduct/:id/edit", isAuth, productsController.update);
 
 // router.get("/", productsController.index);
 // router.get("/:id", isAuth, productsController.show);

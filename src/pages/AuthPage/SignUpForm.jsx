@@ -13,23 +13,24 @@ export default function SignUpForm() {
 
   const disable = state.password !== state.confirm;
 
-  const newMember = async (memberData) => {
-    const response = await fetch(`/api/member/signup`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(memberData),
-    });
-  
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || "member registration failed");
-    }
-  
-    const data = await response.json();
-    return data;
-  };
+const newMember = async (memberData) => {
+  const response = await fetch(`/api/member/signup`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(memberData),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error || "member registration failed");
+  }
+
+  return data;
+};
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();

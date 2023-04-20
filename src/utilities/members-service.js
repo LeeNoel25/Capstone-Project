@@ -1,3 +1,5 @@
+
+
 export async function signUp(memberData) {
   // Delegate the network request code to the members-api.js API module
   // which will ultimately return a JSON Web Token (JWT)

@@ -4,38 +4,36 @@ import React from "react";
 import { Route, Routes } from "react-router";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import "@popperjs/core/dist/umd/popper.min.js";
+
 //components
-import Header from "../components/Header/Header";
-import WithMemberNavTools from "../components/NavBars/WithCustomerBanner";
-import WithNavBar from "../components/WithNavBar";
+import Header from "../../components/Header/Header.jsx";
+import WithMemberNavTools from "../../components/NavBars/WithCustomerBanner.jsx";
+import WithNavBar from "../../components/NavBars/WithNavBar.jsx";
 //pages.admin
-import Admin from "../Admin/Admin";
-import Groomer from "../Admin/Groomer";
-import NewGroomer from "../Admin/CreateGroomer";
-import Edit from "../Admin/EditGroomer";
+import Admin from "../Admin/Admin.jsx";
+import Groomer from "../Admin/Groomer.jsx";
+import NewGroomer from "../Admin/CreateGroomer.jsx";
+import Edit from "../Admin/EditGroomer.jsx";
 //pages.auth
-import SignUpForm from "../AuthPage/SignUpForm";
-import ForgetPassword from "../AuthPage/ForgetPass";
-import LoginForm from "../AuthPage/LoginForm";
+import SignUpForm from "../AuthPage/SignUpForm.jsx";
+import ForgetPassword from "../AuthPage/ForgetPass.jsx";
+import LoginForm from "../AuthPage/LoginForm.jsx";
 //pages.bookings-tbc
-import BookingPage from "../Bookings/BookingPage";
-import UpcomingBooking from "../Bookings/BookingPlanner";
+import BookingPage from "../Bookings/BookingPage.jsx";
+import BookingPlanner from "../Bookings/BookingPlanner.jsx";
 //pages.inventory-tbc
-import InventoryPage from "../Inventory/InventoryPage";
-import AddInventory from "../Inventory/AddInventory";
+import InventoryPage from "../Inventory/InventoryPage.jsx";
+import AddInventory from "../Inventory/AddInventory.jsx";
 //pages.map
-import Map from "../Map/Map";
+import Map from "../Map/Map.jsx";
 //pages.products
-import SelectedProductPage from "../Products/SelectedProductPage";
-import AddProductForm from "../Products/AddProductForm_Admin";
-import EditProductForm from "../Products/EditProductForm_Admin";
-import ProductsForm from "../Products/ProductDashboard_Admin";
-import ProductsPage from "../Products/AllProductsPage_Guest";
+import SelectedProductPage from "../Products/SelectedProductPage_Guest.jsx";
+import AddProductForm from "../Products/AddProductForm_Admin.jsx";
+import EditProductForm from "../Products/EditProductForm_Admin.jsx";
+import ProductsForm from "../Products/ProductDashboard_Admin.jsx";
+import ProductsPage from "../Products/AllProductsPage_Guest.jsx";
 //pages.msc
-import { getMember } from "../utilities/members-service";
+import { getMember } from "../../utilities/members-service.js";
 
 export default function App() {
   const [member, setMember] = useState(getMember());
@@ -45,10 +43,13 @@ export default function App() {
   const [brand, setBrand] = useState([]);
 
 const token = localStorage.getItem("token");
-if (token) {
-  const parsedMember = JSON.parse(window.atob(token.split(".")[1]));
-  setMember(parsedMember);
-}
+useEffect(() => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    const parsedMember = JSON.parse(window.atob(token.split(".")[1]));
+    setMember(parsedMember);
+  }
+}, []);
 
   const addProduct = (product, error) => {
     if (error) {
@@ -87,7 +88,7 @@ if (token) {
   const loginRoutes = [
     {
       path: "/login",
-      element: <LoginForm setUser={setUser} />,
+      element: <LoginForm setMember={setMember} />,
     },
     {
       path: "/signup",
@@ -133,7 +134,7 @@ if (token) {
     },
     {
       path: "/history",
-      element: <UpcomingBooking />,
+      element: <BookingPlanner />,
     },
   ];
 
@@ -265,7 +266,7 @@ if (token) {
 
   const renderAuthenticatedPages = (member) => {
     const renderLoggedInContent = loggedInRoleSpecificRoutes.find(
-      (config) => config.role === member.role
+      (config) => config.role === member?.role
     )?.content;
 
     return <React.Fragment>{renderLoggedInContent}</React.Fragment>;
@@ -317,8 +318,12 @@ if (token) {
 
   return (
     <main className="App">
-      <Header setUser={setUser} member={member ? member.member : null}/>
+      <Header setMember={setMember} member={member}/>
       {member ? renderAuthenticatedPages(member.member) : renderUnauthenticatedPages()}
     </main>
   );
 }
+
+
+
+
