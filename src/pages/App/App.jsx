@@ -42,14 +42,14 @@ export default function App() {
   const [category, setCategory] = useState([]);
   const [brand, setBrand] = useState([]);
 
-const token = localStorage.getItem("token");
-useEffect(() => {
   const token = localStorage.getItem("token");
-  if (token) {
-    const parsedMember = JSON.parse(window.atob(token.split(".")[1]));
-    setMember(parsedMember);
-  }
-}, []);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const parsedMember = JSON.parse(window.atob(token.split(".")[1]));
+      setMember(parsedMember);
+    }
+  }, []);
 
   const addProduct = (product, error) => {
     if (error) {
@@ -122,21 +122,25 @@ useEffect(() => {
     <div className="centered-message">Access denied</div>
   );
 
-  const memberPagesRoutes = [    ...productsPageRoutes,    
-    {      path: "/map",      element: <Map />,    },
-    {      path: "/booking",      element: <BookingPage />,    },
-    {      path: "/history",      element: <BookingPlanner />,    },
+  const memberPagesRoutes = [
+    ...productsPageRoutes,
+    { path: "/map", element: <Map /> },
+    { path: "/booking", element: <BookingPage /> },
+    { path: "/history", element: <BookingPlanner /> },
   ];
 
   const groomerRouteConfig = [
-    {      path: "/admin/*",      element: <Admin />,    },
-    {      path: "/groomer/:id/*",      element: <Groomer />,    },
-    {      path: "/groomer/edit/:id",      element: <Edit />,    },
-    {      path: "/newGroomer",      element: <NewGroomer />,    },
+    { path: "/admin/*", element: <Admin /> },
+    { path: "/groomer/:id/*", element: <Groomer /> },
+    { path: "/groomer/edit/:id", element: <Edit /> },
+    { path: "/newGroomer", element: <NewGroomer /> },
   ];
 
   const adminRouteConfig = [
-    {      path: "/productpage",      element: <ProductsForm products={products} delProduct={delProduct} />,    },
+    {
+      path: "/productpage",
+      element: <ProductsForm products={products} delProduct={delProduct} />,
+    },
     {
       path: "/productpage/new",
       element: (
@@ -148,7 +152,8 @@ useEffect(() => {
         />
       ),
     },
-    { path: "/productpage/products/:productID/edit",
+    {
+      path: "/productpage/:productID/edit",
       element: (
         <EditProductForm
           products={products}
@@ -158,8 +163,8 @@ useEffect(() => {
         />
       ),
     },
-    {      path: "/adminlocation",      element: <InventoryPage />,    },
-    {      path: "/adminlocation/edit",      element: <AddInventory />,    },
+    { path: "/adminlocation", element: <InventoryPage /> },
+    { path: "/adminlocation/edit", element: <AddInventory /> },
   ];
 
   const loggedInRoleSpecificRoutes = [
@@ -187,7 +192,8 @@ useEffect(() => {
         </Routes>
       ),
     },
-    { role: "admin",
+    {
+      role: "admin",
       content: (
         <Routes>
           {memberPagesRoutes.map((config) => (
@@ -212,7 +218,8 @@ useEffect(() => {
         </Routes>
       ),
     },
-    { role: "member",
+    {
+      role: "member",
       content: (
         <Routes>
           {memberPagesRoutes.map((config) => (
@@ -242,8 +249,8 @@ useEffect(() => {
     <React.Fragment>
       <WithMemberNavTools>
         <Routes>
-        {loginRoutes.map((config) => (
-          <Route key={config.path} {...config} />
+          {loginRoutes.map((config) => (
+            <Route key={config.path} {...config} />
           ))}
           <Route path="/maps" element={<Map />} />
           <Route path="/admin/*" element={<Admin />} />
@@ -251,7 +258,7 @@ useEffect(() => {
           {productsPageRoutes.map((config) => (
             <Route key={config.path} {...config}></Route>
           ))}
-          {memberPagesRoutes.map((config) => (
+          {/* {memberPagesRoutes.map((config) => (
             <Route
               key={config.path}
               path={config.path}
@@ -261,7 +268,7 @@ useEffect(() => {
                 </div>
               }
             />
-          ))}
+          ))} */}
           {groomerRouteConfig.map((config) => (
             <Route
               key={config.path}
@@ -284,12 +291,10 @@ useEffect(() => {
 
   return (
     <main className="App">
-      <Header setMember={setMember} member={member}/>
-      {member ? renderAuthenticatedPages(member.member) : renderUnauthenticatedPages()}
+      <Header setMember={setMember} member={member ? member.member : null} />
+      {member
+        ? renderAuthenticatedPages(member.member)
+        : renderUnauthenticatedPages()}
     </main>
   );
 }
-
-
-
-

@@ -8,8 +8,8 @@ router
   .get("/", productsController.index)
   .get("/:id", isAuth, productsController.show)
   .post("/AdminProduct/new", isAuth, productsController.create)
-  .delete("/AdminProduct/:id", isAuth, productsController.delete)
-  .put("/productpage/:id/edit", isAuth, productsController.update);
+  .delete("/products/:id", isAuth, productsController.delete)
+  .put("/productpage/:id", isAuth, productsController.update);
 
 // router.get("/", productsController.index);
 // router.get("/:id", isAuth, productsController.show);

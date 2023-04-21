@@ -4,7 +4,7 @@ const router = express.Router();
 
 router
   .get("/seed", memberController.seed)
-  .post("/signup", memberController.create)
+  .post("/signup", memberController.createMember)
   .post("/login", memberController.login)
   .post("/reset", memberController.resetPassword);
 

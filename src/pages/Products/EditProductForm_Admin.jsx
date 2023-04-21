@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-export default function EditProductForm(category, brand, products, handleEditProduct ) {
+export default function EditProductForm(props) {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState({});
-  
+
   useEffect(() => {
     const getProduct = async () => {
-      const response = await fetch(`/api/products/${id}`);
+      const response = await fetch(`/api/productpage/${id}/edit`);
       const product = await response.json();
       setProduct(product);
     };
@@ -24,7 +24,7 @@ export default function EditProductForm(category, brand, products, handleEditPro
 
   const handleUpdate = async () => {
     const token = localStorage.getItem("token");
-    const response = await fetch(`/api/AdminProduct/${id}`, {
+    const response = await fetch(`/api/productpage/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -79,7 +79,7 @@ export default function EditProductForm(category, brand, products, handleEditPro
             onChange={handleChange}
             className=""
           >
-            {category.map((c, i) => (
+            {props.category.map((c, i) => (
               <option key={i} value={c}>
                 {c}
               </option>
@@ -96,7 +96,7 @@ export default function EditProductForm(category, brand, products, handleEditPro
             onChange={handleChange}
             className=""
           >
-            {brand.map((b, i) => (
+            {props.brand.map((b, i) => (
               <option key={i} value={b}>
                 {b}
               </option>
@@ -133,11 +133,7 @@ export default function EditProductForm(category, brand, products, handleEditPro
           <button onClick={handleUpdate} className="">
             Save Changes
           </button>
-          <button
-            onClick={handleCancel}
-            type="button"
-            className=""
-          >
+          <button onClick={handleCancel} type="button" className="">
             Cancel
           </button>
         </div>
