@@ -36,20 +36,14 @@ import ProductsPage from "../Products/AllProductsPage_Guest.jsx";
 import { getMember } from "../../utilities/members-service.js";
 
 export default function App() {
-  const [member, setMember] = useState(getMember());
+  const [user, setUser] = useState(getMember());
   const [products, setProducts] = useState([]);
   const [sortByCategory, setSortByCategory] = useState("");
   const [category, setCategory] = useState([]);
   const [brand, setBrand] = useState([]);
-
+  //xx
   const token = localStorage.getItem("token");
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const parsedMember = JSON.parse(window.atob(token.split(".")[1]));
-      setMember(parsedMember);
-    }
-  }, []);
+  const member = token ? JSON.parse(window.atob(token.split(".")[1])) : null;
 
   const addProduct = (product, error) => {
     if (error) {
@@ -88,7 +82,7 @@ export default function App() {
   const loginRoutes = [
     {
       path: "/login",
-      element: <LoginForm setMember={setMember} />,
+      element: <LoginForm setUser={setUser} />,
     },
     {
       path: "/signup",
@@ -291,7 +285,7 @@ export default function App() {
 
   return (
     <main className="App">
-      <Header setMember={setMember} member={member ? member.member : null} />
+      <Header setUser={setUser} member={member ? member.member : null} />
       {member
         ? renderAuthenticatedPages(member.member)
         : renderUnauthenticatedPages()}

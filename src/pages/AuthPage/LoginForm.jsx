@@ -2,7 +2,7 @@ import { useState } from "react";
 import { getMember } from "../../utilities/members-service";
 import { Link, useNavigate } from "react-router-dom";
 
-export default function LoginForm({ setMember }) {
+export default function LoginForm({ setUser }) {
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [loginTry, setLoginTry] = useState({
@@ -30,7 +30,7 @@ export default function LoginForm({ setMember }) {
       const Name = JSON.parse(window.atob(data.token.split(".")[1]));
       console.log(Name.member.name);
       console.log(Name.member.email);
-      setMember(decoded);
+      setUser(decoded);
       if (Name.member.role === "admin") {
         navigate("/productpage");
       } else {

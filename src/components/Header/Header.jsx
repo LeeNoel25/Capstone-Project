@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../../utilities/members-service";
 
-export default function Header({ setMember, member }) {
+export default function Header({ setUser, member }) {
   const isSignedIn = !!member;
   const navigate = useNavigate();
   const location = useLocation();
@@ -10,7 +10,7 @@ export default function Header({ setMember, member }) {
 
   const handleLogout = (e) => {
     e.preventDefault();
-    setMember(null);
+    setUser(null);
     logout();
     navigate("/login");
   };

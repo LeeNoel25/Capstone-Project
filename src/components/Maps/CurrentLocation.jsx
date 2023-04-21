@@ -1,16 +1,15 @@
 import { useEffect } from "react";
 
-const CurrentLocation = ({ setMemberLatitude, setMemberLongitude }) => {
-
+const CurrentLocation = ({ setUserLatitude, setUserLongitude }) => {
   useEffect(() => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
-        console.log(position.coords.latitude, position.coords.longitude)
-        setMemberLatitude(position.coords.latitude);
-        setMemberLongitude(position.coords.longitude);
+      navigator.geolocation.getCurrentPosition((position) => {
+        console.log(position.coords.latitude, position.coords.longitude);
+        setUserLatitude(position.coords.latitude);
+        setUserLongitude(position.coords.longitude);
       });
     }
-  }, [setMemberLatitude, setMemberLongitude]);
+  }, [setUserLatitude, setUserLongitude]);
 
   return null;
 };

@@ -1,20 +1,24 @@
 import React, { useState, useEffect, useCallback } from "react";
 import BookingForm from "./BookingForm";
 
-const Booking = ({ setSelectedGroomer, setmemberInfo, memberInfo, fetchedLocations }) => {
-
+const Booking = ({
+  setSelectedGroomer,
+  setUserInfo,
+  memberInfo,
+  fetchedLocations,
+}) => {
   const [selectGroomer, setSelectGroomer] = useState([]);
   const [selectLocation, setSelectLocation] = useState("");
 
   useEffect(() => {
     if (selectLocation) {
       const token = localStorage.getItem("token");
-  
+
       fetch(`/api/calendar/${selectLocation}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       })
         .then((response) => response.json())
@@ -25,24 +29,29 @@ const Booking = ({ setSelectedGroomer, setmemberInfo, memberInfo, fetchedLocatio
     }
   }, [selectLocation]);
 
-  const handleChange = useCallback((e) => {
-    const { name, value } = e.target;
-    setmemberInfo((memberInfo) => ({
-      ...memberInfo,
-      [name]: value,
-    }));
-    if (name === "location") {
-      setSelectLocation(value);
-    }
-    if (name === "groomer") {
-      const selectedGroomer = selectGroomer.find(
-        (groomer) => groomer.name === e.target.value
-      );
+  const handleChange = useCallback(
+    (e) => {
+      const { name, value } = e.target;
+      setUserInfo((memberInfo) => ({
+        ...memberInfo,
+        [name]: value,
+      }));
+      if (name === "location") {
+        setSelectLocation(value);
+      }
+      if (name === "groomer") {
+        const selectedGroomer = selectGroomer.find(
+          (groomer) => groomer.name === e.target.value
+        );
 
-      setSelectedGroomer(selectedGroomer);
-      console.log(`selectedGroomer in Booking: ${JSON.stringify(selectedGroomer)}`);
-    }
-  }, [selectGroomer, setSelectedGroomer, setmemberInfo]);
+        setSelectedGroomer(selectedGroomer);
+        console.log(
+          `selectedGroomer in Booking: ${JSON.stringify(selectedGroomer)}`
+        );
+      }
+    },
+    [selectGroomer, setSelectedGroomer, setUserInfo]
+  );
 
   return (
     <div>
