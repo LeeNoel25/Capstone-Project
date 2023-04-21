@@ -51,11 +51,11 @@ export default function InventoryTable() {
     ));
   };
 
-  const handleDelete = async (locationId, productId) => {
+  const handleDelete = async (locationId, productID) => {
     const token = localStorage.getItem("token");
     try {
       const response = await fetch(
-        `/api/location/${locationId}/products/${productId}`,
+        `/api/location/${locationId}/products/${productID}`,
         {
           method: "DELETE",
           headers: {

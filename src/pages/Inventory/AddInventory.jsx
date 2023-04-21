@@ -40,12 +40,12 @@ export default function AddInventory() {
     fetchProducts();
   }, [locationId]);
 
-  const handleCheckboxChange = (event, productId) => {
+  const handleCheckboxChange = (event, productID) => {
     const isChecked = event.target.checked;
   
     setCheckedMap((prevState) => ({
       ...prevState,
-      [productId]: isChecked,
+      [productID]: isChecked,
     }));
   
     const tableRow = event.target.closest("tr");
@@ -53,12 +53,12 @@ export default function AddInventory() {
   };
   
 
-  const handleQuantityChange = (event, productId) => {
+  const handleQuantityChange = (event, productID) => {
     const productQty = Number(event.target.value);
     if (productQty >= 0) {
       setProductList((prevState) =>
         prevState.map((product) =>
-          product._id === productId ? { ...product, productQty } : product
+          product._id === productID ? { ...product, productQty } : product
         )
       );
     }
@@ -73,7 +73,7 @@ export default function AddInventory() {
         (product) => checkedMap[product._id]
       );
       const productsToAdd = selectedProducts.map((product) => ({
-        productId: product._id,
+        productID: product._id,
         productQty: Number(product.productQty),
       }));
 

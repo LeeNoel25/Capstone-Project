@@ -11,7 +11,10 @@ function AdminRouter() {
     <Routes>
       <Route path="/productpage" element={<ProductsForm />} />
       <Route path="/productpage/new" element={<AddProductForm />} />
-      <Route path="/productpage/products/:productID/edit" element={<EditProductForm />} />
+      <Route
+        path="/productpage/:productID/edit"
+        element={<EditProductForm />}
+      />
       <Route path="/adminlocation" element={<InventoryPage />} />
       <Route path="/adminlocation/edit" element={<AddInventory />} />
     </Routes>

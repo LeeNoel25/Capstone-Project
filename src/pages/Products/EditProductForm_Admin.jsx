@@ -1,38 +1,63 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-
-export default function EditProductForm(props) {
-  const { id } = useParams();
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+export default function EditProductsForm({
+  products,
+  handleEditProduct,
+  category,
+  brand,
+}) {
+  const { productID } = useParams();
   const navigate = useNavigate();
-  const [product, setProduct] = useState({});
+  const CONVERTTODOLLAR = 100;
+  const product = products.find((p) => p._id === productID);
 
-  useEffect(() => {
-    const getProduct = async () => {
-      const response = await fetch(`/api/productpage/${id}/edit`);
-      const product = await response.json();
-      setProduct(product);
-    };
-    getProduct();
-  }, [id]);
+  const [editedProduct, setEditedProduct] = useState(
+    product
+      ? {
+          name: product.name,
+          price: product.price / CONVERTTODOLLAR,
+          category: product.category,
+          brand: product.brand,
+          imgurl: product.imgurl,
+          description: product.description,
+        }
+      : {}
+  );
 
   const handleChange = (event) => {
-    const key = event.target.name;
-    const value = event.target.value;
-
-    setProduct({ ...product, [key]: value });
+    const { name, value } = event.target;
+    setEditedProduct({
+      ...editedProduct,
+      [name]: value,
+    });
   };
 
-  const handleUpdate = async () => {
+  const handleEdit = async () => {
     const token = localStorage.getItem("token");
-    const response = await fetch(`/api/productpage/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(product),
-    });
-    navigate("/productpage");
+    const nameExists = products.some(
+      (p) => p._id !== productID && p.name === editedProduct.name
+    );
+    if (nameExists) {
+      alert("Product with the same name already exists!");
+      return;
+    } else {
+      const newProduct = {
+        ...editedProduct,
+        price: editedProduct.price * CONVERTTODOLLAR,
+      };
+      const response = await fetch(`/api/productpage/${productID}/edit`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify(newProduct),
+      });
+      const updatedProduct = await response.json();
+      handleEditProduct(updatedProduct);
+      navigate("/productpage");
+    }
   };
 
   const handleCancel = async () => {
@@ -41,70 +66,70 @@ export default function EditProductForm(props) {
 
   return (
     <>
-      <div className="">
+      <div className="form-container">
         <h1>Edit Product</h1>
         <div>
-          <label className="" htmlFor="name">
+          <label className="form-label" htmlFor="name">
             Name
           </label>
           <input
             type="text"
-            className=""
+            className="form-input"
             id="name"
             name="name"
-            value={product.name}
+            value={editedProduct.name}
             onChange={handleChange}
           />
         </div>
         <div>
-          <label className="" htmlFor="price">
+          <label className="form-label" htmlFor="price">
             Price
           </label>
           <input
             type="number"
-            className=""
+            className="form-input"
             id="price"
             name="price"
-            value={product.price}
+            value={editedProduct.price}
             onChange={handleChange}
           />
         </div>
-        <div className="">
-          <label className="" htmlFor="category">
+        <div className="form-group">
+          <label className="form-label" htmlFor="category">
             Category
           </label>
           <select
             name="category"
-            value={product.category}
+            value={editedProduct.category}
             onChange={handleChange}
-            className=""
+            className="select-input"
           >
-            {props.category.map((c, i) => (
+            {category.map((c, i) => (
               <option key={i} value={c}>
                 {c}
               </option>
             ))}
           </select>
         </div>
-        <div className="">
-          <label className="" htmlFor="brand">
+        <div className="form-group">
+          <label className="form-label" htmlFor="brand">
             Brand
           </label>
           <select
             name="brand"
-            value={product.brand}
+            value={editedProduct.brand}
             onChange={handleChange}
-            className=""
+            className="select-input"
           >
-            {props.brand.map((b, i) => (
+            {brand.map((b, i) => (
               <option key={i} value={b}>
                 {b}
               </option>
             ))}
           </select>
         </div>
-        <div className="">
-          <label className="" htmlFor="imgurl">
+        <div className="form-group">
+          <label className="form-label" htmlFor="imgurl">
             Image URL
           </label>
           <input
@@ -112,28 +137,32 @@ export default function EditProductForm(props) {
             className="form-input"
             id="imgurl"
             name="imgurl"
-            value={product.imgurl}
+            value={editedProduct.imgurl}
             onChange={handleChange}
           />
         </div>
-        <div className="">
-          <label className="" htmlFor="description">
+        <div className="form-group">
+          <label className="form-label" htmlFor="description">
             Description
           </label>
           <textarea
-            className=""
+            className="form-input"
             id="description"
             name="description"
-            value={product.description}
+            value={editedProduct.description}
             onChange={handleChange}
             style={{ resize: "both" }} // make the textarea resizable
           />
         </div>
         <div>
-          <button onClick={handleUpdate} className="">
+          <button onClick={handleEdit} className="btn btn-dark mx-4">
             Save Changes
           </button>
-          <button onClick={handleCancel} type="button" className="">
+          <button
+            onClick={handleCancel}
+            type="button"
+            className="btn btn-secondary mx-4"
+          >
             Cancel
           </button>
         </div>

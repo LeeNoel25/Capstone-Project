@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function AddProductsForm({  addProduct,  category,  brand,  products,}) {
+export default function AddProductsForm({
+  addProduct,
+  category,
+  brand,
+  products,
+}) {
   const navigate = useNavigate();
   const defaultCategory = category[0];
   const defaultBrand = brand[0];
@@ -117,29 +122,29 @@ export default function AddProductsForm({  addProduct,  category,  brand,  produ
           />
         </div>
         <div>
-        <label htmlFor="category" className="form-label">
-          Category
-        </label>
-        <input
-          type="text"
-          name="category"
-          value={product.category}
-          onChange={handleChange}
-          className="form-input"
-        />
-      </div>
-      <div>
-        <label htmlFor="brand" className="form-label">
-          Brand
-        </label>
-        <input
-          type="text"
-          name="brand"
-          value={product.brand}
-          onChange={handleChange}
-          className="form-input"
-        />
-      </div>
+          <label htmlFor="category" className="form-label">
+            Category
+          </label>
+          <input
+            type="text"
+            name="category"
+            value={product.category}
+            onChange={handleChange}
+            className="form-input"
+          />
+        </div>
+        <div>
+          <label htmlFor="brand" className="form-label">
+            Brand
+          </label>
+          <input
+            type="text"
+            name="brand"
+            value={product.brand}
+            onChange={handleChange}
+            className="form-input"
+          />
+        </div>
         <div>
           {product.brand === "Other" && (
             <div>
@@ -181,11 +186,7 @@ export default function AddProductsForm({  addProduct,  category,  brand,  produ
           <button onClick={handleSubmit} className="">
             Submit
           </button>
-          <button
-            onClick={handleCancel}
-            type="button"
-            className=""
-          >
+          <button onClick={handleCancel} type="button" className="">
             Cancel
           </button>
         </div>
