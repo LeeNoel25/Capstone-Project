@@ -9,7 +9,7 @@ router
   .get("/:id", isAuth, productsController.show)
   .post("/AdminProduct/new", isAuth, productsController.create)
   .delete("/AdminProduct/:id", isAuth, productsController.delete)
-  .put("/AdminProduct/:id/edit", isAuth, productsController.update);
+  .put("/productpage/:id/edit", isAuth, productsController.update);
 
 // router.get("/", productsController.index);
 // router.get("/:id", isAuth, productsController.show);

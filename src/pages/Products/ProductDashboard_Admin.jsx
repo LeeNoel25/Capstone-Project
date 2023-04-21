@@ -72,7 +72,7 @@ export default function ProductsForm({ products, delProduct }) {
                   <td>{p.brand}</td>
                   <td className="">{p.imgurl}</td>
                   <td className="">
-                    <Link to={`/productpage/products/${p._id}/edit`}>
+                    <Link to={`/productpage/${p._id}/edit`}>
                       <button className="">Edit</button>
                     </Link>
                     <DeleteProductBtn id={p._id} delProduct={delProduct} />

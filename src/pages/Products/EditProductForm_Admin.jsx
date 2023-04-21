@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-export default function EditProductForm(category, brand) {
+export default function EditProductForm(category, brand, products, handleEditProduct ) {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState({});

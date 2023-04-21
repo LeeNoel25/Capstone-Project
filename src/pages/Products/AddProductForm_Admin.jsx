@@ -95,17 +95,17 @@ export default function AddProductsForm({  addProduct,  category,  brand,  produ
       <div className="">
         <h1>Add Product</h1>
         <div>
-          <label className="">Product Name</label>
+          <label className="form-label">Product Name</label>
           <input
             type="text"
             name="name"
             value={product.name}
             onChange={handleChange}
-            className=""
+            className="form-input"
           />
         </div>
         <div>
-          <label htmlFor="price" className="">
+          <label htmlFor="price" className="form-label">
             Price
           </label>
           <input
@@ -113,44 +113,33 @@ export default function AddProductsForm({  addProduct,  category,  brand,  produ
             name="price"
             value={product.price}
             onChange={handleChange}
-            className=""
+            className="form-input"
           />
         </div>
         <div>
-          <label htmlFor="category" className="">
-            Category
-          </label>
-          <select
-            name="category"
-            value={product.category}
-            onChange={handleChange}
-            className=""
-          >
-            {category.map((c, i) => (
-              <option key={i} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label htmlFor="brand" className="">
-            Brand
-          </label>
-          <select
-            name="brand"
-            value={product.brand}
-            onChange={handleChange}
-            className=""
-          >
-            {brand.map((b, i) => (
-              <option key={i} value={b}>
-                {b}
-              </option>
-            ))}
-            <option value="Other">Other</option>
-          </select>
-        </div>
+        <label htmlFor="category" className="form-label">
+          Category
+        </label>
+        <input
+          type="text"
+          name="category"
+          value={product.category}
+          onChange={handleChange}
+          className="form-input"
+        />
+      </div>
+      <div>
+        <label htmlFor="brand" className="form-label">
+          Brand
+        </label>
+        <input
+          type="text"
+          name="brand"
+          value={product.brand}
+          onChange={handleChange}
+          className="form-input"
+        />
+      </div>
         <div>
           {product.brand === "Other" && (
             <div>
@@ -160,13 +149,13 @@ export default function AddProductsForm({  addProduct,  category,  brand,  produ
                 value={newBrand}
                 placeholder="Enter a new brand"
                 onChange={handleNewBrandChange}
-                className=""
+                className="form-input"
               />
             </div>
           )}
         </div>
         <div>
-          <label htmlFor="imgurl" className="">
+          <label htmlFor="imgurl" className="form-label">
             Picture URL
           </label>
           <input
@@ -174,18 +163,18 @@ export default function AddProductsForm({  addProduct,  category,  brand,  produ
             name="imgurl"
             value={product.imgurl}
             onChange={handleChange}
-            className=""
+            className="form-input"
           />
         </div>
         <div>
-          <label htmlFor="description" className="">
+          <label htmlFor="description" className="form-label">
             Description
           </label>
           <textarea
             name="description"
             value={product.description}
             onChange={handleChange}
-            className=""
+            className="form-input"
           ></textarea>
         </div>
         <div>

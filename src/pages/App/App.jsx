@@ -122,46 +122,21 @@ useEffect(() => {
     <div className="centered-message">Access denied</div>
   );
 
-  const memberPagesRoutes = [
-    ...productsPageRoutes,
-    {
-      path: "/map",
-      element: <Map />,
-    },
-    {
-      path: "/booking",
-      element: <BookingPage />,
-    },
-    {
-      path: "/history",
-      element: <BookingPlanner />,
-    },
+  const memberPagesRoutes = [    ...productsPageRoutes,    
+    {      path: "/map",      element: <Map />,    },
+    {      path: "/booking",      element: <BookingPage />,    },
+    {      path: "/history",      element: <BookingPlanner />,    },
   ];
 
   const groomerRouteConfig = [
-    {
-      path: "/admin/*",
-      element: <Admin />,
-    },
-    {
-      path: "/groomer/:id/*",
-      element: <Groomer />,
-    },
-    {
-      path: "/groomer/edit/:id",
-      element: <Edit />,
-    },
-    {
-      path: "/newGroomer",
-      element: <NewGroomer />,
-    },
+    {      path: "/admin/*",      element: <Admin />,    },
+    {      path: "/groomer/:id/*",      element: <Groomer />,    },
+    {      path: "/groomer/edit/:id",      element: <Edit />,    },
+    {      path: "/newGroomer",      element: <NewGroomer />,    },
   ];
 
   const adminRouteConfig = [
-    {
-      path: "/productpage",
-      element: <ProductsForm products={products} delProduct={delProduct} />,
-    },
+    {      path: "/productpage",      element: <ProductsForm products={products} delProduct={delProduct} />,    },
     {
       path: "/productpage/new",
       element: (
@@ -173,8 +148,7 @@ useEffect(() => {
         />
       ),
     },
-    {
-      path: "/productpage/products/:productID/edit",
+    { path: "/productpage/products/:productID/edit",
       element: (
         <EditProductForm
           products={products}
@@ -184,14 +158,8 @@ useEffect(() => {
         />
       ),
     },
-    {
-      path: "/adminlocation",
-      element: <InventoryPage />,
-    },
-    {
-      path: "/adminlocation/edit",
-      element: <AddInventory />,
-    },
+    {      path: "/adminlocation",      element: <InventoryPage />,    },
+    {      path: "/adminlocation/edit",      element: <AddInventory />,    },
   ];
 
   const loggedInRoleSpecificRoutes = [
@@ -219,8 +187,7 @@ useEffect(() => {
         </Routes>
       ),
     },
-    {
-      role: "admin",
+    { role: "admin",
       content: (
         <Routes>
           {memberPagesRoutes.map((config) => (
@@ -245,8 +212,7 @@ useEffect(() => {
         </Routes>
       ),
     },
-    {
-      role: "member",
+    { role: "member",
       content: (
         <Routes>
           {memberPagesRoutes.map((config) => (

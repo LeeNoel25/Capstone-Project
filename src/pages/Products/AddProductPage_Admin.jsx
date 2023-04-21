@@ -1,12 +1,12 @@
-import AddProductForm from "./AddProductForm_Admin";
+// import AddProductForm from "./AddProductForm_Admin";
 
-export default function AddProductPage () {
-  return (
-    <>
-      <div className="">
-        <h1 className="">New Product</h1>
-        <AddProductForm />
-      </div>
-    </>
-  );
-};
+// export default function AddProductPage () {
+//   return (
+//     <>
+//       <div className="">
+//         <h1 className="">New Product</h1>
+//         <AddProductForm />
+//       </div>
+//     </>
+//   );
+// };
