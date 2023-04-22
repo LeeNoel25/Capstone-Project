@@ -14,12 +14,13 @@ export default function Admin() {
 
   useEffect(() => {
     const adminToken = localStorage.getItem("token");
-    console.log(JSON.stringify(adminToken))
-    console.log(adminToken)
+    console.log(JSON.stringify(adminToken));
+    console.log(adminToken);
 
     if (adminToken) {
-      JSON.parse(window.atob(adminToken.split(".")[1])).member.role === "admin" && setIsAuth(adminToken);
-    } 
+      JSON.parse(window.atob(adminToken.split(".")[1])).member.role ===
+        "admin" && setIsAuth(adminToken);
+    }
     axios.get("/api/map").then((response) => {
       setLocations(response.data);
     });
@@ -29,15 +30,12 @@ export default function Admin() {
     async function fetchGroomers() {
       try {
         if (isAuth && selectedLocation !== "") {
-          const response = await axios.get(
-            `/api/groomer/${selectedLocation}`,
-            {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-              },
-            }
-          );
+          const response = await axios.get(`/api/groomer/${selectedLocation}`, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          });
           setGroomers(response.data);
         }
       } catch (error) {
@@ -53,7 +51,7 @@ export default function Admin() {
 
   const handleDelete = async (id) => {
     const adminToken = localStorage.getItem("token");
-    
+
     try {
       const response = await axios.delete(`/api/groomer/${id}`, {
         headers: {
@@ -106,19 +104,14 @@ export default function Admin() {
               </select>
             </div>
           </div>
-          {groomer && groomer.length > 0 ? (
+          {groomers && groomers.length > 0 ? (
             <div className="">
               <div className="">
-                <h2>groomer</h2>
+                <h2>Groomers</h2>
                 <ul className="">
-                  {groomer.map((groomer) => (
-                    <li
-                      className=""
-                      key={groomer._id}
-                    >
-                      <Link to={`/groomer/${groomer._id}`}>
-                        {groomer.name}
-                      </Link>
+                  {groomers.map((groomer) => (
+                    <li className="" key={groomer._id}>
+                      <Link to={`/groomer/${groomer._id}`}>{groomer.name}</Link>
                       <button
                         className=""
                         onClick={() => handleDelete(groomer._id)}

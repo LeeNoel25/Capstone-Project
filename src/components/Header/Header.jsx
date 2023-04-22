@@ -101,7 +101,7 @@ export default function Header({ setUser, member }) {
                       <React.Fragment>
                         <li>
                           <a onClick={() => navigate("/admin")}>
-                            Groomer Scheduling
+                            Groomer Management
                           </a>
                         </li>
                       </React.Fragment>

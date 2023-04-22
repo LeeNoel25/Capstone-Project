@@ -12,7 +12,7 @@ import WithNavBar from "../../components/NavBars/WithNavBar.jsx";
 //pages.admin
 import Admin from "../Admin/Admin.jsx";
 import Groomer from "../Admin/Groomer.jsx";
-import NewGroomer from "../Admin/CreateGroomer.jsx";
+import CreateGroomer from "../Admin/CreateGroomer.jsx";
 import Edit from "../Admin/EditGroomer.jsx";
 //pages.auth
 import SignUpForm from "../AuthPage/SignUpForm.jsx";
@@ -116,21 +116,20 @@ export default function App() {
     <div className="centered-message">Access denied</div>
   );
 
-  const memberPagesRoutes = [
-    ...productsPageRoutes,
+  const memberPagesRoutes = [ ...productsPageRoutes,
     { path: "/map", element: <Map /> },
     { path: "/booking", element: <BookingPage /> },
     { path: "/history", element: <BookingPlanner /> },
   ];
 
-  const groomerRouteConfig = [
+  const groomerRouteConfig = [ ...productsPageRoutes,
     { path: "/admin/*", element: <Admin /> },
     { path: "/groomer/:id/*", element: <Groomer /> },
     { path: "/groomer/edit/:id", element: <Edit /> },
-    { path: "/newGroomer", element: <NewGroomer /> },
+    { path: "/newGroomer", element: <CreateGroomer /> },
   ];
 
-  const adminRouteConfig = [
+  const adminRouteConfig = [ ...groomerRouteConfig,
     {
       path: "/productpage",
       element: <ProductsForm products={products} delProduct={delProduct} />,
