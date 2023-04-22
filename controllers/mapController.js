@@ -43,9 +43,27 @@ const updateLocation = async (req, res) => {
   }
 };
 
+const seedLocation = async (req, res) => {
+  try {
+    const existingLocation = await Location.findOne({ name: "Rabbit Headquarters" });
+    if (existingLocation) {
+      return res.status(400).json({ error: "Location already exists" });
+    }
+    const locationData = await Location.create({
+      name: "Rabbit Headquarters",
+      products: [], // Empty products array since the store has no products yet
+      latitude: "1.364917",
+      longitude: "103.877438",
+    });
+    res.status(200).json(locationData);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
 
 module.exports = { 
     showLocations,
     enterLocations,
-    updateLocation 
+    updateLocation,
+    seedLocation 
 };
