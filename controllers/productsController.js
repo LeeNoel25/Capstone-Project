@@ -55,7 +55,6 @@ const deleteProduct = async (req, res) => {
 
 module.exports = {
   create,
-  // seed,
   index,
   delete: deleteProduct,
   update,

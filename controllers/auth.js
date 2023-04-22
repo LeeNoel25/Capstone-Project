@@ -29,21 +29,6 @@ const isAuth = async (req, res, next) => {
   }
 };
 
-// const isAuth = (req, res, next) => {
-//   try {
-//     const token = req.header("Authorization").replace("Bearer ", "");
-//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-//     req.user = decoded;
-//     if (decoded.role === "admin") {
-//       next();
-//     } else {
-//       throw new Error("Not authorized as admin");
-//     }
-//   } catch (error) {
-//     res.status(401).send({ error: "Please authenticate." });
-//   }
-// };
-
 module.exports = {
   isAuth,
 };

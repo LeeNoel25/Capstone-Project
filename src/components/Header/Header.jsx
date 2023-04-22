@@ -73,7 +73,7 @@ export default function Header({ setUser, member }) {
                   </ul>
                 </li>
               )}
-              {["groomer", "admin"].includes(member.role) && (
+              {["admin"].includes(member.role) && (
                 <li>
                   <a
                     id="navbarDropdownMenuLink"
@@ -90,12 +90,12 @@ export default function Header({ setUser, member }) {
                             Product Portfolio
                           </a>
                         </li>
-                        <li>
+                        {/* <li>
                           <a onClick={() => navigate("/adminlocation")}>
                             Inventory Management
                           </a>
-                        </li>
-                      </React.Fragment>
+                        </li> */}
+                      {/* </React.Fragment>
                     )}
                     {role === "admin" && (
                       <React.Fragment>
@@ -112,7 +112,7 @@ export default function Header({ setUser, member }) {
                           <a onClick={() => navigate("/history")}>
                             Upcoming Bookings
                           </a>
-                        </li>
+                        </li> */}
                       </React.Fragment>
                     )}
                     <li>

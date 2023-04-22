@@ -20,7 +20,7 @@ const memberSchema = new Schema({
     type: String,
     required: true,
     default: "member",
-    enum: ["groomer", "member", "admin"],
+    enum: ["member", "admin"],
   },
 });
 

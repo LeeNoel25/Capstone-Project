@@ -6,16 +6,16 @@ const SALT_ROUNDS = 10;
 
 const seed = async (req, res) => {
   try {
-    const existingMember = await Member.findOne({ email: "gro@gro" });
+    const existingMember = await Member.findOne({ email: "admin@admin" });
     if (existingMember) {
-      return res.status(400).json({ error: "User already exists" });
+      return res.status(400).json({ error: "Admin user already exists" });
     }
     const hashedPassword = await bcrypt.hash("111", SALT_ROUNDS);
     const memberData = await Member.create({
-      name: "groomer",
-      email: "gro@gro",
+      name: "admin",
+      email: "admin@admin",
       password: hashedPassword,
-      role: "groomer",
+      role: "admin",
     });
     res.status(200).json(memberData);
   } catch (error) {
@@ -24,7 +24,7 @@ const seed = async (req, res) => {
 };
 
 // create function redeclared, which was already declared in the Product controller. If they are in the same file, you should rename one of the create functions, such as createMember.
-const createMember = async (req, res) => {
+const create = async (req, res) => {
   const { email, password, name } = req.body;
   if (password.length < 3) {
     return res.status(400).json({ error: "password too short" });
@@ -105,7 +105,7 @@ const resetPassword = async (req, res) => {
 
 module.exports = {
   seed,
-  createMember,
+  create,
   login,
   resetPassword,
 };

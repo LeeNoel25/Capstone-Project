@@ -1,9 +1,9 @@
-import InventoryTable from "./InventoryTable";
+// import InventoryTable from "./InventoryTable";
 
-export default function () {
-  return (
-    <div>
-      <InventoryTable/>
-    </div>
-  );
-}
+// export default function () {
+//   return (
+//     <div>
+//       <InventoryTable/>
+//     </div>
+//   );
+// }

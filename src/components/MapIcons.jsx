@@ -1,17 +1,17 @@
-import * as L from "leaflet";
-import PharmacistNotAvailable from "../../../assets/mapIcons/PharmacistNotAvailable.png";
+// import * as L from "leaflet";
+// import PharmacistNotAvailable from "../../../assets/mapIcons/PharmacistNotAvailable.png";
 
-const Icon = L.Icon.extend({
-  options: {},
-});
+// const Icon = L.Icon.extend({
+//   options: {},
+// });
 
-const noPharmIcon = new Icon({
-  iconUrl: PharmacistNotAvailable,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
-});
+// const noPharmIcon = new Icon({
+//   iconUrl: PharmacistNotAvailable,
+//   iconSize: [40, 40],
+//   iconAnchor: [20, 40],
+// });
 
-export {
+// export {
 
-  noPharmIcon,
-};
+//   noPharmIcon,
+// };
