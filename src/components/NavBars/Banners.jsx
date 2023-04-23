@@ -19,7 +19,7 @@ export default function () {
             height: 95,
           }}
         >
-          <SephoraIcon/>
+          <SephoraIcon />
           <img src="https://i.imgur.com/d3tmwL3.png" alt="Banner Image 2"></img>
         </div>
       </div>

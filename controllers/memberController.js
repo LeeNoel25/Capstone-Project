@@ -23,7 +23,6 @@ const seed = async (req, res) => {
   }
 };
 
-// create function redeclared, which was already declared in the Product controller. If they are in the same file, you should rename one of the create functions, such as createMember.
 const create = async (req, res) => {
   const { email, password, name } = req.body;
   if (password.length < 3) {

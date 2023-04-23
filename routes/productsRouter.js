@@ -6,21 +6,9 @@ const { isAuth } = require("../controllers/auth");
 //refactored router code
 router
   .get("/", productsController.index)
-  .get("/:id", isAuth, productsController.show)
+  .get("/:id", productsController.show)
   .post("/AdminProduct/new", isAuth, productsController.create)
   .delete("/products/:id", isAuth, productsController.delete)
   .put("/productpage/:id/edit", isAuth, productsController.update);
-  // .put("/productpage/:id", isAuth, productsController.update);
-
-// router.get("/", productsController.index);
-// router.get("/:id", isAuth, productsController.show);
-// router.post("/", isAuth, productsController.create);
-// router.delete("/:id", isAuth, productsController.delete);
-// router.put("/:id", isAuth, productsController.update);
-
-// router.get("/seed", productsController.seed);
-// router.post("/", isAuth(["Admin"]), productsController.create);
-// router.delete("/:id", isAuth(["Admin"]), productsController.delete);
-// router.put("/:id", isAuth(["Admin"]), productsController.update);
 
 module.exports = router;

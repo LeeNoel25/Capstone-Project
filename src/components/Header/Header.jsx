@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../../utilities/members-service";
+import { CartContext } from "../../pages/OrderPage/CartContext";
+import CartProduct from "../../components/Cart/CartProduct";
 
 export default function Header({ setUser, member }) {
   const isSignedIn = !!member;
@@ -8,12 +10,31 @@ export default function Header({ setUser, member }) {
   const location = useLocation();
   const { role } = member || {};
 
+  const cart = useContext(CartContext);
+  const [showCart, setShowCart] = useState(false);
+  const productsCount = cart.items.reduce(
+    (sum, product) => sum + product.quantity,
+    0
+  );
+
   const handleLogout = (e) => {
     e.preventDefault();
     setUser(null);
     logout();
     navigate("/login");
   };
+
+  const handleCartButtonClick = () => {
+    setShowCart(!showCart);
+  };
+
+  const cartItems = cart.items.map((currentProduct, idx) => (
+    <CartProduct
+      key={idx}
+      id={currentProduct.id}
+      quantity={currentProduct.quantity}
+    />
+  ));
 
   return (
     <nav>
@@ -38,6 +59,24 @@ export default function Header({ setUser, member }) {
                     Register
                   </Link>
                 </li>
+                <li>
+                  <button onClick={handleCartButtonClick}>
+                    Cart ({productsCount} Items)
+                  </button>
+                  {showCart && (
+                    <div>
+                      <h2>Shopping Cart</h2>
+                      {productsCount > 0 ? (
+                        <>
+                          <p>Items in your cart:</p>
+                          {cartItems}
+                        </>
+                      ) : (
+                        <h3>The cart is empty</h3>
+                      )}
+                    </div>
+                  )}
+                </li>
               </React.Fragment>
             )}
             {!!member && (
@@ -58,20 +97,40 @@ export default function Header({ setUser, member }) {
           {isSignedIn && (
             <ul>
               {["member"].includes(member.role) && (
-                <li>
-                  <a
-                    id="navbarDropdownMenuLink"
-                    role="button"
-                    aria-expanded="false"
-                  >
-                    My Account
-                  </a>
-                  <ul aria-labelledby="navbarDropdownMenuLink">
-                    <li>
-                      <a onClick={handleLogout}>Log Out</a>
-                    </li>
-                  </ul>
-                </li>
+                <React.Fragment>
+                  <li>
+                    <a
+                      id="navbarDropdownMenuLink"
+                      role="button"
+                      aria-expanded="false"
+                    >
+                      My Account
+                    </a>
+                    <ul aria-labelledby="navbarDropdownMenuLink">
+                      <li>
+                        <a onClick={handleLogout}>Log Out</a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <button onClick={handleCartButtonClick}>
+                      Cart ({productsCount} Items)
+                    </button>
+                    {showCart && (
+                      <div>
+                        <h2>Shopping Cart</h2>
+                        {productsCount > 0 ? (
+                          <>
+                            <p>Items in your cart:</p>
+                            {cartItems}
+                          </>
+                        ) : (
+                          <h3>The cart is empty</h3>
+                        )}
+                      </div>
+                    )}
+                  </li>
+                </React.Fragment>
               )}
               {["admin"].includes(member.role) && (
                 <li>
@@ -90,29 +149,6 @@ export default function Header({ setUser, member }) {
                             Product Portfolio
                           </a>
                         </li>
-                        {/* <li>
-                          <a onClick={() => navigate("/adminlocation")}>
-                            Inventory Management
-                          </a>
-                        </li> */}
-                      {/* </React.Fragment>
-                    )}
-                    {role === "admin" && (
-                      <React.Fragment>
-                        <li>
-                          <a onClick={() => navigate("/admin")}>
-                            Groomer Management
-                          </a>
-                        </li>
-                      </React.Fragment>
-                    )}
-                    {role === "groomer" && (
-                      <React.Fragment>
-                        <li>
-                          <a onClick={() => navigate("/history")}>
-                            Upcoming Bookings
-                          </a>
-                        </li> */}
                       </React.Fragment>
                     )}
                     <li>

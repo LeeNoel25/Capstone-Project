@@ -15,6 +15,33 @@ const memberRouter = require("./routes/memberRouter");
 
 //-------------------------------------------------------
 
+// //Stripe
+// app.post("/checkout", async (req, res) => {
+//   console.log(req.body);
+//   const items = req.body.items;
+//   let lineItems = [];
+//   items.forEach((item)=> {
+//       lineItems.push(
+//           {
+//               price: item.id,
+//               quantity: item.quantity
+//           }
+//       )
+//   });
+
+//   const session = await stripe.checkout.sessions.create({
+//       line_items: lineItems,
+//       mode: 'payment',
+//       success_url: "http://localhost:3001/order",
+//       cancel_url: "http://localhost:3001/order"
+//   });
+
+//   res.send(JSON.stringify({
+//       url: session.url
+//   }));
+// });
+
+//------------------------------
 const app = express();
 
 app.use(logger("dev"));
@@ -22,7 +49,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "dist")));
 
 //-------------------------------Routes------------------
-app.use("/api/", productsRouter);
+app.use("/api/products", productsRouter);
 //app.use("/api/products", productsRouter);
 app.use("/api/member", memberRouter);
 // app.use("/api/groomer", groomerRouter);
