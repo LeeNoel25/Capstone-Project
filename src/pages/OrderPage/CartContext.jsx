@@ -60,7 +60,7 @@ export function CartProvider({ children }) {
       setCartProducts(
         cartProducts.map(
           (product) =>
-            product.id === _id // if condition
+            product._id === _id // if condition
               ? { ...product, quantity: product.quantity - 1 } // if statement is true
               : product // if statement is false
         )
@@ -71,7 +71,7 @@ export function CartProvider({ children }) {
   function deleteFromCart(_id) {
     setCartProducts((cartProducts) =>
       cartProducts.filter((currentProduct) => {
-        return currentProduct.id != _id;
+        return currentProduct._id != _id;
       })
     );
   }

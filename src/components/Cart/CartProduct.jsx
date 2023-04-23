@@ -1,29 +1,21 @@
-
-import { CartContext } from "../../pages/OrderPage/CartContext";
-import { useState, useContext } from "react";
-import { getProductData } from "../../utilities/productStore";
+import * as React from "react";
+import { CartContextNew } from "../../pages/OrderPage/CartContextNew";
+import Button from "@mui/material/Button";
 
 function CartProduct(props) {
-    const cart = useContext(CartContext);
-    const id = props.id;
-    const quantity = props.quantity;
-    const productData = getProductData(id);
+  const cartContext = React.useContext(CartContextNew);
 
-    const [products, setProducts] = useState([]);
-/* 
-    useEffect(() => {
-        async function fetchProducts
-    }, []); */
-
-    return (
-        <>
-            <h3>{productData.title}</h3>
-            <p>{quantity} total</p>
-            <p>${ (quantity * productData.price).toFixed(2) }</p>
-            <Button size="sm" onClick={() => cart.deleteFromCart(id)}>Remove</Button>
-            <hr></hr>
-        </>
-    )
+  return (
+    <React.Fragment>
+      <h3>{props.item.name}</h3>
+      <p>{props.quantity} total</p>
+      <p>${(props.quantity * props.item.price).toFixed(2)}</p>
+      <Button size="sm" onClick={() => cartContext.removeCartItem(props.item)}>
+        Remove!!
+      </Button>
+      <hr></hr>
+    </React.Fragment>
+  );
 }
 
 export default CartProduct;

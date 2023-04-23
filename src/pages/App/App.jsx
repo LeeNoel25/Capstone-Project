@@ -1,8 +1,8 @@
 // src
-// import "../index.css";
+import "../../index.css";
 import React from "react";
 import { Route, Routes } from "react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext } from "react";
 import { Link } from "react-router-dom";
 
 //OrderCart
@@ -25,6 +25,7 @@ import ProductsForm from "../Products/ProductDashboard_Admin.jsx";
 import ProductsPage from "../Products/AllProductsPage_Guest.jsx";
 //pages.msc
 import { getMember } from "../../utilities/members-service.js";
+import { CartContextNew } from "../OrderPage/CartContextNew";
 
 export default function App() {
   const [user, setUser] = useState(getMember());
@@ -32,127 +33,171 @@ export default function App() {
   const [sortByCategory, setSortByCategory] = useState("");
   const [category, setCategory] = useState([]);
   const [brand, setBrand] = useState([]);
+  const [cartItemCount, setCartItemCount] = useState(0);
+  const [cartItems, setCartItems] = useState([]);
+
   //xx
   const token = localStorage.getItem("token");
   const member = token ? JSON.parse(window.atob(token.split(".")[1])) : null;
 
   // Functions
-const addProduct = (product, error) => {
-  if (error) {
-    console.error(error);
-    return;
-  }
-  // Add the product to the products list
-  setProducts(prevProducts => [...prevProducts, product]);
-};
-
-const delProduct = id => setProducts(prevProducts =>
-  prevProducts.filter(product => product._id !== id)
-);
-
-const handleEditProduct = editedProduct => setProducts(prevProducts =>
-  prevProducts.map(product =>
-    product._id === editedProduct._id ? editedProduct : product
-  )
-);
-
-// Effects
-useEffect(() => {
-  const categories = [...new Set(products.map(p => p.category))];
-  setCategory(categories);
-
-  const brands = [...new Set(products.map(p => p.brand))];
-  setBrand(brands);
-}, [products]);
-
-useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const response = await fetch("/api/");
-      const data = await response.json();
-      setProducts(data);
-    } catch (error) {
+  const addProduct = (product, error) => {
+    if (error) {
       console.error(error);
+      return;
+    }
+    // Add the product to the products list
+    setProducts((prevProducts) => [...prevProducts, product]);
+  };
+
+  const delProduct = (id) =>
+    setProducts((prevProducts) =>
+      prevProducts.filter((product) => product._id !== id)
+    );
+
+  const handleEditProduct = (editedProduct) =>
+    setProducts((prevProducts) =>
+      prevProducts.map((product) =>
+        product._id === editedProduct._id ? editedProduct : product
+      )
+    );
+
+  // Effects
+  useEffect(() => {
+    const categories = [...new Set(products.map((p) => p.category))];
+    setCategory(categories);
+
+    const brands = [...new Set(products.map((p) => p.brand))];
+    setBrand(brands);
+  }, [products]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/products");
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const addCartItem = (item) => {
+    setCartItemCount(cartItemCount + 1);
+    for (let i = 0; i < cartItems.length; i++) {
+      if (cartItems[i].product._id === item._id) {
+        cartItems[i].quantity++;
+        return;
+      }
+    }
+    setCartItems([
+      ...cartItems,
+      {
+        product: item,
+        quantity: 1,
+      },
+    ]);
+  };
+
+  const removeCartItem = (item) => {
+    for (let i = cartItems.length - 1; i >= 0; i--) {
+      if (cartItems[i].product._id === item._id) {
+        setCartItemCount(cartItemCount - cartItems[i].quantity);
+        cartItems.splice(i, 1);
+        setCartItems([...cartItems]);
+        return;
+      }
     }
   };
-  fetchData();
-}, []);
 
-// Routes
-const loginRoutes = [
-  {
-    path: "/login",
-    element: <LoginForm setUser={setUser} />
-  },
-  {
-    path: "/signup",
-    element: <SignUpForm />
-  },
-  {
-    path: "/forgetpassword",
-    element: <ForgetPassword />
-  }
-];
+  const updateCartItem = () => {};
+  const cartContextValue = {
+    cartItemCount,
+    cartItems,
+    addCartItem,
+    removeCartItem,
+    updateCartItem,
+  };
+  // Routes
+  const loginRoutes = [
+    {
+      path: "/login",
+      element: <LoginForm setUser={setUser} />,
+    },
+    {
+      path: "/signup",
+      element: <SignUpForm />,
+    },
+    {
+      path: "/forgetpassword",
+      element: <ForgetPassword />,
+    },
+  ];
 
-const guestsRoutes = [
-  {
-    path: "/",
-    element: (
-      <ProductsPage
-        products={products}
-        category={category}
-        sortByCategory={sortByCategory}
-        setSortByCategory={setSortByCategory}
-      />
-    )
-  },
-  {
-    path: "/order",
-    element: <OrderCart />
-  },
-  {
-    path: "/products/:productName",
-    element: <SelectedProductPage products={products} />
-  }
-];
+  const addItemToCart = (item) => {};
 
-const accessDeniedComponent = (
-  <div className="centered-message">Access denied</div>
-);
+  const guestsRoutes = [
+    {
+      path: "/",
+      element: (
+        <CartContextNew.Provider value={cartContextValue}>
+          <ProductsPage
+            products={products}
+            category={category}
+            sortByCategory={sortByCategory}
+            setSortByCategory={setSortByCategory}
+            onAddItemToCart={addItemToCart}
+          />
+        </CartContextNew.Provider>
+      ),
+    },
+    {
+      path: "/order",
+      element: <OrderCart />,
+    },
+    {
+      path: "/products/:productName",
+      element: <SelectedProductPage products={products} />,
+    },
+  ];
 
-const memberRoutes = [
-  ...guestsRoutes,
-];
+  const accessDeniedComponent = (
+    <div className="centered-message">Access denied</div>
+  );
 
-const adminRouteConfig = [
-  ...memberRoutes,
-  {
-    path: "/productpage",
-    element: <ProductsForm products={products} delProduct={delProduct} />
-  },
-  {
-    path: "/productpage/new",
-    element: (
-      <AddProductForm
-        products={products}
-        addProduct={addProduct}
-        category={category}
-        brand={brand}
-      />
-    )
-  },
-  {
-    path: "/productpage/:productID/edit",
-    element: (
-      <EditProductForm
-        products={products}
-        category={category}
-        brand={brand}
-        handleEditProduct={handleEditProduct}
-      />
-    )
-  }
-];
+  const memberRoutes = [...guestsRoutes];
+
+  const adminRouteConfig = [
+    ...memberRoutes,
+    {
+      path: "/productpage",
+      element: <ProductsForm products={products} delProduct={delProduct} />,
+    },
+    {
+      path: "/productpage/new",
+      element: (
+        <AddProductForm
+          products={products}
+          addProduct={addProduct}
+          category={category}
+          brand={brand}
+        />
+      ),
+    },
+    {
+      path: "/productpage/:productID/edit",
+      element: (
+        <EditProductForm
+          products={products}
+          category={category}
+          brand={brand}
+          handleEditProduct={handleEditProduct}
+        />
+      ),
+    },
+  ];
 
   const loggedInRoleSpecificRoutes = [
     {
@@ -226,7 +271,9 @@ const adminRouteConfig = [
 
   return (
     <main className="App">
-      <Header setUser={setUser} member={member?.member} />
+      <CartContextNew.Provider value={cartContextValue}>
+        <Header setUser={setUser} member={member?.member} />
+      </CartContextNew.Provider>
       {member ? (
         <React.Fragment>{renderLoggedInContent(member.member)}</React.Fragment>
       ) : (

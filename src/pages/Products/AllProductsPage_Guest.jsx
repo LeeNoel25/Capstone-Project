@@ -1,166 +1,96 @@
-import { useEffect, useState, useContext } from "react";
-import { Link } from "react-router-dom";
-import { CartContext } from "../OrderPage/CartContext";
-import { useProducts, getProductData } from "../../utilities/productStore";
+import * as React from "react";
+import * as API from "../../utilities/api";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import Button from "@mui/material/Button";
+import { CartContextNew } from "../OrderPage/CartContextNew";
 
 export default function ProductsPage(props) {
-  const products = useProducts();
-  const { category, initialSortByCategory } = props;
-  const [sortedProducts, setSortedProducts] = useState([]);
-  const [sortByPrice, setSortByPrice] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [sortByCategory, setSortByCategory] = useState(initialSortByCategory);
+  const [products, setProducts] = React.useState([]);
+  const [filteredProducts, setFilteredProducts] = React.useState([]);
+  const [filter, setFilter] = React.useState("");
+  const cardContext = React.useContext(CartContextNew);
 
-  const cart = useContext(CartContext);
-  // supposed to contain {funcA, funcB}
-  console.log(cart.addOneToCart);
-  console.log("Cart object:", cart);
+  React.useEffect(() => {
+    refreshPage();
+  }, []);
 
-  useEffect(() => {
-    let filteredProductsCopy = [...products];
-    if (sortByCategory) {
-      filteredProductsCopy = filteredProductsCopy.filter(
-        (p) => p.category === sortByCategory
-      );
-    }
-    if (sortByPrice === "lowToHigh") {
-      filteredProductsCopy.sort((a, b) => a.price - b.price);
-    } else if (sortByPrice === "highToLow") {
-      filteredProductsCopy.sort((a, b) => b.price - a.price);
-    }
-    if (searchTerm) {
-      filteredProductsCopy = filteredProductsCopy.filter(
-        (p) =>
-          p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          p.brand.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-    setSortedProducts(filteredProductsCopy);
-  }, [searchTerm, sortByCategory, sortByPrice, products]);
+  React.useEffect(() => {
+    // Filtering functions
+    setFilteredProducts(products);
+  }, [products, filter]);
 
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
+  const refreshPage = () => {
+    API.getProducts().then((productData) => {
+      console.log(productData);
+      setProducts(productData);
+    });
   };
 
-  function ProductCard({ product }) {
-    const productQuantity = cart.getProductQuantity(product.id);
-
-    return (
-      <div className="card">
-        <div className="card-body">
-          <h5 className="card-title">{product.name}</h5>
-          <p className="card-text">${product.price}</p>
-          {productQuantity > 0 ? (
-            // Display quantity and remove buttons if product is in cart
-            <>
-              <div>
-                <label>In Cart: {productQuantity}</label>
-                <button
-                  onClick={() => cart.addOneToCart(product.id)}
-                  className="mx-2"
-                >
-                  +
-                </button>
-                <button
-                  onClick={() => cart.removeOneFromCart(product.id)}
-                  className="mx-2"
-                >
-                  -
-                </button>
-              </div>
-              <button
-                onClick={() => cart.deleteFromCart(product.id)}
-                style={{ backgroundColor: "#00A0A0" }}
-                className="my-2"
-              >
-                Remove from cart
-              </button>
-            </>
-          ) : (
-            // Display "Add to cart" button if product is not in cart
-            <button
-              onClick={() => {
-                cart.addOneToCart(product._id);
-                console.log("Button clicked!"); // Add console.log statement here
-              }}
-              style={{ backgroundColor: "#00A0A0" }}
-            >
-              Add To Cart
-            </button>
-          )}
-        </div>
-      </div>
-    );
-  }
+  const addItemToCart = (item) => {
+    props?.onAddItemToCart(item);
+    cardContext.addCartItem(item);
+  };
 
   return (
-    <div>
-      <nav>
-        <div>
-          <div>
-            <label>Search: </label>
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={handleSearchChange}
-              placeholder="Search product or brand"
-            />
-          </div>
-          <div>
-            <label>Sort by Price: </label>
-            <select
-              value={sortByPrice}
-              onChange={(e) => setSortByPrice(e.target.value)}
-            >
-              <option key="all" value="">
-                All Products
-              </option>
-              <option key="lowToHigh" value="lowToHigh">
-                Low to high
-              </option>
-              <option key="highToLow" value="highToLow">
-                High to low
-              </option>
-            </select>
-          </div>
-          <div>
-            <label>Sort by categories: </label>
-            <select
-              value={sortByCategory}
-              onChange={(e) => setSortByCategory(e.target.value)}
-            >
-              <option value="">All categories</option>
-              {category &&
-                category.map((c, i) => (
-                  <option key={i} value={c}>
-                    {c}
-                  </option>
-                ))}
-            </select>
-          </div>
-        </div>
-      </nav>
+    <React.Fragment>
       <div>
-        {sortedProducts.map((p) => (
-          <div key={p._id}>
-            <Link to={`/products/${p.name}`}>
-              <img src={p.imgurl} alt={p.name} />
+        {filteredProducts.map((product) => {
+          return (
+            <div
+              key={product._id}
+              style={{
+                display: "inline-block",
+                border: "1px solid grey",
+                height: "340px",
+                width: "200px",
+                margin: "0px 0px 10px 10px",
+                padding: "10px",
+              }}
+            >
               <div>
-                <h5>{p.brand}</h5>
-                <p>{p.name}</p>
-                <p>
-                  {(p.price / 100).toLocaleString("en-US", {
-                    style: "currency",
-                    currency: "SGD",
-                  })}
-                </p>
+                <img
+                  src={product.imgurl}
+                  style={{
+                    width: "180px",
+                    height: "180px",
+                    objectFit: "cover",
+                  }}
+                />
               </div>
-            </Link>
-            <ProductCard product={p} />
-          </div>
-        ))}
+              <div
+                style={{ fontSize: "14px", color: "#555555", marginTop: "5px" }}
+              >
+                {product.brand}
+              </div>
+              <div style={{ marginTop: "5px", height: "32px" }}>
+                {product.name}
+              </div>
+              <div
+                style={{
+                  fontSize: "18px",
+                  fontWeight: "bold",
+                  marginTop: "10px",
+                }}
+              >
+                ${product.price}
+              </div>
+              <div>
+                <Button
+                  variant="outlined"
+                  style={{ marginTop: "20px" }}
+                  startIcon={<AddShoppingCartIcon />}
+                  onClick={() => {
+                    addItemToCart(product);
+                  }}
+                >
+                  Add To Cart
+                </Button>
+              </div>
+            </div>
+          );
+        })}
       </div>
-    </div>
+    </React.Fragment>
   );
 }
 

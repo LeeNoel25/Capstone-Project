@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../../utilities/members-service";
 import { CartContext } from "../../pages/OrderPage/CartContext";
+import { CartContextNew } from "../../pages/OrderPage/CartContextNew";
 import CartProduct from "../../components/Cart/CartProduct";
 
 export default function Header({ setUser, member }) {
@@ -16,6 +17,7 @@ export default function Header({ setUser, member }) {
     (sum, product) => sum + product.quantity,
     0
   );
+  const cardContext = useContext(CartContextNew);
 
   const handleLogout = (e) => {
     e.preventDefault();
@@ -27,14 +29,6 @@ export default function Header({ setUser, member }) {
   const handleCartButtonClick = () => {
     setShowCart(!showCart);
   };
-
-  const cartItems = cart.items.map((currentProduct, idx) => (
-    <CartProduct
-      key={idx}
-      id={currentProduct.id}
-      quantity={currentProduct.quantity}
-    />
-  ));
 
   return (
     <nav>
@@ -61,15 +55,23 @@ export default function Header({ setUser, member }) {
                 </li>
                 <li>
                   <button onClick={handleCartButtonClick}>
-                    Cart ({productsCount} Items)
+                    Cart ({cardContext.cartItemCount} Items)
                   </button>
                   {showCart && (
                     <div>
                       <h2>Shopping Cart</h2>
-                      {productsCount > 0 ? (
+                      {cardContext.cartItems.length > 0 ? (
                         <>
                           <p>Items in your cart:</p>
-                          {cartItems}
+                          {cardContext.cartItems.map((item) => {
+                            return (
+                              <CartProduct
+                                key={item.product._id}
+                                item={item.product}
+                                quantity={item.quantity}
+                              />
+                            );
+                          })}
                         </>
                       ) : (
                         <h3>The cart is empty</h3>
@@ -114,7 +116,7 @@ export default function Header({ setUser, member }) {
                   </li>
                   <li>
                     <button onClick={handleCartButtonClick}>
-                      Cart ({productsCount} Items)
+                      Cart ({cardContext.items.length} Items)
                     </button>
                     {showCart && (
                       <div>
@@ -122,7 +124,7 @@ export default function Header({ setUser, member }) {
                         {productsCount > 0 ? (
                           <>
                             <p>Items in your cart:</p>
-                            {cartItems}
+                            
                           </>
                         ) : (
                           <h3>The cart is empty</h3>
