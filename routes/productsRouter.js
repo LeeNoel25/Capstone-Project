@@ -8,7 +8,7 @@ router
   .get("/", productsController.index)
   .get("/:id", productsController.show)
   .post("/AdminProduct/new", isAuth, productsController.create)
-  .delete("/products/:id", isAuth, productsController.delete)
+  .delete("/productpage/:id", isAuth, productsController.delete)
   .put("/productpage/:id/edit", isAuth, productsController.update);
 
 module.exports = router;

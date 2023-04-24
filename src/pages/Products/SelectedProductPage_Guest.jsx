@@ -1,64 +1,74 @@
+import * as React from "react";
+import { useEffect, useState, useContext } from "react";
+import * as API from "../../utilities/api";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import Button from "@mui/material/Button";
+import { CartContextNew } from "../OrderPage/CartContextNew";
 import { useParams } from "react-router-dom";
-import { useContext } from "react";
-import { CartContext } from "../OrderPage/CartContext";
-import { useProducts } from "../../utilities/productStore";
+import Grid from "@mui/material/Grid";
 
-export default function SelectedProductPage() {
-  const products = useProducts();
-  const { productName } = useParams();
-  const product = products.filter((p) => p.name === productName);
+export default function SelectedProductPage({ products }) {
+  const { productId } = useParams();
+  const [product, setProduct] = React.useState(null);
+  const cardContext = React.useContext(CartContextNew);
 
-  const cart = useContext(CartContext);
-  const productQuantity =
-    product.length > 0 ? cart.getProductQuantity(product[0]._id) : 0;
+  React.useEffect(() => {
+    refreshProduct();
+  }, []);
+
+  const refreshProduct = () => {
+    API.getProductById(productId).then((productData) => {
+      setProduct(productData);
+    });
+  };
+
+  const addItemToCart = (item) => {
+    props?.onAddItemToCart(item);
+    cardContext.addCartItem(item);
+  };
 
   return (
-    <>
-      <div>
-        {product.map((p) => (
-          <div key={p._id} className="row">
-            <div>
-              <img className="" src={p.imgurl} alt={p.name} />
+    <React.Fragment>
+      {product && (
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6}>
+            <img
+              src={product.imgurl}
+              alt={product.name}
+              style={{ width: "100%", objectFit: "cover" }}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <div style={{ marginTop: "5px" }}>{product.brand}</div>
+            <div style={{ fontSize: "24px", fontWeight: "bold", marginTop: "5px" }}>
+              {product.name}
             </div>
-            <div className="">
-              <div className="">
-                <div className="">{p.brand}</div>
-                <div className="">{p.name}</div>
-                <div className="">
-                  {(p.price / 100).toLocaleString("en-US", {
-                    style: "currency",
-                    currency: "SGD",
-                  })}
-                </div>
-                <div className="">Description: {p.description}</div>
-              </div>
+            <div
+              style={{
+                fontSize: "18px",
+                fontWeight: "bold",
+                marginTop: "10px",
+              }}
+            >
+              ${(product.price / 100).toLocaleString("en-US", {
+                style: "currency",
+                currency: "SGD",
+              })}
             </div>
-            <div className="">
-              {productQuantity > 0 ? (
-                <>
-                  <div>In Cart: {productQuantity}</div>
-                  <button onClick={() => cart.addOneToCart(p._id)}>+</button>
-                  <button onClick={() => cart.removeOneFromCart(p._id)}>
-                    -
-                  </button>
-                  <button onClick={() => cart.deleteFromCart(p._id)}>
-                    Remove from cart
-                  </button>
-                </>
-              ) : (
-                <button
-                  onClick={() => {
-                    cart.addOneToCart(p._id);
-                    console.log("Button clicked!");
-                  }}
-                >
-                  Add To Cart
-                </button>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
-    </>
+            <div style={{ marginTop: "10px" }}>Description: {product.description}</div>
+            <Button
+              variant="outlined"
+              style={{ marginTop: "20px" }}
+              startIcon={<AddShoppingCartIcon />}
+              onClick={() => {
+                addItemToCart(product);
+              }}
+            >
+              Add To Cart
+            </Button>
+          </Grid>
+        </Grid>
+      )}
+    </React.Fragment>
   );
 }

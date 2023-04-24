@@ -13,11 +13,12 @@ export default function Header({ setUser, member }) {
 
   const cart = useContext(CartContext);
   const [showCart, setShowCart] = useState(false);
-  const productsCount = cart.items.reduce(
+
+  const cardContext = useContext(CartContextNew);
+  const productsCount = cardContext.cartItems.reduce(
     (sum, product) => sum + product.quantity,
     0
   );
-  const cardContext = useContext(CartContextNew);
 
   const handleLogout = (e) => {
     e.preventDefault();
@@ -100,31 +101,26 @@ export default function Header({ setUser, member }) {
             <ul>
               {["member"].includes(member.role) && (
                 <React.Fragment>
-                  <li>
-                    <a
-                      id="navbarDropdownMenuLink"
-                      role="button"
-                      aria-expanded="false"
-                    >
-                      My Account
-                    </a>
-                    <ul aria-labelledby="navbarDropdownMenuLink">
-                      <li>
-                        <a onClick={handleLogout}>Log Out</a>
-                      </li>
-                    </ul>
-                  </li>
+                  <li>{/* ... */}</li>
                   <li>
                     <button onClick={handleCartButtonClick}>
-                      Cart ({cardContext.items.length} Items)
+                      Cart ({cardContext.cartItems.length} Items)
                     </button>
                     {showCart && (
                       <div>
                         <h2>Shopping Cart</h2>
-                        {productsCount > 0 ? (
+                        {cardContext.cartItems.length > 0 ? (
                           <>
                             <p>Items in your cart:</p>
-                            
+                            {cardContext.cartItems.map((item) => {
+                              return (
+                                <CartProduct
+                                  key={item.product._id}
+                                  item={item.product}
+                                  quantity={item.quantity}
+                                />
+                              );
+                            })}
                           </>
                         ) : (
                           <h3>The cart is empty</h3>

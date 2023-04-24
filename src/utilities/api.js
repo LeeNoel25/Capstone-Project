@@ -26,6 +26,16 @@ export function getProducts() {
   });
 }
 
+export const getProductById = async (productId) => {
+  try {
+    const response = await axios.get(`/api/products/${productId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching product by ID:", error);
+    throw error;
+  }
+};
+
 /**
  * API to user submit cart items for validation
  * @param {String} token User JWT tokens

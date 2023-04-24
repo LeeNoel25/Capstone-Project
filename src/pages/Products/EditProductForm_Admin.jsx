@@ -46,14 +46,17 @@ export default function EditProductsForm({
         ...editedProduct,
         price: editedProduct.price * CONVERTTODOLLAR,
       };
-      const response = await fetch(`/api/productpage/${productID}/edit`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-        body: JSON.stringify(newProduct),
-      });
+      const response = await fetch(
+        `/api/products/productpage/${productID}/edit`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify(newProduct),
+        }
+      );
       const updatedProduct = await response.json();
       handleEditProduct(updatedProduct);
       navigate("/productpage");

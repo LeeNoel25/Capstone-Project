@@ -158,7 +158,7 @@ export default function App() {
       element: <OrderCart />,
     },
     {
-      path: "/products/:productName",
+      path: "/product/:productId",
       element: <SelectedProductPage products={products} />,
     },
   ];

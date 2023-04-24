@@ -11,7 +11,7 @@ function CartProduct(props) {
       <p>{props.quantity} total</p>
       <p>${(props.quantity * props.item.price).toFixed(2)}</p>
       <Button size="sm" onClick={() => cartContext.removeCartItem(props.item)}>
-        Remove!!
+        Remove Item
       </Button>
       <hr></hr>
     </React.Fragment>
