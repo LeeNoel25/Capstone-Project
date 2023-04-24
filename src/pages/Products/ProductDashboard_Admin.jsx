@@ -1,6 +1,21 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import DeleteProductBtn from "./DeleteProductBtn_Admin";
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 export default function ProductsForm({ products, delProduct }) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -26,63 +41,74 @@ export default function ProductsForm({ products, delProduct }) {
   };
 
   return (
-    <div className="">
-      <h3>Product Portfolio</h3>
-      <div className="">
-        <div className="">
-          <div className="">
-            <div className="">
-              <span className="">Search</span>
-              <input
-                type="text"
-                className=""
-                id="searchProductInput"
-                placeholder="Enter Product name, id, category or brand"
-                value={searchTerm}
-                onChange={handleSearchChange}
-              />
-            </div>
-            <div className="">
-              <Link to="/productpage/new">
-                <button className="">Add New Product</button>
-              </Link>
-            </div>
-          </div>
-        </div>
-        <div className="">
-          <table className="">
-            <thead className="">
-              <tr>
-                <th scope="col">Product Name</th>
-                <th scope="col">Product Id</th>
-                <th scope="col">Product Price</th>
-                <th scope="col">Product Category</th>
-                <th scope="col">Product Brand</th>
-                <th scope="col">Picture URL</th>
-                <th scope="col">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {sortedProducts.map((p) => (
-                <tr key={p._id}>
-                  <td>{p.name}</td>
-                  <td>{p._id}</td>
-                  <td>${(p.price / 100).toFixed(2)}</td>
-                  <td>{p.category}</td>
-                  <td>{p.brand}</td>
-                  <td className="">{p.imgurl}</td>
-                  <td className="">
-                    <Link to={`/productpage/${p._id}/edit`}>
-                      <button className="">Edit</button>
-                    </Link>
-                    <DeleteProductBtn id={p._id} delProduct={delProduct} />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+    <Container>
+      <Box sx={{ my: 4 }}>
+        <Typography variant="h4" align="center">
+          Product Portfolio
+        </Typography>
+      </Box>
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={6}>
+          <TextField
+            fullWidth
+            label="Search"
+            variant="outlined"
+            placeholder="Enter Product name, id, category or brand"
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Box display="flex" justifyContent="flex-end">
+            <Button
+              variant="contained"
+              color="primary"
+              component={Link}
+              to="/productpage/new"
+            >
+              Add New Product
+            </Button>
+          </Box>
+        </Grid>
+      </Grid>
+      <TableContainer component={Paper} sx={{ my: 4 }}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Product Name</TableCell>
+              <TableCell>Product Id</TableCell>
+              <TableCell>Product Price</TableCell>
+              <TableCell>Product Category</TableCell>
+              <TableCell>Product Brand</TableCell>
+              <TableCell>Picture URL</TableCell>
+              <TableCell>Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {sortedProducts.map((p) => (
+              <TableRow key={p._id}>
+                <TableCell>{p.name}</TableCell>
+                <TableCell>{p._id}</TableCell>
+                <TableCell>${(p.price / 100).toFixed(2)}</TableCell>
+                <TableCell>{p.category}</TableCell>
+                <TableCell>{p.brand}</TableCell>
+                <TableCell>{p.imgurl}</TableCell>
+                <TableCell>
+                  <Button
+                    size="small"
+                    color="primary"
+                    component={Link}
+                    to={`/productpage/${p._id}/edit`}
+                  >
+                    Edit
+                  </Button>
+                  <DeleteProductBtn id={p._id} delProduct={delProduct} />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Container>
   );
 }

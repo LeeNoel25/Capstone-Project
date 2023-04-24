@@ -112,13 +112,31 @@ export default function App() {
     }
   };
 
+  const removeOneFromCart = (itemId) => {
+    let found = false;
+    const updatedCartItems = cartItems.map((cartItem) => {
+      if (cartItem.product._id === itemId && cartItem.quantity > 1) {
+        found = true;
+        return { ...cartItem, quantity: cartItem.quantity - 1 };
+      }
+      return cartItem;
+    });
+
+    if (found) {
+      setCartItems(updatedCartItems);
+      setCartItemCount(cartItemCount - 1);
+    }
+  };
+
   const updateCartItem = () => {};
+
   const cartContextValue = {
     cartItemCount,
     cartItems,
     addCartItem,
     removeCartItem,
     updateCartItem,
+    removeOneFromCart,
   };
   // Routes
   const loginRoutes = [

@@ -1,6 +1,16 @@
 import { useState } from "react";
 import { getMember } from "../../utilities/members-service";
 import { Link, useNavigate } from "react-router-dom";
+import {
+  Box,
+  Button,
+  Container,
+  FormControl,
+  Grid,
+  InputLabel,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 export default function LoginForm({ setUser }) {
   const navigate = useNavigate();
@@ -51,36 +61,69 @@ export default function LoginForm({ setUser }) {
   };
 
   return (
-    <div>
-      <div className="form-container">
-        <form onSubmit={handleLogin}>
-          <fieldset>
-            <legend>Login</legend>
-            <label>
-              Email:
-              <input
+    <Container>
+      <Box
+        sx={{
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography variant="h4" align="center">
+              Login
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <TextField
+                label="Email"
                 name="email"
                 value={loginTry.email}
                 onChange={handleChange}
               />
-            </label>
-            <label>
-              Password:{" "}
-              <input
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <TextField
+                label="Password"
                 name="password"
                 value={loginTry.password}
                 onChange={handleChange}
                 type="password"
               />
-            </label>
-            <button>Login</button>
-            <Link to="/forgetpassword">
-              <button>Forget Password</button>
-            </Link>
-          </fieldset>
-        </form>
-      </div>
-      {error ? <p>&nbsp;{error}</p> : null}
-    </div>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={handleLogin}
+            >
+              Login
+            </Button>
+          </Grid>
+          <Grid item xs={12}>
+            <Button
+              fullWidth
+              variant="outlined"
+              component={Link}
+              to="/forgetpassword"
+            >
+              Forget Password
+            </Button>
+          </Grid>
+          {error && (
+            <Grid item xs={12}>
+              <Typography color="error">{error}</Typography>
+            </Grid>
+          )}
+        </Grid>
+      </Box>
+    </Container>
   );
 }

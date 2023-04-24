@@ -5,8 +5,8 @@ import * as API from "../../utilities/api";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Button from "@mui/material/Button";
 import { CartContextNew } from "../OrderPage/CartContextNew";
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 export default function ProductsPage(props) {
   const [products, setProducts] = React.useState([]);
@@ -31,14 +31,13 @@ export default function ProductsPage(props) {
     });
   };
 
-  
   const handleSnackbarClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
     setSnackbarOpen(false);
   };
-  
+
   const addItemToCart = (item) => {
     props?.onAddItemToCart(item);
     cardContext.addCartItem(item);
@@ -140,14 +139,16 @@ export default function ProductsPage(props) {
         })}
       </div>
       <Snackbar
-    open={snackbarOpen}
-    autoHideDuration={3000}
-    onClose={handleSnackbarClose}
-  >
-    <Alert onClose={handleSnackbarClose} severity="success">
-      Item added to cart!
-    </Alert>
-  </Snackbar>
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        sx={{ bottom: "calc(100% - 100px)" }}
+      >
+        <Alert onClose={handleSnackbarClose} severity="success">
+          Item added to cart!
+        </Alert>
+      </Snackbar>
     </React.Fragment>
   );
 }

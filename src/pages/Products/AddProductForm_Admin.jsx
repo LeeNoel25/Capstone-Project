@@ -1,5 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {
+  Box,
+  Button,
+  Container,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 export default function AddProductsForm({
   addProduct,
@@ -96,101 +108,98 @@ export default function AddProductsForm({
     navigate("/productpage");
   };
   return (
-    <>
-      <div className="">
-        <h1>Add Product</h1>
-        <div>
-          <label className="form-label">Product Name</label>
-          <input
-            type="text"
-            name="name"
-            value={product.name}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </div>
-        <div>
-          <label htmlFor="price" className="form-label">
-            Price
-          </label>
-          <input
-            type="number"
-            name="price"
-            value={product.price}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </div>
-        <div>
-          <label htmlFor="category" className="form-label">
-            Category
-          </label>
-          <input
-            type="text"
-            name="category"
-            value={product.category}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </div>
-        <div>
-          <label htmlFor="brand" className="form-label">
-            Brand
-          </label>
-          <input
-            type="text"
-            name="brand"
-            value={product.brand}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </div>
-        <div>
+    <Container>
+      <Box sx={{ my: 4 }}>
+        <Typography variant="h4" align="center">
+          Add Product
+        </Typography>
+      </Box>
+      <form onSubmit={handleSubmit}>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Product Name"
+              name="name"
+              value={product.name}
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Price"
+              type="number"
+              name="price"
+              value={product.price}
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Category"
+              name="category"
+              value={product.category}
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Brand"
+              name="brand"
+              value={product.brand}
+              onChange={handleChange}
+            />
+          </Grid>
           {product.brand === "Other" && (
-            <div>
-              <input
-                type="text"
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="New Brand"
                 name="newBrand"
                 value={newBrand}
-                placeholder="Enter a new brand"
                 onChange={handleNewBrandChange}
-                className="form-input"
               />
-            </div>
+            </Grid>
           )}
-        </div>
-        <div>
-          <label htmlFor="imgurl" className="form-label">
-            Picture URL
-          </label>
-          <input
-            type="text"
-            name="imgurl"
-            value={product.imgurl}
-            onChange={handleChange}
-            className="form-input"
-          />
-        </div>
-        <div>
-          <label htmlFor="description" className="form-label">
-            Description
-          </label>
-          <textarea
-            name="description"
-            value={product.description}
-            onChange={handleChange}
-            className="form-input"
-          ></textarea>
-        </div>
-        <div>
-          <button onClick={handleSubmit} className="">
-            Submit
-          </button>
-          <button onClick={handleCancel} type="button" className="">
-            Cancel
-          </button>
-        </div>
-      </div>
-    </>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Picture URL"
+              name="imgurl"
+              value={product.imgurl}
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Description"
+              name="description"
+              value={product.description}
+              onChange={handleChange}
+              multiline
+              rows={4}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Box display="flex" justifyContent="space-between">
+              <Button variant="contained" color="primary" type="submit">
+                Submit
+              </Button>
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={handleCancel}
+              >
+                Cancel
+              </Button>
+            </Box>
+          </Grid>
+        </Grid>
+      </form>
+    </Container>
   );
 }

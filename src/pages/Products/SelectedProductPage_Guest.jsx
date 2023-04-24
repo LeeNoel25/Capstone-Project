@@ -23,7 +23,6 @@ export default function SelectedProductPage({ products }) {
   };
 
   const addItemToCart = (item) => {
-    props?.onAddItemToCart(item);
     cardContext.addCartItem(item);
   };
 

@@ -4,13 +4,24 @@ import { logout } from "../../utilities/members-service";
 import { CartContext } from "../../pages/OrderPage/CartContext";
 import { CartContextNew } from "../../pages/OrderPage/CartContextNew";
 import CartProduct from "../../components/Cart/CartProduct";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import MenuItem from "@mui/material/MenuItem";
+import Badge from "@mui/material/Badge";
+import Popover from "@mui/material/Popover";
+import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
 
 export default function Header({ setUser, member }) {
   const isSignedIn = !!member;
   const navigate = useNavigate();
   const location = useLocation();
   const { role } = member || {};
-
+  const [anchorEl, setAnchorEl] = useState(null);
   const cart = useContext(CartContext);
   const [showCart, setShowCart] = useState(false);
 
@@ -27,138 +38,98 @@ export default function Header({ setUser, member }) {
     navigate("/login");
   };
 
-  const handleCartButtonClick = () => {
+  const handleCartButtonClick = (event) => {
     setShowCart(!showCart);
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setShowCart(false);
+    setAnchorEl(null);
   };
 
   return (
-    <nav>
-      <div>
-        <div id="navbarNav">
-          <ul>
-            {!isSignedIn && (
-              <React.Fragment>
-                <li>
-                  <Link
-                    className={location.pathname === "/login" ? "active" : ""}
-                    to="/login"
-                  >
-                    Log In
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className={location.pathname === "/signup" ? "active" : ""}
-                    to="/signup"
-                  >
-                    Register
-                  </Link>
-                </li>
-                <li>
-                  <button onClick={handleCartButtonClick}>
-                    Cart ({cardContext.cartItemCount} Items)
-                  </button>
-                  {showCart && (
-                    <div>
-                      <h2>Shopping Cart</h2>
-                      {cardContext.cartItems.length > 0 ? (
-                        <>
-                          <p>Items in your cart:</p>
-                          {cardContext.cartItems.map((item) => {
-                            return (
-                              <CartProduct
-                                key={item.product._id}
-                                item={item.product}
-                                quantity={item.quantity}
-                              />
-                            );
-                          })}
-                        </>
-                      ) : (
-                        <h3>The cart is empty</h3>
+    <AppBar position="fixed" sx={{ backgroundColor: "transparent" }}>
+      <Toolbar>
+        {!!member && (
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Hello, <em style={{ fontStyle: "italic" }}>{member.name}</em>
+          </Typography>
+        )}
+        {!isSignedIn && (
+          <React.Fragment>
+            <Button
+              component={Link}
+              to="/login"
+              color="inherit"
+              className={location.pathname === "/login" ? "active" : ""}
+            >
+              Log In
+            </Button>
+            <Button
+              component={Link}
+              to="/signup"
+              color="inherit"
+              className={location.pathname === "/signup" ? "active" : ""}
+            >
+              Register
+            </Button>
+          </React.Fragment>
+        )}
+        {isSignedIn && (
+          <React.Fragment>
+            <IconButton
+              color="inherit"
+              aria-label="cart"
+              onClick={handleCartButtonClick}
+            >
+              <Badge badgeContent={productsCount} color="secondary">
+                <ShoppingCartIcon />
+              </Badge>
+            </IconButton>
+            <Popover
+              anchorEl={anchorEl}
+              open={showCart}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "center",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "center",
+              }}
+            >
+              <Box sx={{ width: "60ch" }}>
+                {cardContext.cartItems.length > 0 ? (
+                  cardContext.cartItems.map((item, index) => (
+                    <React.Fragment key={item.product._id}>
+                      <MenuItem disableRipple>
+                        <div onClick={(e) => e.stopPropagation()}>
+                          <CartProduct
+                            item={item.product}
+                            quantity={item.quantity}
+                          />
+                        </div>
+                      </MenuItem>
+                      {index !== cardContext.cartItems.length - 1 && (
+                        <Divider />
                       )}
-                    </div>
-                  )}
-                </li>
-              </React.Fragment>
-            )}
-            {!!member && (
-              <li>
-                <div
-                  style={{
-                    color: "white",
-                    paddingRight: "0.5rem",
-                    paddingLeft: "0.5rem",
-                  }}
-                >
-                  Hello, <em style={{ fontStyle: "italic" }}>{member.name}</em>
-                </div>
-              </li>
-            )}
-          </ul>
-
-          {isSignedIn && (
-            <ul>
-              {["member"].includes(member.role) && (
-                <React.Fragment>
-                  <li>{/* ... */}</li>
-                  <li>
-                    <button onClick={handleCartButtonClick}>
-                      Cart ({cardContext.cartItems.length} Items)
-                    </button>
-                    {showCart && (
-                      <div>
-                        <h2>Shopping Cart</h2>
-                        {cardContext.cartItems.length > 0 ? (
-                          <>
-                            <p>Items in your cart:</p>
-                            {cardContext.cartItems.map((item) => {
-                              return (
-                                <CartProduct
-                                  key={item.product._id}
-                                  item={item.product}
-                                  quantity={item.quantity}
-                                />
-                              );
-                            })}
-                          </>
-                        ) : (
-                          <h3>The cart is empty</h3>
-                        )}
-                      </div>
-                    )}
-                  </li>
-                </React.Fragment>
-              )}
-              {["admin"].includes(member.role) && (
-                <li>
-                  <a
-                    id="navbarDropdownMenuLink"
-                    role="button"
-                    aria-expanded="false"
-                  >
-                    Admin Tools
-                  </a>
-                  <ul aria-labelledby="navbarDropdownMenuLink">
-                    {role === "admin" && (
-                      <React.Fragment>
-                        <li>
-                          <a onClick={() => navigate("/productpage")}>
-                            Product Portfolio
-                          </a>
-                        </li>
-                      </React.Fragment>
-                    )}
-                    <li>
-                      <a onClick={handleLogout}>Log Out</a>
-                    </li>
-                  </ul>
-                </li>
-              )}
-            </ul>
-          )}
-        </div>
-      </div>
-    </nav>
+                    </React.Fragment>
+                  ))
+                ) : (
+                  <MenuItem onClick={handleClose}>
+                    <h3>The cart is empty</h3>
+                  </MenuItem>
+                )}
+              </Box>
+            </Popover>
+            <Button color="inherit" onClick={handleLogout}>
+              Log Out
+            </Button>
+          </React.Fragment>
+        )}
+      </Toolbar>
+    </AppBar>
   );
 }
