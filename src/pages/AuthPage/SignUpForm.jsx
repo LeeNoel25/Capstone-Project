@@ -1,5 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 
 export default function SignUpForm() {
   const navigate = useNavigate();
@@ -13,39 +18,38 @@ export default function SignUpForm() {
 
   const disable = state.password !== state.confirm;
 
-const newMember = async (memberData) => {
-  const response = await fetch(`/api/member/signup`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(memberData),
-  });
+  const newMember = async (memberData) => {
+    const response = await fetch(`/api/member/signup`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(memberData),
+    });
 
-  const data = await response.json();
+    const data = await response.json();
 
-  if (!response.ok) {
-    throw new Error(data.error || "member registration failed");
-  }
+    if (!response.ok) {
+      throw new Error(data.error || "member registration failed");
+    }
 
-  return data;
-};
-
+    return data;
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       await newMember(state);
       setState({
-        name:"",
+        name: "",
         email: "",
         password: "",
         confirm: "",
-      })
+      });
       navigate("/login");
     } catch (error) {
       setError(error.message);
-      console.error(`Error: ${error.message}`)
+      console.error(`Error: ${error.message}`);
     }
   };
 
@@ -57,54 +61,74 @@ const newMember = async (memberData) => {
   };
 
   return (
-    <div>
-      <div className="">
-        <form autoComplete="off" onSubmit={handleSubmit}>
-          <fieldset>
-            <legend>New member</legend>
-          <label>Name</label>
-          <input
-            type="text"
-            name="name"
-            value={state.name}
-            onChange={handleChange}
-            required
-          />
-          &nbsp;
-          <label>Email</label>
-          <input
-            type="email"
-            name="email"
-            value={state.email}
-            onChange={handleChange}
-            required
-          />
-          &nbsp;
-          <label>Password</label>
-          <input
-            type="password"
-            name="password"
-            value={state.password}
-            onChange={handleChange}
-            required
-          />
-          &nbsp;
-          <label>Confirm</label>
-          <input
-            type="password"
-            name="confirm"
-            value={state.confirm}
-            onChange={handleChange}
-            required
-          />
-          &nbsp;
-          <button type="submit" disabled={disable}>
-            SIGN UP
-          </button>
-          </fieldset>
-        </form>
-      </div>
-      {error ? <p>&nbsp;{error}</p> : null}
-    </div>
+    <Container maxWidth="sm" sx={{ marginTop: "2rem" }}>
+      <Typography variant="h4" align="center" gutterBottom>
+        New member
+      </Typography>
+      <form autoComplete="off" onSubmit={handleSubmit}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Name"
+              type="text"
+              name="name"
+              value={state.name}
+              onChange={handleChange}
+              required
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Email"
+              type="email"
+              name="email"
+              value={state.email}
+              onChange={handleChange}
+              required
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Password"
+              type="password"
+              name="password"
+              value={state.password}
+              onChange={handleChange}
+              required
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Confirm Password"
+              type="password"
+              name="confirm"
+              value={state.confirm}
+              onChange={handleChange}
+              required
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Button
+              fullWidth
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={disable}
+            >
+              Sign Up
+            </Button>
+          </Grid>
+        </Grid>
+      </form>
+      {error ? (
+        <Typography variant="subtitle1" color="error" align="center">
+          {error}
+        </Typography>
+      ) : null}
+    </Container>
   );
 }

@@ -64,7 +64,7 @@ export default function LoginForm({ setUser }) {
     <Container>
       <Box
         sx={{
-          minHeight: "100vh",
+          marginTop: "2rem",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
