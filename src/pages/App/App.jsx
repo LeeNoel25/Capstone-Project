@@ -226,9 +226,7 @@ export default function App() {
             <Route
               key={config.path}
               path={config.path}
-              element={
-                <WithMemberNavTools>{config.element}</WithMemberNavTools>
-              }
+              element={<>{config.element}</>}
             />
           ))}
           {adminRouteConfig.map((config) => {
@@ -252,9 +250,7 @@ export default function App() {
             <Route
               key={config.path}
               path={config.path}
-              element={
-                <WithMemberNavTools>{config.element}</WithMemberNavTools>
-              }
+              element={<>{config.element}</>}
             />
           ))}
           <Route key="*" path="*" element={accessDeniedComponent} />
@@ -271,7 +267,7 @@ export default function App() {
   };
 
   const renderUnauthenticatedRoutes = () => (
-    <WithMemberNavTools>
+    <>
       <Routes>
         {loginRoutes.concat(guestsRoutes).map((config) => (
           <Route key={config.path} {...config} />
@@ -284,7 +280,7 @@ export default function App() {
           />
         ))}
       </Routes>
-    </WithMemberNavTools>
+    </>
   );
 
   return (

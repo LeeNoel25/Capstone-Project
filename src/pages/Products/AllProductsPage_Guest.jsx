@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import { CartContextNew } from "../OrderPage/CartContextNew";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import Banners from "../../components/NavBars/Banners.jsx";
 
 export default function ProductsPage(props) {
   const [products, setProducts] = React.useState([]);
@@ -72,6 +73,7 @@ export default function ProductsPage(props) {
 
   return (
     <React.Fragment>
+      <Banners />
       <div>
         {filteredProducts.map((product) => {
           return (

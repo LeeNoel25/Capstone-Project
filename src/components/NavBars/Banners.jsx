@@ -1,37 +1,3 @@
-// export default function () {
-//   return (
-//     <div
-//       style={{
-//         display: "flex",
-//         flexDirection: "row",
-//         justifyContent: "space-around",
-//       }}
-//     >
-//       <div style={{ width: "100%", height: "50vh", overflow: "hidden" }}>
-//         <img
-//           src="https://c.wallhere.com/photos/72/81/AI_art_rabbits-2223182.jpg!d"
-//           alt="Banner Image 1"
-//           style={{
-//             width: "100%",
-//             height: "100%",
-//             objectFit: "cover",
-//           }}
-//         />
-//         <div
-//           style={{
-//             display: "flex",
-//             flexDirection: "row",
-//             justifyContent: "space-between",
-//             height: 95,
-//           }}
-//         >
-//           {/* <SephoraIcon />
-//           <img src="https://i.imgur.com/d3tmwL3.png" alt="Banner Image 2"></img> */}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
 
 import React from "react";
 import Box from "@mui/material/Box";
