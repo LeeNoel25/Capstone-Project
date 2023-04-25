@@ -3,26 +3,26 @@ import "../../index.css";
 import React from "react";
 import { Route, Routes } from "react-router";
 import { useEffect, useState, createContext } from "react";
-import { Link } from "react-router-dom";
 
 //OrderCart
 import OrderCart from "../OrderPage/OrderCart";
 
 //components
 import Header from "../../components/Header/Header.jsx";
-import WithMemberNavTools from "../../components/NavBars/WithCustomerBanner.jsx";
 import WithNavBar from "../../components/NavBars/WithNavBar.jsx";
 
 //pages.auth
 import SignUpForm from "../AuthPage/SignUpForm.jsx";
 import ForgetPassword from "../AuthPage/ForgetPass.jsx";
 import LoginForm from "../AuthPage/LoginForm.jsx";
+
 //pages.products
 import SelectedProductPage from "../Products/SelectedProductPage_Guest.jsx";
 import AddProductForm from "../Products/AddProductForm_Admin.jsx";
 import EditProductForm from "../Products/EditProductForm_Admin.jsx";
 import ProductsForm from "../Products/ProductDashboard_Admin.jsx";
 import ProductsPage from "../Products/AllProductsPage_Guest.jsx";
+
 //pages.msc
 import { getMember } from "../../utilities/members-service.js";
 import { CartContextNew } from "../OrderPage/CartContextNew";
@@ -35,8 +35,6 @@ export default function App() {
   const [brand, setBrand] = useState([]);
   const [cartItemCount, setCartItemCount] = useState(0);
   const [cartItems, setCartItems] = useState([]);
-
-  //xx
   const token = localStorage.getItem("token");
   const member = token ? JSON.parse(window.atob(token.split(".")[1])) : null;
 
@@ -46,7 +44,6 @@ export default function App() {
       console.error(error);
       return;
     }
-    // Add the product to the products list
     setProducts((prevProducts) => [...prevProducts, product]);
   };
 
@@ -129,6 +126,7 @@ export default function App() {
   };
 
   const updateCartItem = () => {};
+  const addItemToCart = (item) => {};
 
   const cartContextValue = {
     cartItemCount,
@@ -138,6 +136,7 @@ export default function App() {
     updateCartItem,
     removeOneFromCart,
   };
+
   // Routes
   const loginRoutes = [
     {
@@ -153,8 +152,6 @@ export default function App() {
       element: <ForgetPassword />,
     },
   ];
-
-  const addItemToCart = (item) => {};
 
   const guestsRoutes = [
     {
