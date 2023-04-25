@@ -8,6 +8,15 @@ import { CartContextNew } from "../OrderPage/CartContextNew";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import Banners from "../../components/NavBars/Banners.jsx";
+import {
+  Box,
+  Container,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 
 export default function ProductsPage(props) {
   const [products, setProducts] = React.useState([]);
@@ -121,7 +130,6 @@ export default function ProductsPage(props) {
                     color: "black",
                   }}
                 >
-                  $
                   {(product.price / 100).toLocaleString("en-US", {
                     style: "currency",
                     currency: "USD",
@@ -136,6 +144,7 @@ export default function ProductsPage(props) {
                   onClick={() => {
                     addItemToCart(product);
                   }}
+                  hidden={!props.user}
                 >
                   Add To Cart
                 </Button>
