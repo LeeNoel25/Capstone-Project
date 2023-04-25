@@ -35,7 +35,7 @@ export default function Header({ setUser, member }) {
     e.preventDefault();
     setUser(null);
     logout();
-    navigate("/login");
+    navigate("/");
   };
 
   const handleCartButtonClick = (event) => {
@@ -49,7 +49,7 @@ export default function Header({ setUser, member }) {
   };
 
   return (
-    <AppBar position="fixed" sx={{ backgroundColor: "transparent" }}>
+    <AppBar position="static" sx={{ backgroundColor: "primary.main" }}>
       <Toolbar>
         {!!member && (
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
