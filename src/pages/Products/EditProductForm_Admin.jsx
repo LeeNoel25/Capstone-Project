@@ -1,6 +1,18 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import {
+  Button,
+  Container,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
+
 export default function EditProductsForm({
   products,
   handleEditProduct,
@@ -69,107 +81,103 @@ export default function EditProductsForm({
 
   return (
     <>
-      <div className="form-container">
-        <h1>Edit Product</h1>
-        <div>
-          <label className="form-label" htmlFor="name">
-            Name
-          </label>
-          <input
-            type="text"
-            className="form-input"
-            id="name"
-            name="name"
-            value={editedProduct.name}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label className="form-label" htmlFor="price">
-            Price
-          </label>
-          <input
-            type="number"
-            className="form-input"
-            id="price"
-            name="price"
-            value={editedProduct.price}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group">
-          <label className="form-label" htmlFor="category">
-            Category
-          </label>
-          <select
-            name="category"
-            value={editedProduct.category}
-            onChange={handleChange}
-            className="select-input"
-          >
-            {category.map((c, i) => (
-              <option key={i} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="form-group">
-          <label className="form-label" htmlFor="brand">
-            Brand
-          </label>
-          <select
-            name="brand"
-            value={editedProduct.brand}
-            onChange={handleChange}
-            className="select-input"
-          >
-            {brand.map((b, i) => (
-              <option key={i} value={b}>
-                {b}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="form-group">
-          <label className="form-label" htmlFor="imgurl">
-            Image URL
-          </label>
-          <input
-            type="text"
-            className="form-input"
-            id="imgurl"
-            name="imgurl"
-            value={editedProduct.imgurl}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group">
-          <label className="form-label" htmlFor="description">
-            Description
-          </label>
-          <textarea
-            className="form-input"
-            id="description"
-            name="description"
-            value={editedProduct.description}
-            onChange={handleChange}
-            style={{ resize: "both" }} // make the textarea resizable
-          />
-        </div>
-        <div>
-          <button onClick={handleEdit} className="btn btn-dark mx-4">
-            Save Changes
-          </button>
-          <button
-            onClick={handleCancel}
-            type="button"
-            className="btn btn-secondary mx-4"
-          >
-            Cancel
-          </button>
-        </div>
-      </div>
+      <Container maxWidth="sm">
+        <Typography variant="h4" align="center" gutterBottom>
+          Edit Product
+        </Typography>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Name"
+              id="name"
+              name="name"
+              value={editedProduct.name}
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Price"
+              type="number"
+              id="price"
+              name="price"
+              value={editedProduct.price}
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <InputLabel htmlFor="category">Category</InputLabel>
+              <Select
+                name="category"
+                value={editedProduct.category}
+                onChange={handleChange}
+                label="Category"
+              >
+                {category.map((c, i) => (
+                  <MenuItem key={i} value={c}>
+                    {c}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <InputLabel htmlFor="brand">Brand</InputLabel>
+              <Select
+                name="brand"
+                value={editedProduct.brand}
+                onChange={handleChange}
+                label="Brand"
+              >
+                {brand.map((b, i) => (
+                  <MenuItem key={i} value={b}>
+                    {b}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Image URL"
+              id="imgurl"
+              name="imgurl"
+              value={editedProduct.imgurl}
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Description"
+              multiline
+              rows={4}
+              id="description"
+              name="description"
+              value={editedProduct.description}
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Button variant="contained" color="primary" onClick={handleEdit}>
+              Save Changes
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={handleCancel}
+              style={{ marginLeft: "16px" }}
+            >
+              Cancel
+            </Button>
+          </Grid>
+        </Grid>
+      </Container>
     </>
   );
 }

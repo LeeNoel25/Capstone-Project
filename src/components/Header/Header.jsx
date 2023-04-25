@@ -49,7 +49,7 @@ export default function Header({ setUser, member }) {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: "primary.main" }}>
+    <AppBar position="sticky" sx={{ backgroundColor: "primary.main" }}>
       <Toolbar>
         {!!member && (
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -76,54 +76,52 @@ export default function Header({ setUser, member }) {
             </Button>
           </React.Fragment>
         )}
+        <IconButton
+          color="inherit"
+          aria-label="cart"
+          onClick={handleCartButtonClick}
+        >
+          <Badge badgeContent={productsCount} color="secondary">
+            <ShoppingCartIcon />
+          </Badge>
+        </IconButton>
+        <Popover
+          anchorEl={anchorEl}
+          open={showCart}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "center",
+          }}
+        >
+          <Box sx={{ width: "60ch" }}>
+            {cardContext.cartItems.length > 0 ? (
+              cardContext.cartItems.map((item, index) => (
+                <React.Fragment key={item.product._id}>
+                  <MenuItem disableRipple>
+                    <div onClick={(e) => e.stopPropagation()}>
+                      <CartProduct
+                        item={item.product}
+                        quantity={item.quantity}
+                      />
+                    </div>
+                  </MenuItem>
+                  {index !== cardContext.cartItems.length - 1 && <Divider />}
+                </React.Fragment>
+              ))
+            ) : (
+              <MenuItem onClick={handleClose}>
+                <h3>The cart is empty</h3>
+              </MenuItem>
+            )}
+          </Box>
+        </Popover>
         {isSignedIn && (
           <React.Fragment>
-            <IconButton
-              color="inherit"
-              aria-label="cart"
-              onClick={handleCartButtonClick}
-            >
-              <Badge badgeContent={productsCount} color="secondary">
-                <ShoppingCartIcon />
-              </Badge>
-            </IconButton>
-            <Popover
-              anchorEl={anchorEl}
-              open={showCart}
-              onClose={handleClose}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "center",
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "center",
-              }}
-            >
-              <Box sx={{ width: "60ch" }}>
-                {cardContext.cartItems.length > 0 ? (
-                  cardContext.cartItems.map((item, index) => (
-                    <React.Fragment key={item.product._id}>
-                      <MenuItem disableRipple>
-                        <div onClick={(e) => e.stopPropagation()}>
-                          <CartProduct
-                            item={item.product}
-                            quantity={item.quantity}
-                          />
-                        </div>
-                      </MenuItem>
-                      {index !== cardContext.cartItems.length - 1 && (
-                        <Divider />
-                      )}
-                    </React.Fragment>
-                  ))
-                ) : (
-                  <MenuItem onClick={handleClose}>
-                    <h3>The cart is empty</h3>
-                  </MenuItem>
-                )}
-              </Box>
-            </Popover>
             <Button color="inherit" onClick={handleLogout}>
               Log Out
             </Button>

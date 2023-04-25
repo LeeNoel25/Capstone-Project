@@ -37,7 +37,8 @@ function CartProduct(props) {
       <ListItemText
         primary={props.item.name}
         secondary={`${props.quantity} total, $${(
-          props.quantity * props.item.price
+          (props.quantity * props.item.price) /
+          100
         ).toFixed(2)}`}
         sx={{ textOverflow: "ellipsis", overflow: "hidden" }}
       />

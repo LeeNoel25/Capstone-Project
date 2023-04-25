@@ -144,7 +144,6 @@ export default function ProductsPage(props) {
                   onClick={() => {
                     addItemToCart(product);
                   }}
-                  hidden={!props.user}
                 >
                   Add To Cart
                 </Button>
