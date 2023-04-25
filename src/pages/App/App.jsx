@@ -81,6 +81,11 @@ export default function App() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    setCartItems([]);
+    setCartItemCount(0);
+  }, [member]);
+
   const addCartItem = (item) => {
     setCartItemCount(cartItemCount + 1);
     for (let i = 0; i < cartItems.length; i++) {
@@ -109,20 +114,25 @@ export default function App() {
     }
   };
 
-  const removeOneFromCart = (itemId) => {
-    let found = false;
-    const updatedCartItems = cartItems.map((cartItem) => {
-      if (cartItem.product._id === itemId && cartItem.quantity > 1) {
-        found = true;
-        return { ...cartItem, quantity: cartItem.quantity - 1 };
+  const removeOneFromCart = (item) => {
+    for (let i = 0; i < cartItems.length; i++) {
+      if (cartItems[i].product._id === item._id) {
+        if (cartItems[i].quantity > 1) {
+          cartItems[i].quantity--;
+          setCartItemCount(cartItemCount - 1);
+        } else {
+          removeCartItem(item);
+        }
+        return;
       }
-      return cartItem;
-    });
-
-    if (found) {
-      setCartItems(updatedCartItems);
-      setCartItemCount(cartItemCount - 1);
     }
+    setCartItems([
+      ...cartItems,
+      {
+        product: item,
+        quantity: 1,
+      },
+    ]);
   };
 
   const updateCartItem = () => {};
