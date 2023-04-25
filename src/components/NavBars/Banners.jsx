@@ -54,8 +54,8 @@ export default function Carousel() {
           overflow: "hidden",
           position: "relative",
           backgroundColor: "transparent",
-          boxShadow: "none", // Remove the box shadow
-          margin: 0, // Remove the margin
+          boxShadow: "none", 
+          margin: 0, 
         }}
       >
         <Typography>{tutorialSteps[activeStep].label}</Typography>

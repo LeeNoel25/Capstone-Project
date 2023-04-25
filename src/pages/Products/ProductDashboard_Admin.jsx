@@ -71,8 +71,8 @@ export default function ProductsForm({ products, delProduct }) {
           </Box>
         </Grid>
       </Grid>
-      <TableContainer component={Paper} sx={{ my: 4 }}>
-        <Table>
+      <TableContainer component={Paper} sx={{ my: 4, overflowX: "auto" }}>
+        <Table sx={{ minWidth: 700 }}>
           <TableHead>
             <TableRow>
               <TableCell>Product Name</TableCell>
@@ -92,13 +92,19 @@ export default function ProductsForm({ products, delProduct }) {
                 <TableCell>${(p.price / 100).toFixed(2)}</TableCell>
                 <TableCell>{p.category}</TableCell>
                 <TableCell>{p.brand}</TableCell>
-                <TableCell>{p.imgurl}</TableCell>
+                <TableCell
+                  sx={{ overflowWrap: "break-word", maxWidth: "200px" }}
+                >
+                  {p.imgurl}
+                </TableCell>
                 <TableCell>
                   <Button
+                    variant="outlined"
                     size="small"
                     color="primary"
                     component={Link}
                     to={`/productpage/${p._id}/edit`}
+                    sx={{ mr: 1 }}
                   >
                     Edit
                   </Button>

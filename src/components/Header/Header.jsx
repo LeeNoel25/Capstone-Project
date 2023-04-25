@@ -53,7 +53,7 @@ export default function Header({ setUser, member }) {
       <Toolbar>
         {!!member && (
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Hello, <em style={{ fontStyle: "italic" }}>{member.name}</em>
+            Hello, <em style={{ fontStyle: "normal" }}>{member.name}</em>
           </Typography>
         )}
         {!isSignedIn && (

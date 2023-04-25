@@ -8,8 +8,4 @@ router
   .post("/login", memberController.login)
   .post("/reset", memberController.resetPassword);
 
-// router.post("/signup", memberController.create);
-// router.post("/login", memberController.login);
-// router.post("/reset", memberController.resetPassword);
-
 module.exports = router;

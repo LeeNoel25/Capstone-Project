@@ -83,86 +83,111 @@ export default function ProductsPage(props) {
   return (
     <React.Fragment>
       <Banners />
-      <div>
-        {filteredProducts.map((product) => {
-          return (
-            <div
-              key={product._id}
-              style={{
-                display: "inline-block",
-                border: "1px solid grey",
-                height: "340px",
-                width: "200px",
-                margin: "0px 0px 10px 10px",
-                padding: "10px",
-              }}
+      <Container>
+        <Box mt={4} display="flex" justifyContent="space-between">
+          <TextField
+            label="Search"
+            variant="outlined"
+            size="small"
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
+          <FormControl variant="outlined" size="small">
+            <InputLabel>Sort by price</InputLabel>
+            <Select
+              label="Sort by price"
+              value={sortByPrice}
+              onChange={(e) => setSortByPrice(e.target.value)}
             >
-              <Link to={`/product/${product._id}`} key={product._id}>
-                <div>
-                  <img
-                    src={product.imgurl}
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value="lowToHigh">Low to high</MenuItem>
+              <MenuItem value="highToLow">High to low</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
+        <Box mt={4}>
+          {filteredProducts.map((product) => {
+            return (
+              <div
+                key={product._id}
+                style={{
+                  display: "inline-block",
+                  border: "1px solid grey",
+                  height: "340px",
+                  width: "200px",
+                  margin: "0px 0px 10px 10px",
+                  padding: "10px",
+                }}
+              >
+                <Link to={`/product/${product._id}`} key={product._id}>
+                  <div>
+                    <img
+                      src={product.imgurl}
+                      style={{
+                        width: "180px",
+                        height: "180px",
+                        objectFit: "cover",
+                      }}
+                    />
+                  </div>
+                  <div
                     style={{
-                      width: "180px",
-                      height: "180px",
-                      objectFit: "cover",
+                      fontSize: "14px",
+                      color: "#555555",
+                      marginTop: "5px",
                     }}
-                  />
+                  >
+                    {product.brand}
+                  </div>
+                  <div
+                    style={{ marginTop: "5px", height: "32px", color: "black" }}
+                  >
+                    {product.name}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: "18px",
+                      fontWeight: "bold",
+                      marginTop: "10px",
+                      color: "black",
+                    }}
+                  >
+                    {(product.price / 100).toLocaleString("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    })}
+                  </div>
+                </Link>
+                <div>
+                  <Button
+                    variant="outlined"
+                    style={{ marginTop: "20px" }}
+                    startIcon={<AddShoppingCartIcon />}
+                    onClick={() => {
+                      addItemToCart(product);
+                    }}
+                  >
+                    Add To Cart
+                  </Button>
                 </div>
-                <div
-                  style={{
-                    fontSize: "14px",
-                    color: "#555555",
-                    marginTop: "5px",
-                  }}
-                >
-                  {product.brand}
-                </div>
-                <div
-                  style={{ marginTop: "5px", height: "32px", color: "black" }}
-                >
-                  {product.name}
-                </div>
-                <div
-                  style={{
-                    fontSize: "18px",
-                    fontWeight: "bold",
-                    marginTop: "10px",
-                    color: "black",
-                  }}
-                >
-                  {(product.price / 100).toLocaleString("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                  })}
-                </div>
-              </Link>
-              <div>
-                <Button
-                  variant="outlined"
-                  style={{ marginTop: "20px" }}
-                  startIcon={<AddShoppingCartIcon />}
-                  onClick={() => {
-                    addItemToCart(product);
-                  }}
-                >
-                  Add To Cart
-                </Button>
               </div>
-            </div>
-          );
-        })}
-      </div>
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={3000}
-        onClose={handleSnackbarClose}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        sx={{ bottom: "calc(100% - 100px)" }}
-      >
-        <Alert onClose={handleSnackbarClose} severity="success">
-          Item added to cart!
-        </Alert>
-      </Snackbar>
+            );
+          })}
+        </Box>
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={3000}
+          onClose={handleSnackbarClose}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          sx={{ bottom: "calc(100% - 100px)" }}
+        >
+          <Alert onClose={handleSnackbarClose} severity="success">
+            Item added to cart!
+          </Alert>
+        </Snackbar>
+      </Container>
     </React.Fragment>
   );
 }

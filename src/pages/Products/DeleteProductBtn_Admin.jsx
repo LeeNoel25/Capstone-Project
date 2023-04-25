@@ -1,3 +1,5 @@
+import { Button } from "@mui/material";
+
 export default function DeleteProductBtn({ id, delProduct }) {
   const handleDelete = async () => {
     const token = localStorage.getItem("token");
@@ -13,8 +15,13 @@ export default function DeleteProductBtn({ id, delProduct }) {
   };
 
   return (
-    <button className="" onClick={handleDelete}>
+    <Button
+      variant="outlined"
+      color="secondary"
+      size="small"
+      onClick={handleDelete}
+    >
       Delete
-    </button>
+    </Button>
   );
 }
