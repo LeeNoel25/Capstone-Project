@@ -102,9 +102,51 @@ const resetPassword = async (req, res) => {
   }
 };
 
+const getFavorites = async (req, res) => {
+  const { memberId } = req.params;
+
+  try {
+    const member = await Member.findById(memberId).populate("favorites");
+    res.status(200).json(member.favorites);
+  } catch (error) {
+    res.status(500).json({ error: "An error occurred while fetching favorite products." });
+  }
+};
+
+// Add favorite product
+const addFavorite = async (req, res) => {
+  const { memberId, productId } = req.params;
+  try {
+    // Find the member and add the product ID to the favorites array
+    await Member.findByIdAndUpdate(memberId, {
+      $addToSet: { favorites: productId },
+    });
+    res.status(200).json({ message: "Product added to favorites." });
+  } catch (error) {
+    res.status(500).json({ error: "An error occurred while adding the product to favorites." });
+  }
+};
+
+const removeFavorite = async (req, res) => {
+  const { memberId, productId } = req.params;
+  try {
+    // Find the member and remove the product ID from the favorites array
+    await Member.findByIdAndUpdate(memberId, {
+      $pull: { favorites: productId },
+    });
+
+    res.status(200).json({ message: "Product removed from favorites." });
+  } catch (error) {
+    res.status(500).json({ error: "An error occurred while removing the product from favorites." });
+  }
+};
+
 module.exports = {
   seed,
   create,
   login,
   resetPassword,
+  addFavorite,
+  removeFavorite,
+  getFavorites
 };

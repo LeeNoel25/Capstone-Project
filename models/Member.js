@@ -22,6 +22,12 @@ const memberSchema = new Schema({
     default: "member",
     enum: ["member", "admin"],
   },
+  favorites: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Product', 
+    }
+  ],
 });
 
 module.exports = mongoose.model("Member", memberSchema);

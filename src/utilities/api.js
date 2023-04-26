@@ -4,8 +4,10 @@ const SERVER_ROOT = "/api";
 export function login(email, password) {
   return new Promise((resolve, reject) => {
     axios
-      .get(`${SERVER_ROOT}/login`)
-      .then((response) => {})
+      .post(`${SERVER_ROOT}/login`, { email, password })
+      .then((response) => {
+        resolve(response.data);
+      })
       .catch((error) => {
         reject(error);
       });
@@ -61,6 +63,23 @@ export async function getFavorites(memberId, token) {
     throw error;
   }
 }
+
+export const removeFavorite = async (memberId, productId, token) => {
+  try {
+    const res = await axios.delete(
+      `${SERVER_ROOT}/favorites/${memberId}/${productId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    return res.data;
+  } catch (error) {
+    throw new Error("Error removing product from favorites");
+  }
+};
 
 export const getProductById = async (productId) => {
   try {
