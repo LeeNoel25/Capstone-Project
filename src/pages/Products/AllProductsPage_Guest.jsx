@@ -113,6 +113,7 @@ export default function ProductsPage(props) {
               label="Sort by price"
               value={sortByPrice}
               onChange={(e) => setSortByPrice(e.target.value)}
+              sx={{ width: "200px" }}
             >
               <MenuItem value="">
                 <em>None</em>
@@ -130,7 +131,7 @@ export default function ProductsPage(props) {
                 sx={{
                   display: "inline-block",
                   border: "1px solid grey",
-                  height: "400px",
+                  height: "390px",
                   width: "180px",
                   m: "10px",
                   p: "10px",
@@ -168,10 +169,10 @@ export default function ProductsPage(props) {
                     })}
                   </Box>
                 </Link>
-                <Box mt={2}>
+                <Box mt={2} justifyContent="center">
                   <Button
                     variant="outlined"
-                    sx={{ mr: 1 }}
+                    sx={{ width: "100%" }}
                     startIcon={<AddShoppingCartIcon />}
                     onClick={() => {
                       addItemToCart(product);
@@ -179,6 +180,7 @@ export default function ProductsPage(props) {
                   >
                     Add To Cart
                   </Button>
+                  <Box display="flex" justifyContent="center" mt={1}>
                   <Button
                     variant="outlined"
                     startIcon={<FavoriteIcon />}
@@ -188,6 +190,7 @@ export default function ProductsPage(props) {
                   >
                     Favorite
                   </Button>
+                  </Box>
                 </Box>
               </Box>
             );
