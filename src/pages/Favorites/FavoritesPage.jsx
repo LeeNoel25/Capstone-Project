@@ -124,5 +124,4 @@ export default function FavoritesPage({ memberId }) {
       </Container>
     </React.Fragment>
   );
-  
 }
