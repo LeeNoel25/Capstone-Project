@@ -2,15 +2,20 @@ import * as React from "react";
 import { useEffect, useState, useContext } from "react";
 import * as API from "../../utilities/api";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import Button from "@mui/material/Button";
 import { CartContextNew } from "../OrderPage/CartContextNew";
 import { useParams } from "react-router-dom";
 import Grid from "@mui/material/Grid";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
-export default function SelectedProductPage({ products }) {
+export default function SelectedProductPage({ onAddItemToCart }) {
   const { productId } = useParams();
   const [product, setProduct] = React.useState(null);
   const cardContext = React.useContext(CartContextNew);
+  const [snackbarOpenCart, setSnackbarOpenCart] = useState(false);
+  const [snackbarOpenFavorites, setSnackbarOpenFavorites] = useState(false);
 
   React.useEffect(() => {
     refreshProduct();
@@ -23,7 +28,21 @@ export default function SelectedProductPage({ products }) {
   };
 
   const addItemToCart = (item) => {
+    onAddItemToCart(item);
     cardContext.addCartItem(item);
+    setSnackbarOpenCart(true);
+  };
+
+  const addProductToFavorites = (item) => {
+    const memberId = localStorage.getItem("memberId");
+    const token = localStorage.getItem("token");
+    API.addFavorite(memberId, item._id, token)
+      .then(() => {
+        setSnackbarOpenFavorites(true);
+      })
+      .catch((error) => {
+        console.error("Error adding product to favorites:", error);
+      });
   };
 
   return (
@@ -34,12 +53,14 @@ export default function SelectedProductPage({ products }) {
             <img
               src={product.imgurl}
               alt={product.name}
-              style={{ width: "100%", objectFit: "cover" }}
+              style={{ width: "80%", objectFit: "cover" }}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <div style={{ marginTop: "5px" }}>{product.brand}</div>
-            <div style={{ fontSize: "24px", fontWeight: "bold", marginTop: "5px" }}>
+            <div
+              style={{ fontSize: "24px", fontWeight: "bold", marginTop: "5px" }}
+            >
               {product.name}
             </div>
             <div
@@ -49,12 +70,15 @@ export default function SelectedProductPage({ products }) {
                 marginTop: "10px",
               }}
             >
-              ${(product.price / 100).toLocaleString("en-US", {
+              $
+              {(product.price / 100).toLocaleString("en-US", {
                 style: "currency",
                 currency: "SGD",
               })}
             </div>
-            <div style={{ marginTop: "10px" }}>Description: {product.description}</div>
+            <div style={{ marginTop: "10px" }}>
+              Description: {product.description}
+            </div>
             <Button
               variant="outlined"
               style={{ marginTop: "20px" }}
@@ -65,9 +89,55 @@ export default function SelectedProductPage({ products }) {
             >
               Add To Cart
             </Button>
+            <Button
+              variant="outlined"
+              style={{ marginTop: "20px", marginLeft: "10px" }}
+              startIcon={<FavoriteIcon />}
+              onClick={() => {
+                addProductToFavorites(product);
+              }}
+            >
+              Favorite
+            </Button>
           </Grid>
         </Grid>
       )}
+      <Snackbar
+        open={snackbarOpenCart}
+        autoHideDuration={3000}
+        onClose={(event, reason) => {
+          if (reason !== "clickaway") setSnackbarOpenCart(false);
+        }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        sx={{ bottom: "calc(100% - 100px)" }}
+      >
+        <Alert
+          onClose={(event, reason) => {
+            if (reason !== "clickaway") setSnackbarOpenCart(false);
+          }}
+          severity="success"
+        >
+          Item added to cart!
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={snackbarOpenFavorites}
+        autoHideDuration={3000}
+        onClose={(event, reason) => {
+          if (reason !== "clickaway") setSnackbarOpenFavorites(false);
+        }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        sx={{ bottom: "calc(100% - 100px)" }}
+      >
+        <Alert
+          onClose={(event, reason) => {
+            if (reason !== "clickaway") setSnackbarOpenFavorites(false);
+          }}
+          severity="success"
+        >
+          Item added to favorites!
+        </Alert>
+      </Snackbar>
     </React.Fragment>
   );
 }
