@@ -5,6 +5,7 @@ import { CartContextNew } from "../OrderPage/CartContextNew";
 import Banners from "../../components/NavBars/Banners.jsx";
 import { Box, Container, TextField } from "@mui/material";
 import { Link } from "react-router-dom";
+import { Button } from "@mui/material";
 
 export default function FavoritesPage({ memberId }) {
   const [favorites, setFavorites] = React.useState([]);
@@ -23,6 +24,16 @@ export default function FavoritesPage({ memberId }) {
       })
       .catch((error) => {
         console.error("Error fetching favorites:", error);
+      });
+  };
+
+  const removeProductFromFavorites = (productId) => {
+    API.removeFavorite(memberId, productId, token)
+      .then(() => {
+        refreshPage();
+      })
+      .catch((error) => {
+        console.error("Error removing product from favorites:", error);
       });
   };
 
@@ -77,6 +88,16 @@ export default function FavoritesPage({ memberId }) {
                     })}
                   </Box>
                 </Link>
+                <Box mt={2}>
+                  <Button
+                    variant="outlined"
+                    onClick={() => {
+                      removeProductFromFavorites(favorite._id);
+                    }}
+                  >
+                    Remove from Favorites
+                  </Button>
+                </Box>
               </Box>
             );
           })}

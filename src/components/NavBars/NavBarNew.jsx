@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 
-export default function NavBarNew() {
+export default function NavBarNew({ member }) {
   return (
     <div style={{}}>
       <Box
@@ -15,7 +15,7 @@ export default function NavBarNew() {
           flexDirection: "column",
           alignItems: "center",
           width: "100%",
-          backgroundColor: "white",
+          backgroundColor: "#E1F5FE",
           borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
         }}
       >
@@ -34,24 +34,17 @@ export default function NavBarNew() {
             to="/"
             sx={{ padding: "8px 16px" }}
           >
-            <ListItemText primary="All Products" />
+            <ListItemText primary="Home" />
           </ListItem>
-          <ListItem
-            button
-            component={NavLink}
-            to="/favorites"
-            sx={{ padding: "8px 16px" }}
-          >
-            <ListItemText primary="My Favorites" />
-          </ListItem>
-          <ListItem
-            button
-            component={NavLink}
-            to="/maps"
-            sx={{ padding: "8px 16px" }}
-          >
-            <ListItemText primary="Locate Us" />
-          </ListItem>
+            <ListItem
+              button
+              component={NavLink}
+              to="/favorites"
+              sx={{ padding: "8px 16px" }}
+            >
+              <ListItemText primary="Favourites" />
+            </ListItem>
+
         </List>
       </Box>
     </div>
