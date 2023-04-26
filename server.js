@@ -8,7 +8,7 @@ require("./config/database");
 const productsRouter = require("./routes/productsRouter");
 const memberRouter = require("./routes/memberRouter");
 
-//------------------------------
+//------------------------------Middleware---------------
 const app = express();
 
 app.use(logger("dev"));

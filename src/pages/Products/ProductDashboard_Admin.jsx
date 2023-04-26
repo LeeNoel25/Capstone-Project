@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import DeleteProductBtn from "./DeleteProductBtn_Admin";
+// CSS ---------------------------------------------------------------------
 import {
   Box,
   Button,
@@ -53,7 +54,7 @@ export default function ProductsForm({ products, delProduct }) {
             fullWidth
             label="Search"
             variant="outlined"
-            placeholder="Enter Product name, id, category or brand"
+            placeholder="Enter Name / Id / Category / Brand"
             value={searchTerm}
             onChange={handleSearchChange}
           />

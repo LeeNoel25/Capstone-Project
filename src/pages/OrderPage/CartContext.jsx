@@ -4,9 +4,7 @@ import { useProducts, getProductData } from "../../utilities/productStore";
 export const CartContext = createContext({
   items: [],
   getProductQuantity: () => {},
-  addOneToCart: () => {
-    console.log("HELLLOOOOOO");
-  },
+  addOneToCart: () => {},
   removeOneFromCart: () => {},
   deleteFromCart: () => {},
   getTotalCost: () => {},
@@ -28,9 +26,7 @@ export function CartProvider({ children }) {
   }
 
   function addOneToCart(_id) {
-    console.log("ADDED TO CART!!!");
     const quantity = getProductQuantity(_id);
-    console.log("ADD TO CART", quantity, _id);
     if (quantity === 0) {
       setCartProducts([
         ...cartProducts,
@@ -43,9 +39,9 @@ export function CartProvider({ children }) {
       setCartProducts(
         cartProducts.map(
           (product) =>
-            product._id === _id // if condition
-              ? { ...product, quantity: product.quantity + 1 } // if statement is true
-              : product // if statement is false
+            product._id === _id 
+              ? { ...product, quantity: product.quantity + 1 } 
+              : product 
         )
       );
     }
@@ -60,9 +56,9 @@ export function CartProvider({ children }) {
       setCartProducts(
         cartProducts.map(
           (product) =>
-            product._id === _id // if condition
-              ? { ...product, quantity: product.quantity - 1 } // if statement is true
-              : product // if statement is false
+            product._id === _id 
+              ? { ...product, quantity: product.quantity - 1 } 
+              : product 
         )
       );
     }
@@ -79,7 +75,7 @@ export function CartProvider({ children }) {
   function getTotalCost() {
     let totalCost = 0;
     cartProducts.map((cartItem) => {
-      const productData = getProductData(cartItem._id, products); // Update this line
+      const productData = getProductData(cartItem._id, products); 
       totalCost += productData.price * cartItem.quantity;
     });
     return totalCost;

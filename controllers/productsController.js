@@ -1,6 +1,6 @@
 const Product = require("../models/Product");
 
-// Create
+// Product CRUD--------------------------------------------------------------------------------
 const create = async (req, res) => {
   try {
     const createdProduct = await Product.create(req.body);
@@ -10,7 +10,6 @@ const create = async (req, res) => {
   }
 };
 
-// Read
 const index = async (req, res) => {
   try {
     const allProducts = await Product.find({});
@@ -29,7 +28,6 @@ const show = async (req, res) => {
   }
 };
 
-// Update
 const update = async (req, res) => {
   try {
     const updatedProduct = await Product.findByIdAndUpdate(
@@ -43,7 +41,6 @@ const update = async (req, res) => {
   }
 };
 
-// Delete
 const deleteProduct = async (req, res) => {
   try {
     const deletedProduct = await Product.findByIdAndDelete(req.params.id);

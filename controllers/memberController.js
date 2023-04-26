@@ -23,6 +23,7 @@ const seed = async (req, res) => {
   }
 };
 
+// Member CRUD --------------------------------------------------------------------------------
 const create = async (req, res) => {
   const { email, password, name } = req.body;
   if (password.length < 3) {
@@ -102,6 +103,8 @@ const resetPassword = async (req, res) => {
   }
 };
 
+// Favorite Products--------------------------------------------------------------------------------
+
 const getFavorites = async (req, res) => {
   const { memberId } = req.params;
 
@@ -113,11 +116,9 @@ const getFavorites = async (req, res) => {
   }
 };
 
-// Add favorite product
 const addFavorite = async (req, res) => {
   const { memberId, productId } = req.params;
   try {
-    // Find the member and add the product ID to the favorites array
     await Member.findByIdAndUpdate(memberId, {
       $addToSet: { favorites: productId },
     });
@@ -130,11 +131,9 @@ const addFavorite = async (req, res) => {
 const removeFavorite = async (req, res) => {
   const { memberId, productId } = req.params;
   try {
-    // Find the member and remove the product ID from the favorites array
     await Member.findByIdAndUpdate(memberId, {
       $pull: { favorites: productId },
     });
-
     res.status(200).json({ message: "Product removed from favorites." });
   } catch (error) {
     res.status(500).json({ error: "An error occurred while removing the product from favorites." });

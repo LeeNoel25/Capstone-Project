@@ -1,9 +1,9 @@
 import * as React from "react";
-import { useEffect, useState, useContext } from "react";
 import * as API from "../../utilities/api";
 import { CartContextNew } from "../OrderPage/CartContextNew";
-import { Box, Container, TextField } from "@mui/material";
 import { Link } from "react-router-dom";
+// CSS ---------------------------------------------------------------------
+import { Box, Container, TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
