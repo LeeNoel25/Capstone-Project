@@ -1,11 +1,12 @@
 import * as React from "react";
-import { useEffect, useState, useContext } from "react";
+import { useState} from "react";
 import * as API from "../../utilities/api";
+import { CartContextNew } from "../OrderPage/CartContextNew";
+import { useParams } from "react-router-dom";
+// CSS ---------------------------------------------------------------------
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Button from "@mui/material/Button";
-import { CartContextNew } from "../OrderPage/CartContextNew";
-import { useParams } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";

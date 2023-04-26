@@ -2,10 +2,11 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import * as API from "../../utilities/api";
+import { CartContextNew } from "../OrderPage/CartContextNew";
+// CSS ---------------------------------------------------------------------
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Button from "@mui/material/Button";
-import { CartContextNew } from "../OrderPage/CartContextNew";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import Banners from "../../components/NavBars/Banners.jsx";
@@ -58,7 +59,6 @@ export default function ProductsPage(props) {
 
   const addProductToFavorites = (item) => {
     const memberId = localStorage.getItem("memberId");
-    console.log("heree", memberId);
     const token = localStorage.getItem("token");
     API.addFavorite(memberId, item._id, token)
       .then(() => {

@@ -93,12 +93,6 @@ export default function App() {
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   setCartItems([]);
-  //   setCartItemCount(0);
-  // }, [member]);
-  console.log(member);
-
   const addCartItem = (item) => {
     setCartItemCount(cartItemCount + 1);
     for (let i = 0; i < cartItems.length; i++) {

@@ -1,23 +1,9 @@
 import axios from "axios";
-const SERVER_ROOT = "/api";
 
 export function login(email, password) {
   return new Promise((resolve, reject) => {
     axios
       .post(`${SERVER_ROOT}/login`, { email, password })
-      .then((response) => {
-        resolve(response.data);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
-}
-
-export function getProducts() {
-  return new Promise((resolve, reject) => {
-    axios
-      .get(`${SERVER_ROOT}/products`)
       .then((response) => {
         resolve(response.data);
       })
@@ -81,6 +67,19 @@ export const removeFavorite = async (memberId, productId, token) => {
   }
 };
 
+export function getProducts() {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`/api/products`)
+      .then((response) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 export const getProductById = async (productId) => {
   try {
     const response = await axios.get(`/api/products/${productId}`);
@@ -97,11 +96,12 @@ export const getProductById = async (productId) => {
  * @param {Array<>} items Cart Items
  * @return {Promise}
  */
+
 export function submitCart(token, items) {
   return new Promise((resolve, reject) => {
     axios
       .post(
-        `${SERVER_ROOT}/submitCart`,
+        `/api/submitCart`,
         {
           items,
         },
