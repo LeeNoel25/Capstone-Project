@@ -7,7 +7,7 @@ import ListItemText from "@mui/material/ListItemText";
 
 export default function NavBarNew() {
   return (
-    <div style={{  }}>
+    <div style={{}}>
       <Box
         component="nav"
         sx={{
@@ -34,15 +34,15 @@ export default function NavBarNew() {
             to="/"
             sx={{ padding: "8px 16px" }}
           >
-            <ListItemText primary="Browse Products" />
+            <ListItemText primary="All Products" />
           </ListItem>
           <ListItem
             button
             component={NavLink}
-            to="/booking"
+            to="/favorites"
             sx={{ padding: "8px 16px" }}
           >
-            <ListItemText primary="Appointment Booking" />
+            <ListItemText primary="My Favorites" />
           </ListItem>
           <ListItem
             button

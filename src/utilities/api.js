@@ -26,6 +26,20 @@ export function getProducts() {
   });
 }
 
+export const getFavorites = async (memberId, token) => {
+  try {
+    const res = await axios.get(`${SERVER_ROOT}/favorites/${memberId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token,
+      },
+    });
+    return res.data;
+  } catch (error) {
+    throw new Error("Error fetching favorites");
+  }
+};
+
 export const getProductById = async (productId) => {
   try {
     const response = await axios.get(`/api/products/${productId}`);

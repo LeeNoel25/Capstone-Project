@@ -16,6 +16,9 @@ import SignUpForm from "../AuthPage/SignUpForm.jsx";
 import ForgetPassword from "../AuthPage/ForgetPass.jsx";
 import LoginForm from "../AuthPage/LoginForm.jsx";
 
+//pages.favorite
+import FavoritesPage from "../Favorites/FavoritesPage";
+
 //pages.products
 import SelectedProductPage from "../Products/SelectedProductPage_Guest.jsx";
 import AddProductForm from "../Products/AddProductForm_Admin.jsx";
@@ -30,6 +33,7 @@ import { CartContextNew } from "../OrderPage/CartContextNew";
 export default function App() {
   const [user, setUser] = useState(getMember());
   const [products, setProducts] = useState([]);
+  const [favorites, setFavorites] = useState([]);
   const [sortByCategory, setSortByCategory] = useState("");
   const [category, setCategory] = useState([]);
   const [brand, setBrand] = useState([]);
@@ -45,6 +49,14 @@ export default function App() {
       return;
     }
     setProducts((prevProducts) => [...prevProducts, product]);
+  };
+
+  const addProductToFavorites = (newFavorite, error) => {
+    if (error) {
+      console.error(error);
+      return;
+    }
+    setFavorites((prevFavorites) => [...prevFavorites, newFavorite]);
   };
 
   const delProduct = (id) =>
@@ -81,10 +93,11 @@ export default function App() {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    setCartItems([]);
-    setCartItemCount(0);
-  }, [member]);
+  // useEffect(() => {
+  //   setCartItems([]);
+  //   setCartItemCount(0);
+  // }, [member]);
+  console.log(member);
 
   const addCartItem = (item) => {
     setCartItemCount(cartItemCount + 1);
@@ -145,6 +158,7 @@ export default function App() {
     removeCartItem,
     updateCartItem,
     removeOneFromCart,
+    addFavoriteItem: addProductToFavorites,
   };
 
   // Routes
@@ -174,6 +188,7 @@ export default function App() {
             sortByCategory={sortByCategory}
             setSortByCategory={setSortByCategory}
             onAddItemToCart={addItemToCart}
+            onAddProductToFavorites={addProductToFavorites}
           />
         </CartContextNew.Provider>
       ),
@@ -192,7 +207,13 @@ export default function App() {
     <div className="centered-message">Access denied</div>
   );
 
-  const memberRoutes = [...guestsRoutes];
+  const memberRoutes = [
+    ...guestsRoutes,
+    {
+      path: "/favorites",
+      element: <FavoritesPage memberId={member?.member?._id} />,
+    },
+  ];
 
   const adminRouteConfig = [
     ...memberRoutes,
@@ -233,7 +254,7 @@ export default function App() {
             <Route
               key={config.path}
               path={config.path}
-              element={<>{config.element}</>}
+              element={<WithNavBar>{config.element}</WithNavBar>}
             />
           ))}
           {adminRouteConfig.map((config) => {
@@ -257,7 +278,7 @@ export default function App() {
             <Route
               key={config.path}
               path={config.path}
-              element={<>{config.element}</>}
+              element={<WithNavBar>{config.element}</WithNavBar>}
             />
           ))}
           <Route key="*" path="*" element={accessDeniedComponent} />

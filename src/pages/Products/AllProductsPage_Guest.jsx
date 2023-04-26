@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import * as API from "../../utilities/api";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import Button from "@mui/material/Button";
 import { CartContextNew } from "../OrderPage/CartContextNew";
 import Snackbar from "@mui/material/Snackbar";
@@ -28,7 +29,8 @@ export default function ProductsPage(props) {
   const [sortedProducts, setSortedProducts] = useState([]);
   const [sortByPrice, setSortByPrice] = useState("");
   const [sortByCategory, setSortByCategory] = useState(initialSortByCategory);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarOpenCart, setSnackbarOpenCart] = useState(false);
+  const [snackbarOpenFavorites, setSnackbarOpenFavorites] = useState(false);
 
   React.useEffect(() => {
     refreshPage();
@@ -51,7 +53,12 @@ export default function ProductsPage(props) {
   const addItemToCart = (item) => {
     props?.onAddItemToCart(item);
     cardContext.addCartItem(item);
-    setSnackbarOpen(true);
+    setSnackbarOpenCart(true);
+  };
+
+  const addProductToFavorites = (item) => {
+    props?.onAddProductToFavorites(item);
+    setSnackbarOpenFavorites(true);
   };
 
   useEffect(() => {
@@ -110,19 +117,20 @@ export default function ProductsPage(props) {
         <Box mt={4}>
           {filteredProducts.map((product) => {
             return (
-              <div
+              <Box
                 key={product._id}
-                style={{
+                sx={{
                   display: "inline-block",
                   border: "1px solid grey",
-                  height: "340px",
-                  width: "200px",
-                  margin: "0px 0px 10px 10px",
-                  padding: "10px",
+                  height: "400px",
+                  width: "180px",
+                  m: "10px",
+                  p: "10px",
+                  textAlign: "left",
                 }}
               >
                 <Link to={`/product/${product._id}`} key={product._id}>
-                  <div>
+                  <Box>
                     <img
                       src={product.imgurl}
                       style={{
@@ -131,26 +139,18 @@ export default function ProductsPage(props) {
                         objectFit: "cover",
                       }}
                     />
-                  </div>
-                  <div
-                    style={{
-                      fontSize: "14px",
-                      color: "#555555",
-                      marginTop: "5px",
-                    }}
-                  >
+                  </Box>
+                  <Box sx={{ fontSize: "14px", color: "#555555", mt: 1 }}>
                     {product.brand}
-                  </div>
-                  <div
-                    style={{ marginTop: "5px", height: "32px", color: "black" }}
-                  >
+                  </Box>
+                  <Box sx={{ mt: 1, height: "32px", color: "black" }}>
                     {product.name}
-                  </div>
-                  <div
-                    style={{
+                  </Box>
+                  <Box
+                    sx={{
                       fontSize: "18px",
                       fontWeight: "bold",
-                      marginTop: "10px",
+                      mt: 2,
                       color: "black",
                     }}
                   >
@@ -158,12 +158,12 @@ export default function ProductsPage(props) {
                       style: "currency",
                       currency: "USD",
                     })}
-                  </div>
+                  </Box>
                 </Link>
-                <div>
+                <Box mt={2}>
                   <Button
                     variant="outlined"
-                    style={{ marginTop: "20px" }}
+                    sx={{ mr: 1 }}
                     startIcon={<AddShoppingCartIcon />}
                     onClick={() => {
                       addItemToCart(product);
@@ -171,20 +171,55 @@ export default function ProductsPage(props) {
                   >
                     Add To Cart
                   </Button>
-                </div>
-              </div>
+                  <Button
+                    variant="outlined"
+                    startIcon={<FavoriteIcon />}
+                    onClick={() => {
+                      addProductToFavorites(product);
+                    }}
+                  >
+                    Favorite
+                  </Button>
+                </Box>
+              </Box>
             );
           })}
         </Box>
         <Snackbar
-          open={snackbarOpen}
+          open={snackbarOpenCart}
           autoHideDuration={3000}
-          onClose={handleSnackbarClose}
+          onClose={(event, reason) => {
+            if (reason !== "clickaway") setSnackbarOpenCart(false);
+          }}
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
           sx={{ bottom: "calc(100% - 100px)" }}
         >
-          <Alert onClose={handleSnackbarClose} severity="success">
+          <Alert
+            onClose={(event, reason) => {
+              if (reason !== "clickaway") setSnackbarOpenCart(false);
+            }}
+            severity="success"
+          >
             Item added to cart!
+          </Alert>
+        </Snackbar>
+
+        <Snackbar
+          open={snackbarOpenFavorites}
+          autoHideDuration={3000}
+          onClose={(event, reason) => {
+            if (reason !== "clickaway") setSnackbarOpenFavorites(false);
+          }}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          sx={{ bottom: "calc(100% - 100px)" }}
+        >
+          <Alert
+            onClose={(event, reason) => {
+              if (reason !== "clickaway") setSnackbarOpenFavorites(false);
+            }}
+            severity="success"
+          >
+            Item added to favorites!
           </Alert>
         </Snackbar>
       </Container>

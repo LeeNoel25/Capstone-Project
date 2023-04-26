@@ -2,14 +2,15 @@ const Favorite = require("../models/Favorite");
 const Member = require("../models/Member");
 const Product = require("../models/Product");
 
-const getAllFavoritesForMember = async (req, res) => {
-  try {
-    const memberId = req.params.memberId;
-    const favorites = await Favorite.find({ member: memberId }).populate('product');
-    res.status(200).json(favorites);
-  } catch (error) {
-    res.status(500).json(error);
-  }
+export const getFavorites = async (memberId, token) => {
+  const res = await fetch(`api/favorites/${memberId}`, {
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + token,
+    },
+  });
+  if (!res.ok) throw new Error("Error fetching favorites");
+  return await res.json();
 };
 
 const addFavorite = async (req, res) => {
@@ -55,7 +56,7 @@ const deleteFavorite = async (req, res) => {
 };
 
 module.exports = {
-  getAllFavoritesForMember,
-  addFavorite,
-  deleteFavorite
+  get: getFavorites,
+  add: addFavorite,
+  delete: deleteFavorite
 };
