@@ -27,27 +27,9 @@ export function getProducts() {
   });
 }
 
-export const addFavorite = async (memberId, productId, token) => {
-  try {
-    const res = await axios.post(
-      `${SERVER_ROOT}/favorites/${memberId}`,
-      { productId },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      }
-    );
-    return res.data;
-  } catch (error) {
-    throw new Error("Error adding product to favorites");
-  }
-};
-
 export async function getFavorites(memberId, token) {
   try {
-    const response = await fetch(`/api/favorites/${memberId}`, {
+    const response = await fetch(`/api/member/favorites/${memberId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -64,10 +46,28 @@ export async function getFavorites(memberId, token) {
   }
 }
 
+export const addFavorite = async (memberId, productId, token) => {
+  try {
+    const res = await axios.post(
+      `/api/member/favorites/${memberId}/${productId}`,
+      { productId },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    return res.data;
+  } catch (error) {
+    throw new Error("Error adding product to favorites");
+  }
+};
+
 export const removeFavorite = async (memberId, productId, token) => {
   try {
     const res = await axios.delete(
-      `${SERVER_ROOT}/favorites/${memberId}/${productId}`,
+      `/api/member/favorites/${memberId}/${productId}`,
       {
         headers: {
           "Content-Type": "application/json",

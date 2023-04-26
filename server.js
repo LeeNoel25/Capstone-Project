@@ -7,7 +7,7 @@ require("./config/database");
 //-------------------------------Routes------------------
 const productsRouter = require("./routes/productsRouter");
 const memberRouter = require("./routes/memberRouter");
-// const favoriteRouter = require("./routes/favoriteRouter");
+
 //------------------------------
 const app = express();
 
@@ -18,7 +18,6 @@ app.use(express.static(path.join(__dirname, "dist")));
 //-------------------------------Routes------------------
 app.use("/api/products", productsRouter);
 app.use("/api/member", memberRouter);
-// app.use("/api/favorites", favoriteRouter);
 
 //-------------------------------------------------------
 const port = 3000;
