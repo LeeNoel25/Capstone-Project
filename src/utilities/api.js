@@ -1,5 +1,4 @@
 import axios from "axios";
-
 const SERVER_ROOT = "/api";
 
 export function login(email, password) {
@@ -26,19 +25,42 @@ export function getProducts() {
   });
 }
 
-export const getFavorites = async (memberId, token) => {
+export const addFavorite = async (memberId, productId, token) => {
   try {
-    const res = await axios.get(`${SERVER_ROOT}/favorites/${memberId}`, {
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + token,
-      },
-    });
+    const res = await axios.post(
+      `${SERVER_ROOT}/favorites/${memberId}`,
+      { productId },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
     return res.data;
   } catch (error) {
-    throw new Error("Error fetching favorites");
+    throw new Error("Error adding product to favorites");
   }
 };
+
+export async function getFavorites(memberId, token) {
+  try {
+    const response = await fetch(`/api/favorites/${memberId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.error || "Network error");
+    }
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
 
 export const getProductById = async (productId) => {
   try {

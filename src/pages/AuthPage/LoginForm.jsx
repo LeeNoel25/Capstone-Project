@@ -41,6 +41,7 @@ export default function LoginForm({ setUser }) {
       console.log(Name.member.name);
       console.log(Name.member.email);
       setUser(decoded);
+      localStorage.setItem("memberId", Name.member._id);
       if (Name.member.role === "admin") {
         navigate("/productpage");
       } else {

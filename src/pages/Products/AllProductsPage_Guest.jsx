@@ -57,8 +57,16 @@ export default function ProductsPage(props) {
   };
 
   const addProductToFavorites = (item) => {
-    props?.onAddProductToFavorites(item);
-    setSnackbarOpenFavorites(true);
+    const memberId = localStorage.getItem("memberId");
+    console.log("heree", memberId);
+    const token = localStorage.getItem("token");
+    API.addFavorite(memberId, item._id, token)
+      .then(() => {
+        setSnackbarOpenFavorites(true);
+      })
+      .catch((error) => {
+        console.error("Error adding product to favorites:", error);
+      });
   };
 
   useEffect(() => {
