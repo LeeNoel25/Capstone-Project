@@ -2,15 +2,15 @@ const Favorite = require("../models/Favorite");
 const Member = require("../models/Member");
 const Product = require("../models/Product");
 
-export const getFavorites = async (memberId, token) => {
-  const res = await fetch(`api/favorites/${memberId}`, {
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer " + token,
-    },
-  });
-  if (!res.ok) throw new Error("Error fetching favorites");
-  return await res.json();
+const getFavorites = async (memberId, token) => {
+  // const res = await fetch(`/api/favorites/${memberId}`, {
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     Authorization: "Bearer " + token,
+  //   },
+  // });
+  // if (!res.ok) throw new Error("Error fetching favorites");
+  // return await res.json();
 };
 
 const addFavorite = async (req, res) => {
@@ -25,7 +25,10 @@ const addFavorite = async (req, res) => {
       return res.status(400).json({ message: "Invalid member or product ID" });
     }
 
-    const existingFavorite = await Favorite.findOne({ member: memberId, product: productId });
+    const existingFavorite = await Favorite.findOne({
+      member: memberId,
+      product: productId,
+    });
     if (existingFavorite) {
       return res.status(400).json({ message: "Favorite already exists" });
     }
@@ -44,7 +47,10 @@ const deleteFavorite = async (req, res) => {
     const memberId = req.params.memberId;
     const productId = req.body.productId;
 
-    const result = await Favorite.findOneAndDelete({ member: memberId, product: productId });
+    const result = await Favorite.findOneAndDelete({
+      member: memberId,
+      product: productId,
+    });
     if (!result) {
       return res.status(404).json({ message: "Favorite not found" });
     }
@@ -58,5 +64,5 @@ const deleteFavorite = async (req, res) => {
 module.exports = {
   get: getFavorites,
   add: addFavorite,
-  delete: deleteFavorite
+  delete: deleteFavorite,
 };

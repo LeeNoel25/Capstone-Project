@@ -1,12 +1,11 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const express = require("express");
+const router = express.Router();
+const favoriteController = require("../controllers/favoriteController");
+const { isAuth } = require("../controllers/auth");
 
-const FavoriteSchema = new Schema(
-  {
-    member: { type: Schema.Types.ObjectId, ref: "Member", required: true },
-    products: [{ type: Schema.Types.ObjectId, ref: "Product", required: true }],
-  },
-  { timestamps: true }
-);
+router
+  .get("/:memberId", isAuth, favoriteController.get)
+  .post("/:memberId", isAuth, favoriteController.add)
+  .delete("/:memberId", isAuth, favoriteController.delete);
 
-module.exports = mongoose.model("Favorite", FavoriteSchema);
+module.exports = router;
