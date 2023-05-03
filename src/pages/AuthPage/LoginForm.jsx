@@ -34,7 +34,7 @@ export default function LoginForm({ setUser }) {
       });
       const data = await response.json();
       if (!response.ok) {
-        throw new Error(data.error || "Network error");
+        throw new Error(data.error || "Login error");
       }
       localStorage.setItem("token", JSON.stringify(data.token));
       const decoded = getMember();

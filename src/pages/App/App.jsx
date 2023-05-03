@@ -5,7 +5,7 @@ import { Route, Routes } from "react-router";
 import { useEffect, useState, createContext } from "react";
 
 //OrderCart
-import OrderCart from "../OrderPage/OrderCart";
+import OrderCart from "../ShoppingCart/OrderCart";
 
 //components
 import Header from "../../components/Header/Header.jsx";
@@ -26,9 +26,9 @@ import EditProductForm from "../Products/EditProductForm_Admin.jsx";
 import ProductsForm from "../Products/ProductDashboard_Admin.jsx";
 import ProductsPage from "../Products/AllProductsPage_Guest.jsx";
 
-//pages.msc
+//pages.misc
 import { getMember } from "../../utilities/members-service.js";
-import { CartContextNew } from "../OrderPage/CartContextNew";
+import { CartContextNew } from "../ShoppingCart/CartContextNew";
 
 export default function App() {
   const [user, setUser] = useState(getMember());
@@ -75,7 +75,6 @@ export default function App() {
   useEffect(() => {
     const categories = [...new Set(products.map((p) => p.category))];
     setCategory(categories);
-
     const brands = [...new Set(products.map((p) => p.brand))];
     setBrand(brands);
   }, [products]);

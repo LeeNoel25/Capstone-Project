@@ -4,6 +4,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const bcrypt = require("bcrypt");
 const SALT_ROUNDS = 10;
 
+// Seed admin user
 const seed = async (req, res) => {
   try {
     const existingMember = await Member.findOne({ email: "admin@admin" });
@@ -23,7 +24,7 @@ const seed = async (req, res) => {
   }
 };
 
-// Member CRUD --------------------------------------------------------------------------------
+// Create a new member
 const create = async (req, res) => {
   const { email, password, name } = req.body;
   if (password.length < 3) {
@@ -47,6 +48,7 @@ const create = async (req, res) => {
   }
 };
 
+// Member login
 const login = async (req, res) => {
   const { email, password } = req.body;
   console.log(req.body);
@@ -74,6 +76,7 @@ const login = async (req, res) => {
   }
 };
 
+// Reset password for an existing member
 const resetPassword = async (req, res) => {
   const { email, password } = req.body;
 
@@ -105,6 +108,7 @@ const resetPassword = async (req, res) => {
 
 // Favorite Products--------------------------------------------------------------------------------
 
+// Get favorite products for a member
 const getFavorites = async (req, res) => {
   const { memberId } = req.params;
 
@@ -116,6 +120,7 @@ const getFavorites = async (req, res) => {
   }
 };
 
+// Add a product to a member's favorites
 const addFavorite = async (req, res) => {
   const { memberId, productId } = req.params;
   try {
@@ -128,6 +133,7 @@ const addFavorite = async (req, res) => {
   }
 };
 
+// Remove a product from a member's favorites
 const removeFavorite = async (req, res) => {
   const { memberId, productId } = req.params;
   try {

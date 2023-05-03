@@ -1,18 +1,5 @@
 import axios from "axios";
 
-export function login(email, password) {
-  return new Promise((resolve, reject) => {
-    axios
-      .post(`${SERVER_ROOT}/login`, { email, password })
-      .then((response) => {
-        resolve(response.data);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
-}
-
 export async function getFavorites(memberId, token) {
   try {
     const response = await fetch(`/api/member/favorites/${memberId}`, {
@@ -89,6 +76,19 @@ export const getProductById = async (productId) => {
     throw error;
   }
 };
+
+export function login(email, password) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`/api/login`, { email, password })
+      .then((response) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
 
 /**
  * API to user submit cart items for validation
