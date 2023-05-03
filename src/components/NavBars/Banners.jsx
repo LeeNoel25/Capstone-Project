@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 
-const tutorialSteps = [
+const bannerImages = [
   {
     imgPath: "https://cdn.shopify.com/s/files/1/1149/5008/files/HEKA_Desktop_2.png",
     label: "Banner Image 1",
@@ -26,7 +26,7 @@ const tutorialSteps = [
 
 export default function Carousel() {
   const [activeStep, setActiveStep] = useState(0);
-  const maxSteps = tutorialSteps.length;
+  const maxSteps = bannerImages.length;
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -64,10 +64,10 @@ export default function Carousel() {
           margin: 0,
         }}
       >
-        <Typography>{tutorialSteps[activeStep].label}</Typography>
+        <Typography>{bannerImages[activeStep].label}</Typography>
         <img
-          src={tutorialSteps[activeStep].imgPath}
-          alt={tutorialSteps[activeStep].label}
+          src={bannerImages[activeStep].imgPath}
+          alt={bannerImages[activeStep].label}
           style={{
             maxHeight: "100%",
             maxWidth: "100%",

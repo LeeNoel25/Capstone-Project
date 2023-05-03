@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CartContextNew } from "../../pages/OrderPage/CartContextNew";
+import { CartContextNew } from "../../pages/ShoppingCart/CartContextNew";
 // CSS ----------------------------------------------------------------
 import ListItemText from "@mui/material/ListItemText";
 import ListItemSecondaryAction from "@mui/material/ListItemSecondaryAction";

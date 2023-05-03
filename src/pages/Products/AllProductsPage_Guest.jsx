@@ -2,7 +2,7 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import * as API from "../../utilities/api";
-import { CartContextNew } from "../OrderPage/CartContextNew";
+import { CartContextNew } from "../ShoppingCart/CartContextNew";
 // CSS ---------------------------------------------------------------------
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import FavoriteIcon from "@mui/icons-material/Favorite";

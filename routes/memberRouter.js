@@ -5,7 +5,7 @@ const { isAuth } = require("../controllers/auth");
 
 router
   .get("/seed", memberController.seed)
-  // Favorites CRUD ----------------------------------------------------------------------------
+  // Favorites CRUD -------------------
   .get("/favorites/:memberId", isAuth, memberController.getFavorites)
   .post("/favorites/:memberId/:productId", isAuth, memberController.addFavorite)
   .delete(
@@ -13,7 +13,7 @@ router
     isAuth,
     memberController.removeFavorite
   )
-  // Member CRUD -------------------------------------------------------------------------------
+  // Member CRUD ----------------------
   .post("/signup", memberController.create)
   .post("/login", memberController.login)
   .post("/reset", memberController.resetPassword);

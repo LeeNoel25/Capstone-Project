@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../../utilities/members-service";
-import { CartContext } from "../../pages/OrderPage/CartContext";
-import { CartContextNew } from "../../pages/OrderPage/CartContextNew";
+import { CartContext } from "../../pages/ShoppingCart/CartContext";
+import { CartContextNew } from "../../pages/ShoppingCart/CartContextNew";
 import CartProduct from "../../components/Cart/CartProduct";
 // CSS ---------------------------------------------------------------------
 import AppBar from "@mui/material/AppBar";
