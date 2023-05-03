@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 // CSS -------------------------------------
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
@@ -7,6 +7,12 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 
 export default function NavBarNew({ member }) {
+  const isAdmin = member?.role === "admin";
+  const location = useLocation(); // Get the current location
+
+  // Check if the user is an admin and the current page is "/productpage"
+  const hideFavourites = isAdmin && location.pathname === "/productpage";
+
   return (
     <Box
       component="nav"
@@ -39,14 +45,16 @@ export default function NavBarNew({ member }) {
         >
           <ListItemText primary="Home" />
         </ListItem>
-        <ListItem
-          button
-          component={NavLink}
-          to="/favorites"
-          sx={{ padding: "8px 16px" }}
-        >
-          <ListItemText primary="Favourites" />
-        </ListItem>
+        {!isAdmin && (
+          <ListItem
+            button
+            component={NavLink}
+            to="/favorites"
+            sx={{ padding: "8px 16px" }}
+          >
+            <ListItemText primary="Favourites" />
+          </ListItem>
+        )}
       </List>
     </Box>
   );

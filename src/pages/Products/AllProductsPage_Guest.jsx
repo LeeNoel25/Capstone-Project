@@ -44,6 +44,12 @@ export default function ProductsPage(props) {
     });
   };
 
+  const isUserLoggedIn = () => {
+    const token = localStorage.getItem("token");
+    const memberId = localStorage.getItem("memberId");
+    return token && memberId;
+  };
+
   const handleSnackbarClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -131,7 +137,7 @@ export default function ProductsPage(props) {
                 sx={{
                   display: "inline-block",
                   border: "1px solid grey",
-                  height: "390px",
+                  height: isUserLoggedIn() ? "390px" : "350px",
                   width: "180px",
                   m: "10px",
                   p: "10px",
@@ -180,17 +186,19 @@ export default function ProductsPage(props) {
                   >
                     Add To Cart
                   </Button>
-                  <Box display="flex" justifyContent="center" mt={1}>
-                  <Button
-                    variant="outlined"
-                    startIcon={<FavoriteIcon />}
-                    onClick={() => {
-                      addProductToFavorites(product);
-                    }}
-                  >
-                    Favorite
-                  </Button>
-                  </Box>
+                  {isUserLoggedIn() && (
+                    <Box display="flex" justifyContent="center" mt={1}>
+                      <Button
+                        variant="outlined"
+                        startIcon={<FavoriteIcon />}
+                        onClick={() => {
+                          addProductToFavorites(product);
+                        }}
+                      >
+                        Favorite
+                      </Button>
+                    </Box>
+                  )}
                 </Box>
               </Box>
             );
