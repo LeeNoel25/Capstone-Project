@@ -247,7 +247,11 @@ export default function App() {
             <Route
               key={config.path}
               path={config.path}
-              element={<WithNavBar>{config.element}</WithNavBar>}
+              element={
+                <WithNavBar member={member?.member}>
+                  {config.element}
+                </WithNavBar>
+              }
             />
           ))}
           {adminRouteConfig.map((config) => {
@@ -271,7 +275,11 @@ export default function App() {
             <Route
               key={config.path}
               path={config.path}
-              element={<WithNavBar>{config.element}</WithNavBar>}
+              element={
+                <WithNavBar member={member?.member}>
+                  {config.element}
+                </WithNavBar>
+              }
             />
           ))}
           <Route key="*" path="*" element={accessDeniedComponent} />
