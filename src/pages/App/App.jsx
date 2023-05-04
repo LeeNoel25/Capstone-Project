@@ -209,7 +209,7 @@ export default function App() {
   ];
 
   const adminRouteConfig = [
-    ...memberRoutes,
+    ...guestsRoutes,
     {
       path: "/productpage",
       element: <ProductsForm products={products} delProduct={delProduct} />,
@@ -259,7 +259,11 @@ export default function App() {
               <Route
                 key={config.path}
                 path={config.path}
-                element={<WithNavBar>{config.element}</WithNavBar>}
+                element={
+                  <WithNavBar member={member?.member}>
+                    {config.element}
+                  </WithNavBar>
+                }
               />
             );
           })}

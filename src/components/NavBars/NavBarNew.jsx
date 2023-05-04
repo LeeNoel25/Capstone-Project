@@ -7,11 +7,8 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 
 export default function NavBarNew({ member }) {
+  console.log("NavBarNew.jsx: member: ", member);
   const isAdmin = member?.role === "admin";
-  const location = useLocation(); // Get the current location
-
-  // Check if the user is an admin and the current page is "/productpage"
-  const hideFavourites = isAdmin && location.pathname === "/productpage";
 
   return (
     <Box
@@ -43,7 +40,7 @@ export default function NavBarNew({ member }) {
           to="/"
           sx={{ padding: "8px 16px" }}
         >
-          <ListItemText primary="Home" />
+          <ListItemText primary="Homepage" />
         </ListItem>
         {!isAdmin && (
           <ListItem
@@ -53,6 +50,16 @@ export default function NavBarNew({ member }) {
             sx={{ padding: "8px 16px" }}
           >
             <ListItemText primary="Favourites" />
+          </ListItem>
+        )}
+        {isAdmin && (
+          <ListItem
+            button
+            component={NavLink}
+            to="/productpage"
+            sx={{ padding: "8px 16px" }}
+          >
+            <ListItemText primary="Dashboard" />
           </ListItem>
         )}
       </List>
